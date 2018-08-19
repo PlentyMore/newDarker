@@ -1,5 +1,11 @@
 <template>
     <div>
+        <div class="footerImgBox">
+          <img src="../../../static/img/footer6.png" class="footerImg">
+        </div>
+        <div class="righterImgBox">
+          <img src="../../../static/img/righter.png" class="righterImg">
+        </div>
         <div class="carouselBox">
             <img :src="bgImgUrl[bgImgIndex].thumb" class="carousel run-animation" id='carousel'>
         </div>
@@ -11,7 +17,7 @@
             <div class="sysMsgBox" @click="jmpAnnounce" style="cursor:pointer">
                 <marquee class="sysMsg">{{announceInfo.title}}</marquee>
             </div>
-            <div class="barrageBox">
+            <div class="barrageBox" v-if="false">
                 <input class="barrageInput" placeholder="在这里输入弹幕" style="width:140px; padding-left:10px;padding-right:10px;">
                 <p class="sendBtn">点击发送</p>
             </div>
@@ -91,6 +97,7 @@ export default {
     }
   },
   async created() {
+    await this.initCommend();
     //在这里获取首页推荐的数据
     var that = this;
     this.carouselTimer = setInterval(function() {
@@ -98,7 +105,7 @@ export default {
       if (that.bgImgIndex == that.bgImgUrl.length) that.bgImgIndex = 0;
       that.hotImgNowLoc = (10 + 100 * that.bgImgIndex).toString() + "px";
     }, 5000);
-    await this.initCommend();
+    
     await this.initAnnounce();
   }
 };
@@ -137,7 +144,7 @@ export default {
   width: 100%;
   height: 100%;
   background-image: url(https://cdn.jsdelivr.net/gh/moezx/cdn@3.1.9/img/Sakura/images/dot.gif);
-  z-index: 2;
+  z-index: 4;
 }
 .welcome {
   position: absolute;
@@ -390,5 +397,37 @@ export default {
 .sendBtn {
   width: 100px;
   height: 30px;
+}
+.footerImgBox{
+  position: absolute;
+  z-index: 3;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.footerImg{
+  margin: auto auto;
+  margin-bottom: 0;
+  width: 100%;
+}
+.righterImgBox{
+  position: absolute;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.righterImg{
+  margin: auto auto;
+  margin-right: 0;
+  width: 100px;
 }
 </style>

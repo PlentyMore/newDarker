@@ -7,7 +7,7 @@
         @jmpPersonal="jmpPersonal"
         @jmpNotice="jmpNotice"></menu-button-box>
     </div>
-        <div class="searchBar" :style="searchBoxMove" v-show="showSearch">
+        <div class="searchBar" :style="searchBoxMove" v-show="showSearch" v-if="false">
           <p class="searchBarItem" style="width:50px;text-align: center;">搜索：</p>
           <input class="searchBarItem" v-model="searchText" placeholder="这是搜索输入框" style="width:140px; padding-left:10px;padding-right:10px;">
       </div>
@@ -126,18 +126,19 @@ export default {
   flex-direction: row;
   margin: 0 auto;
 }
-/*滚动条 start*/
+/*
+/*滚动条 start
 ::-webkit-scrollbar {
   width: 12px;
   height: 4px;
   background-color: #f5f5f5;
 }
-/*定义滚动条轨道 内阴影+圆角*/
+/*定义滚动条轨道 内阴影+圆角
 ::-webkit-scrollbar-track {
   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
   background: #fff;
 }
-/*定义滑块 内阴影+圆角*/
+/*定义滑块 内阴影+圆角
 ::-webkit-scrollbar-thumb {
   border-radius: 5px;
   -webkit-box-shadow: inset 0px 0 6px rgba(0, 0, 0, 0.3);
@@ -147,6 +148,7 @@ export default {
 ::-webkit-scrollbar-thumb:hover {
   background-color: rgba(255, 228, 225, 1);
 }
+*/
 .searchBar{
     position: absolute;
     background: bisque;

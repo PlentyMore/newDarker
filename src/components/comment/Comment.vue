@@ -157,6 +157,7 @@ export default {
         type: this.type,
         rpid: this.specificRpidTmp
       })).data;
+      console.log('定位评论信息',rd);
       if (rd.code === 0) {
         this.specificRpidLocation = {
           parPageNum: rd.data.page.pageNumber,
