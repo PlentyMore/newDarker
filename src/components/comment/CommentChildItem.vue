@@ -118,6 +118,7 @@ export default {
   cursor: pointer;
 }
 .commentChildContentBox {
+  text-align: left;
   margin: auto auto;
 }
 .commentChildControlBox {
@@ -126,9 +127,9 @@ export default {
 }
 .replyChildUsername {
   text-align: left;
-  margin-left: -720px;
   font-weight: bold;
   font-size: 13px;
+  margin-left: 10px;
   color: rgb(127, 162, 238);
   cursor: pointer;
   /*内容自适应宽度*/
