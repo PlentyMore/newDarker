@@ -5,10 +5,10 @@
             <transition name="msgMenu">
                 <div v-if="show" class="msgMenuBox">
                     <div class="msgItemBox">
-                        <p class="msgItem" @click="jmpNotice(0)">系统通知 <span class="unReadItemNum" v-if="unreadNoticeNum.system!=0">{{unreadNoticeNum.system}}</span></p>
-                        <p class="msgItem" @click="jmpNotice(1)">回复我的 <span class="unReadItemNum" v-if="unreadNoticeNum.reply!=0">{{unreadNoticeNum.reply}}</span></p>
-                        <p class="msgItem" @click="jmpNotice(2)">@我的 <span class="unReadItemNum" v-if="unreadNoticeNum.system!=0">{{unreadNoticeNum.system}}</span></p>
-                        <p class="msgItem" @click="jmpNotice(3)">收到的赞 <span class="unReadItemNum" v-if="unreadNoticeNum.like!=0">{{unreadNoticeNum.like}}</span></p>
+                        <p class="msgItem" @click="jmpNotice(0)">系统通知 <span class="unReadItemNum" v-if="unreadNoticeNum.system>0">{{unreadNoticeNum.system}}</span></p>
+                        <p class="msgItem" @click="jmpNotice(1)">回复我的 <span class="unReadItemNum" v-if="unreadNoticeNum.reply>0">{{unreadNoticeNum.reply}}</span></p>
+                        <p class="msgItem" @click="jmpNotice(2)">@我的 <span class="unReadItemNum" v-if="unreadNoticeNum.at>0">{{unreadNoticeNum.at}}</span></p>
+                        <p class="msgItem" @click="jmpNotice(3)">收到的赞 <span class="unReadItemNum" v-if="unreadNoticeNum.like>0">{{unreadNoticeNum.like}}</span></p>
                     </div>
                 </div>
             </transition>

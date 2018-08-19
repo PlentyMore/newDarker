@@ -47,6 +47,7 @@
             :parent-comment-info="itemInfo"
             :mode=1
             :placeholder="targetUser"
+            :type="type"
             @refresh="seeMore">
         </reply-box>
     </div>
@@ -58,7 +59,7 @@ import commentChildItem from "./CommentChildItem.vue";
 import api from "../../api.js";
 import { formatDate } from "../../time.js";
 export default {
-  props: ["videoInfo", "itemInfo", "specificRpid", "specificRpidLocation"],
+  props: ["videoInfo", "itemInfo", "specificRpid", "specificRpidLocation","type"],
   components: {
     replyBox,
     commentChildItem
@@ -130,7 +131,7 @@ export default {
     async refresh(rpid) {
       let repliesData = await api.getRepliesOfAnyClassPage({
         oid: this.videoInfo.episodeId,
-        type: 1,
+        type: this.type,
         root: this.itemInfo.rpid,
         rpid: rpid
       });
@@ -140,7 +141,7 @@ export default {
       let repliesData = await api.getRepliesOfAnyClassPage({
         pn: this.pageNum,
         oid: this.videoInfo.episodeId,
-        type: 1,
+        type: this.type,
         root: this.itemInfo.rpid
       });
       if (repliesData.status === 200) {
@@ -155,7 +156,7 @@ export default {
       let repliesData = await api.getRepliesOfAnyClassPage({
         pn: index,
         oid: this.videoInfo.episodeId,
-        type: 1,
+        type: this.type,
         root: this.itemInfo.rpid
       });
       if (repliesData.status === 200) {

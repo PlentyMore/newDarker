@@ -13,6 +13,7 @@
                 :video-info="videoInfo"
                 :mode=0
                 :placeholder="parentCommentPlaceholder"
+                :type="type"
                 @refresh="initCommentInfo">
             </reply-box>
         </div>
@@ -20,7 +21,8 @@
             <div v-for="item in hotComment" style="color:red;">
                 <comment-item
                   :item-info="item"
-                  :video-info="videoInfo" 
+                  :video-info="videoInfo"
+                  :type="type"
                   @refreshCommentList="initCommentInfo"
                   @goAnchor='goAnchor'></comment-item>
             </div>
@@ -37,6 +39,7 @@
                   :video-info="videoInfo"
                   :specific-rpid="specificRpid"
                   :specific-rpid-location="specificRpidLocation"
+                  :type="type"
                   @goAnchor="goAnchor"></comment-item>
             </div>
         </div>
@@ -60,7 +63,7 @@ import commentItem from "./CommentItem.vue";
 import replyBox from "./ReplyBox.vue";
 import api from "../../api.js";
 export default {
-  props: ["videoInfo", "specificRpid"],
+  props: ["videoInfo", "specificRpid","type"],
   components: {
     commentItem,
     replyBox
@@ -84,7 +87,6 @@ export default {
   },
   watch: {
     videoInfo() {
-      console.log("评论更新了");
       this.initCommentInfo();
     }
   },
@@ -93,7 +95,7 @@ export default {
       this.sort = 2;
       let repliesData = await api.getRepliesOfAnyClassPage({
         oid: this.videoInfo.episodeId,
-        type: 1,
+        type: this.type,
         sort: this.sort
       });
       if (repliesData.status === 200) {
@@ -107,7 +109,7 @@ export default {
       let repliesData = await api.getRepliesOfAnyClassPage({
         pn: index,
         oid: this.videoInfo.episodeId,
-        type: 1,
+        type: this.type,
         sort: this.sort
       });
       if (repliesData.status === 200) {
@@ -118,7 +120,7 @@ export default {
       let repliesData = await api.getRepliesOfAnyClassPage({
         pn: this.specificRpidLocation.parPageNum,
         oid: this.videoInfo.episodeId,
-        type: 1,
+        type: this.type,
         sort: this.sort
       });
       console.log("评论数据", repliesData);
@@ -151,7 +153,7 @@ export default {
     if (this.specificRpidTmp) {
       let rd = (await api.getRepliesOfAnyClassPage({
         oid: this.videoInfo.episodeId,
-        type: 1,
+        type: this.type,
         rpid: this.specificRpidTmp
       })).data;
       if (rd.code === 0) {

@@ -249,7 +249,7 @@ const getBangumiById = bid => {
 };
 
 const getMostViewBangumis = () => {
-  return axios.get(`${baseURL}/bangumis/mostView`);
+  return axios.get(`${baseURL2}/bangumis/mostView`);
 };
 
 const searchBangumisByName = (name, pn, ps) => {

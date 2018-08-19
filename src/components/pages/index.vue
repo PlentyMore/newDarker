@@ -8,8 +8,8 @@
             <div class="textBox" @mouseover="startFn" @mouseout="endFn">
                 <h1 :data-start="start" :data-startB="startB" class="text" data-text="Welcome to Darker!!">Welcome to Darker!!</h1>
             </div>
-            <div class="sysMsgBox">
-                <marquee class="sysMsg">这是系统通知条!!这是系统通知条!!这是系统通知条!!这是系统通知条!!这是系统通知条!!这是系统通知条!!</marquee>
+            <div class="sysMsgBox" @click="jmpAnnounce" style="cursor:pointer">
+                <marquee class="sysMsg">{{announceInfo.title}}</marquee>
             </div>
             <div class="barrageBox">
                 <input class="barrageInput" placeholder="在这里输入弹幕" style="width:140px; padding-left:10px;padding-right:10px;">
@@ -28,6 +28,7 @@
 </template>
 
 <script>
+import api from "../../api.js";
 export default {
   data() {
     return {
@@ -43,7 +44,8 @@ export default {
         "../../../static/img/2.jpg"
       ],
       bgImgIndex: 0,
-      hotImgNowLoc: "10px"
+      hotImgNowLoc: "10px",
+      announceInfo:{},
     };
   },
   methods: {
@@ -63,19 +65,33 @@ export default {
       this.bgImgIndex = index;
       this.hotImgNowLoc = (10 + 100 * index).toString() + "px";
       clearInterval(this.carouselTimer);
-      let carousel=document.getElementById('carousel');
-      carousel.classList.remove('run-animation');
+      let carousel = document.getElementById("carousel");
+      carousel.classList.remove("run-animation");
       carousel.offsetLeft;
-      carousel.classList.add('run-animation');
+      carousel.classList.add("run-animation");
       var that = this;
       this.carouselTimer = setInterval(function() {
         that.bgImgIndex++;
         if (that.bgImgIndex == that.bgImgUrl.length) that.bgImgIndex = 0;
         that.hotImgNowLoc = (10 + 100 * that.bgImgIndex).toString() + "px";
       }, 5000);
+    },
+    jmpAnnounce() {
+      this.$router.push({ name: "announce" ,params:{id:this.announceInfo.id} });
+    },
+    async initAnnounce(){
+      let resData=(await api.getNotice()).data;
+      if(resData.code===0){
+        this.announceInfo=resData.data.indexNotice;
+        console.log('公告信息',this.announceInfo);
+      }
+    },
+    async initCommend(){
+      let resData=(await api.getMostViewBangumis()).data;
+      console.log('推荐番剧',resData);
     }
   },
-  created: function() {
+  async created() {
     //在这里获取首页推荐的数据
     var that = this;
     this.carouselTimer = setInterval(function() {
@@ -83,6 +99,7 @@ export default {
       if (that.bgImgIndex == that.bgImgUrl.length) that.bgImgIndex = 0;
       that.hotImgNowLoc = (10 + 100 * that.bgImgIndex).toString() + "px";
     }, 5000);
+    await this.initAnnounce();
   }
 };
 </script>

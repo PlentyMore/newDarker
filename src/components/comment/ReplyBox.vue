@@ -19,7 +19,8 @@ export default {
     "refreshComment",
     "mode",
     "parentCommentInfo",
-    "placeholder"
+    "placeholder",
+    "type"
   ],
   data() {
     return {
@@ -51,7 +52,7 @@ export default {
       if (this.mode == 0) {
         postRes = await api.postVideoReply({
           oid: this.videoInfo.episodeId,
-          type: 1,
+          type: this.type,
           content: this.content
         });
         //不可直接修改props数据，会出错
@@ -61,7 +62,7 @@ export default {
         //发送子级评论
         postRes = await api.postVideoReply({
           oid: this.videoInfo.episodeId,
-          type: 1,
+          type: this.type,
           content: this.placeholder + this.content,
           root: this.parentCommentInfo.rpid
         });

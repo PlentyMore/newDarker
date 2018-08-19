@@ -85,7 +85,8 @@
         <div class="commentList" v-if="hasInfo">
           <comment
             :video-info="videoInfo"
-            :specific-rpid="specificRpid" 
+            :specific-rpid="specificRpid"
+            :type=1
             @goAnchor="goAnchor"
             @cantGoAnchor="cantGoAnchor"></comment>
         </div>

@@ -10,6 +10,7 @@ import forget from '@/components/pages/forgetPsw'
 import personal from '@/components/pages/personal'
 import notice from '@/components/pages/notice'
 import vemail from '@/components/pages/verifyMail'
+import announce from '@/components/pages/announce'
 import test from '@/components/pages/test'
 
 Vue.use(Router)
@@ -20,6 +21,16 @@ export default new Router({
       path: '/',
       name: 'index',
       component: index
+    },
+    {
+      path:'/announce',
+      name:'announce',
+      component: announce
+    },
+    {
+      path:'/announce/:id',
+      name:'announce',
+      component: announce
     },
     {
       path: '/searchResult',
