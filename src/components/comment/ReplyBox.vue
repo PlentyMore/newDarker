@@ -2,7 +2,7 @@
     <div class="replyBox">
         <div class="replyInfoBox">
             <img :src="avatar!='https://darker.online/'?avatar:'../../../static/img/noAvatar.jpg'">
-            <textarea :placeholder="placeholder" v-model="content"></textarea>
+            <textarea :placeholder="placeholder" v-model="content" :disabled='!isLogin'></textarea>
             <div @click="submitReply" class="replyBtn"><p>{{sendBtnText}}</p></div>
         </div>
         <div class="emojiBox">
@@ -24,6 +24,7 @@ export default {
   ],
   data() {
     return {
+      isLogin: localStorage.getItem("USER_ID") ? true : false,
       avatar: localStorage.getItem("face"),
       content: "",
       refreshCommentFlag: this.refreshComment,
@@ -33,6 +34,13 @@ export default {
   },
   methods: {
     async submitReply() {
+      if (!this.isLogin) {
+        this.$message({
+          message: "请先登录。",
+          type: "error"
+        });
+        return;
+      }
       if (this.content == "") {
         this.$message({
           message: "不可以发送空评论哦！",

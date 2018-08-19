@@ -23,8 +23,7 @@
                   :item-info="item"
                   :video-info="videoInfo"
                   :type="type"
-                  @refreshCommentList="initCommentInfo"
-                  @goAnchor='goAnchor'></comment-item>
+                  @refreshCommentList="initCommentInfo"></comment-item>
             </div>
         </div>
         <div v-if="hotComment.length!=0" class="hotLine">
@@ -40,6 +39,7 @@
                   :specific-rpid="specificRpid"
                   :specific-rpid-location="specificRpidLocation"
                   :type="type"
+                  @refreshCommentList="initCommentInfo"
                   @goAnchor="goAnchor"></comment-item>
             </div>
         </div>
