@@ -10,7 +10,7 @@
           <div class="anInfoInBox">
             <div class="anDateBox">
               <img src="../../../static/img/date.png">
-              <p>{{announceInfo.createTime}}</p>
+              <p>{{announceInfo.createTime| formatDate}}</p>
             </div>
             <div class="anReadBox">
               <img src="../../../static/img/saw.png">
@@ -34,6 +34,7 @@
 <script>
 import api from "../../api.js";
 import comment from "../comment/Comment.vue";
+import { formatDate } from "../../time.js";
 export default {
   data() {
     return {
@@ -45,6 +46,12 @@ export default {
   },
   components: {
     comment
+  },
+  filters: {
+    formatDate(time) {
+      let date = new Date(time);
+      return formatDate(date, "yyyy-MM-dd hh:mm");
+    }
   },
   methods: {
     async initAnnounce() {
