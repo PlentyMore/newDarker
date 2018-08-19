@@ -1,7 +1,7 @@
 <template>
     <div>
-        <div class="carouselBox run-animation" id='carousel'>
-            <img :src="bgImgUrl[bgImgIndex]" class="carousel">
+        <div class="carouselBox">
+            <img :src="bgImgUrl[bgImgIndex].thumb" class="carousel run-animation" id='carousel'>
         </div>
         <div class="base6"></div>
         <div class="welcome">
@@ -20,7 +20,7 @@
             <div class="hotImgInBox">
                 <div class="hotImgNow" :style="{'margin-left':hotImgNowLoc}"></div>
                 <div v-for="(url,index) in bgImgUrl">
-                    <img :src="url" @mouseover="userChangeHotImgNow(index)">
+                    <img :src="url.thumb" @mouseover="userChangeHotImgNow(index)">
                 </div>
             </div>
         </div>
@@ -37,11 +37,6 @@ export default {
       timer: null,
       carouselTimer: null,
       bgImgUrl: [
-        "../../../static/img/1.jpg",
-        "../../../static/img/2.jpg",
-        "../../../static/img/3.jpg",
-        "../../../static/img/4.jpg",
-        "../../../static/img/2.jpg"
       ],
       bgImgIndex: 0,
       hotImgNowLoc: "10px",
@@ -89,6 +84,10 @@ export default {
     async initCommend(){
       let resData=(await api.getMostViewBangumis()).data;
       console.log('推荐番剧',resData);
+      if(resData.code===0){
+        this.bgImgUrl=resData.data.bangumi;
+        console.log(this.bgImgUrl);
+      }
     }
   },
   async created() {
@@ -99,6 +98,7 @@ export default {
       if (that.bgImgIndex == that.bgImgUrl.length) that.bgImgIndex = 0;
       that.hotImgNowLoc = (10 + 100 * that.bgImgIndex).toString() + "px";
     }, 5000);
+    await this.initCommend();
     await this.initAnnounce();
   }
 };

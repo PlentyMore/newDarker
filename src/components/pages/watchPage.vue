@@ -82,13 +82,14 @@
             </div>
           </el-upload>
         </div>
-        <div class="commentList" v-if="hasInfo">
+        <div class="commentList" v-if="hasInfo" id="comment">
           <comment
             :video-info="videoInfo"
             :specific-rpid="specificRpid"
             :type=1
             @goAnchor="goAnchor"
-            @cantGoAnchor="cantGoAnchor"></comment>
+            @cantGoAnchor="cantGoAnchor"
+            @nextPageGoAnchor="nextPageGoAnchor"></comment>
         </div>
     </div>
 </template>
@@ -478,11 +479,19 @@ export default {
       }, 100);
     },
     cantGoAnchor() {
-      this.loading=false;
+      this.loading = false;
       this.$message({
         message: "评论已被删除",
         type: "info"
       });
+    },
+    nextPageGoAnchor() {
+      let anchor = document.getElementById('comment');
+      setTimeout(() => {
+        console.log("翻滚吧！");
+        let anchor = document.getElementById('comment');
+        anchor.scrollIntoView();
+      }, 100);
     }
   },
   async mounted() {
@@ -856,7 +865,9 @@ export default {
   display: flex;
   flex-direction: column;
   border-radius: 5px;
-  margin: 150px 375px;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, 20%);
 }
 .wattingBox img {
   margin: auto auto;

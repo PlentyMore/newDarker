@@ -106,6 +106,7 @@ export default {
       }
     },
     async pageSelect(index) {
+      this.$emit('nextPageGoAnchor');
       let repliesData = await api.getRepliesOfAnyClassPage({
         pn: index,
         oid: this.videoInfo.episodeId,

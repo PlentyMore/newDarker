@@ -25,7 +25,8 @@
             :specific-rpid="specificRpid"
             :type=2
             @goAnchor="goAnchor"
-            @cantGoAnchor="cantGoAnchor"></comment>
+            @cantGoAnchor="cantGoAnchor"
+            @nextPageGoAnchor="nextPageGoAnchor"></comment>
         </div>
       </div>
     </div>
@@ -77,6 +78,14 @@ export default {
         message: "评论已被删除",
         type: "info"
       });
+    },
+    nextPageGoAnchor() {
+      let anchor = document.getElementById("comment");
+      setTimeout(() => {
+        console.log("翻滚吧！");
+        let anchor = document.getElementById("comment");
+        anchor.scrollIntoView();
+      }, 100);
     }
   },
   async created() {
