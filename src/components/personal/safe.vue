@@ -21,7 +21,7 @@
             <p v-else style="cursor:pointer;">未绑定</p>
             <p class="safeBtn" @click="showSetting(2)" style="cursor:pointer;">{{mailBtnText}}</p>
         </div>
-        <div v-if="safeMode==1" class="setBox">
+        <div v-if="safeMode==1" class="setBox1">
             <p class="safeTitle">修改密码</p>
             <input placeholder="请输入原密码" type="password" v-model="oldPsw" :data-correct="oldPswCorrect">
             <p v-if="oldPswCorrect" class="wrongTip">原密码错误或为空</p>
@@ -54,7 +54,7 @@ export default {
   data() {
     return {
       loading: true,
-      finishStyle: { background: "red" },
+      finishStyle: { background: "red"},
       flag: "×",
       finishMail: true,
       mail: "",
@@ -270,6 +270,7 @@ export default {
 
 <style>
 .safeBox {
+  font-size: 13px;
   margin-top: 5%;
   display: flex;
   flex-direction: column;
@@ -324,11 +325,24 @@ export default {
 .setBox {
   display: flex;
   flex-direction: column;
+  position: absolute;
+  width: 300px;
+  height: 200px;
+  border-radius: 5px;
+  left: 46%;
+  top: 40%;
+  background: #252e53;
 }
 .safeTitle {
-  font-size: 25px;
+  font-size: 18px;
   font-weight: bold;
-  color: white;
+  line-height: 40px;
+  color: wheat;
+  background: #020b36;
+  margin-top: 0;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  height: 40px;
 }
 .setBox input {
   height: 22px;
@@ -348,14 +362,15 @@ export default {
 }
 .safeSubmit {
   height: 25px;
-  width: 15%;
+  width: 50%;
   line-height: 25px;
   border-radius: 25px;
   border: 1px solid white;
   font-weight: bold;
+  font-size: 12px;
   background: rgb(100, 149, 237);
   transition: all 0.1s;
-  margin: 25px auto;
+  margin: 10px auto;
   cursor: pointer;
 }
 .safeSubmit:hover {
@@ -407,8 +422,8 @@ export default {
 .newMailBox {
   display: flex;
   flex-direction: row;
-  width: 40%;
-  margin: 0 auto;
+  width: 80%;
+  margin: 10px auto;
 }
 .newMailBox input {
   margin: auto 0 !important;
@@ -421,18 +436,46 @@ export default {
 .mailCodeSubmit {
   display: flex;
   flex-direction: row;
-  width: 40%;
-  margin: 0px auto;
+  width: 80%;
+  margin: 20px auto;
 }
-.mailCodeCorrect input {
+.mailCodeSubmit input {
   margin: auto 0 !important;
-  width: 60%;
+  width: 49% !important;
 }
 .mailCodeSubmit p {
   margin: auto 0 !important;
-  width: 40%;
+  width: 40% !important;
 }
 .mailSubmit {
-  margin-top: 0px;
+  margin-top: 10px;
+  width: 40%;
+}
+.setBox1 {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  width: 300px;
+  height: 200px;
+  border-radius: 5px;
+  left: 46%;
+  top: 40%;
+  background: #252e53;
+}
+.setBox1 input {
+  height: 300px !important;
+  width: 40%;
+  border-radius: 4px;
+  border: 1px solid gray;
+  padding-left: 10px;
+  padding-right: 10px;
+  transition: border 0.2s;
+  margin: 5px auto;
+}
+.setBox1 input:hover {
+  border: 1px solid white;
+}
+.setBox1 input:focus {
+  border: 1px solid rgb(100, 149, 237);
 }
 </style>

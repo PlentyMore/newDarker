@@ -5,9 +5,7 @@
             <div v-if="show" class="withoutLogin">
                 <div class="afterLoginYouCan">
                     <p @click="logout">登陆后你可以</p>
-                    <div style="height=250px;width:380px;margin:0 auto;">
-                        <img src="../../../static/img/afterLoginYouCan.jpg" style="height:250px;width:380px;position:relative;">
-                    </div>
+                    <img width="100%" height="80%" src="../../../static/img/afterLoginYouCan.jpg">
                 </div>
                 <a href="#/login/" style="text-decoration:none"><div class="login">登入</div></a>
                 <!--后期加入注册url-->
@@ -39,9 +37,9 @@ export default {
     return {
       show: false,
       login: this.isLogin,
-      avatar:
-        localStorage.getItem("face")
-          ?  localStorage.getItem("face"):"../../../static/img/noAvatar.jpg",
+      avatar: localStorage.getItem("face")
+        ? localStorage.getItem("face")
+        : "../../../static/img/noAvatar.jpg",
       account: localStorage.getItem("loginUserName")
     };
   },
@@ -70,8 +68,8 @@ export default {
       localStorage.removeItem("face");
       window.location.href = "/";
     },
-    jmpPersonal(){
-        this.$emit('jmpPersonal');
+    jmpPersonal() {
+      this.$emit("jmpPersonal");
     }
   }
 };
@@ -92,12 +90,13 @@ export default {
 }
 .menu-leave-active,
 .menu-enter-active {
-  transition: all 0.2s ease;
+  transition: all 0.5s ease;
 }
 .menu-leave-active,
 .menu-enter {
   height: 0px !important;
   /*!important 将该样式优先级调至最高*/
+  opacity: 0;
 }
 .menu-leave,
 .menu-enter-active {
@@ -106,26 +105,37 @@ export default {
 .withoutLogin {
   background: white;
   position: absolute;
+  top: 60px;
   right: 20px;
   overflow: hidden;
-  height: 400px;
-  width: 400px;
-  border-radius: 8px;
-  box-shadow: 0px 10px 20px gainsboro;
+  height: 250px;
+  width: 350px;
+  border-radius: 3px;
   display: flex;
   flex-direction: column;
 }
 .afterLoginYouCan {
   display: flex;
   flex-direction: column;
+  margin: 10px auto;
+  width: 92%;
+  height: 70%;
+  text-align: left;
+}
+.afterLoginYouCan p{
+  margin-top: 0;
+  font-size: 13px;
+}
+.afterLoginYouCan img {
+  margin: -5px auto;
 }
 .login {
   background: rgb(100, 149, 237);
-  height: 30px;
-  width: 370px;
-  margin-top: 20px;
-  margin-left: 15px;
-  line-height: 30px;
+  height: 40px;
+  width: 92%;
+  margin: -10px auto;
+  line-height: 40px;
+  font-size: 15px;
   border-radius: 5px;
   color: aliceblue;
   cursor: pointer;
@@ -138,18 +148,18 @@ export default {
   background: rgb(100, 149, 237);
 }
 .register {
-  margin-top: 10px;
+  margin-top: 15px;
+  font-size: 10px;
 }
 .withLogin {
   background: white;
   position: absolute;
   top: 60px;
-  right: 20px;
+  right: 160px;
   overflow: hidden;
   height: 130px;
-  width: 180px;
-  border-radius: 8px;
-  box-shadow: 0px 10px 20px gainsboro;
+  width: 150px;
+  border-radius: 3px;
   display: flex;
   flex-direction: column;
 }
@@ -159,12 +169,17 @@ export default {
   margin: auto;
   display: flex;
   flex-direction: column;
+  font-size: 13px;
 }
 .withLoginItem,
 .withLoginUsername {
   height: 35px;
   width: 100%;
   line-height: 35px;
+  /*文字超出省略号*/
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
   margin: 0;
   transition: background 0.4s;
 }

@@ -233,6 +233,7 @@ export default {
 }
 .commentContentBox {
   margin: auto auto;
+  text-align: left;
 }
 .commentControlBox {
   display: flex;
@@ -240,7 +241,7 @@ export default {
 }
 .replyUsername {
   text-align: left;
-  margin-left: -760px;
+  margin-left: 10px;
   font-weight: bold;
   color: rgb(127, 162, 238);
   cursor: pointer;

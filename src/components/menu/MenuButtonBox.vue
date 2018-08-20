@@ -1,13 +1,13 @@
 <template>
     <div class="box">
-        <div class="logo">
+        <div class="logo" v-on:jmp="mainPage">
             <img src="../../../static/img/logo.png" class="logoImg">
             <div class="logoTitle">Darker</div>
         </div>
         <div class="headerBtnBox">
             <div class="headerBtnInBox">
-                <menu-item-button style="margin:0 auto;" v-on:jmp="mainPage">首页</menu-item-button>
-                <menu-item-button style="margin:0 auto;" v-on:jmp="watchPage">观看</menu-item-button>
+                <menu-item-button style="margin:0 auto;" v-on:jmp="mainPage" icon-img="../../../static/img/home2.png">首页</menu-item-button>
+                <menu-item-button style="margin:0 20px;" v-on:jmp="watchPage" icon-img="../../../static/img/video.png">观看</menu-item-button>
             </div>
         </div>
         <div class="msgAndUserBtn">
@@ -168,30 +168,28 @@ export default {
   flex-direction: row;
 }
 .box:hover {
-  background-color: rgba(169, 169, 169, 0.6);
+  background-color: rgba(169, 169, 169, 0.7);
 }
 .headerBtnBox {
-  width: 74%;
   margin: 0 auto;
 }
 .headerBtnInBox {
   margin: 0 auto;
-  width: 200px;
+  width: 230px;
   display: flex;
   flex-direction: row;
 }
 .logo {
   left: 0;
   height: 60px;
-  width: 13%;
+  width: 400px;
   display: flex;
   flex-direction: row;
   cursor: pointer;
 }
 .logoImg {
   height: 40px;
-  margin-left: 10px;
-  margin: auto;
+  margin: auto 20px;
   filter: invert(0%);
 }
 .logo:hover {
@@ -227,13 +225,15 @@ export default {
 .logoTitle {
   width: 140px;
   font-size: 35px;
-  margin: auto;
-  margin-left: -20px;
+  font-family: Stencil Std;
+  line-height: 50px;
+  margin: 10px -10px;
   color: black;
 }
 .msgAndUserBtn {
   height: 60px;
-  width: 13%;
+  width: 220px;
+  margin-right: 180px;
   display: flex;
   flex-direction: row;
 }

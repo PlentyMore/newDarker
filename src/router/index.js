@@ -80,6 +80,11 @@ export default new Router({
       component: notice
     },
     {
+      path: '/notice/:id',
+      name: 'notice',
+      component: notice
+    },
+    {
       path: '/vemail',
       name: 'vemail',
       component: vemail

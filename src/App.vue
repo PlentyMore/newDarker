@@ -7,10 +7,12 @@
         @jmpPersonal="jmpPersonal"
         @jmpNotice="jmpNotice"></menu-button-box>
     </div>
-        <div class="searchBar" :style="searchBoxMove" v-show="showSearch" v-if="false">
-          <p class="searchBarItem" style="width:50px;text-align: center;">搜索：</p>
-          <input class="searchBarItem" v-model="searchText" placeholder="这是搜索输入框" style="width:140px; padding-left:10px;padding-right:10px;">
+    <div class="searchBar" :style="searchBoxMove" v-show="showSearch" v-if="true">
+      <div class="searchInBar">
+        <p class="searchBarItem">搜索：</p>
+        <input v-model="searchText">
       </div>
+    </div>
     <router-view v-bind="routerInfo"></router-view>
   </div>
 </template>
@@ -26,71 +28,61 @@ export default {
   },
   data() {
     return {
-      routerInfo:{}, //用来传递数据给router-view对应组件用的包
+      routerInfo: {}, //用来传递数据给router-view对应组件用的包
       showMenu: false,
       showMain: false,
-      searchText:"",
-      searchBoxMove:{
-        transform: 'translate(-50%,-500%)'
-      },
+      searchText: "",
+      searchBoxMove: {
+        transform: "translate(-50%,-500%) rotate(-3deg)"
+      }
     };
   },
   computed: {
     //当url不为首页和搜索结果页面时，不显示搜索框
     showSearch: function() {
-      if(this.$route.path=='/searchResult'||this.$route.path=='/') return true;
-      else return false; 
+      if (this.$route.path == "/searchResult" || this.$route.path == "/")
+        return true;
+      else return false;
     }
   },
   watch: {
     aNum: function(newValue) {
       TweenLite.to(this.$data, 0.5, { a: newValue + "px" });
     },
-    searchText:async function(newText){
-      this.searchText=newText;
-      if(newText==""){
-        this.searchBoxMove={
-          transform: 'translate(-50%,-500%)'
-        }
-        this.$router.push({name: 'index'});
-      }
-      else{
-        this.routerInfo={
-          searchText:this.searchText
-        }
-        this.searchBoxMove={
-          transform: 'translate(-50%,-700%)'
-        }
-        // let res = await api.getsearchBangumisIdResult(newText);
-        // let rd = res.data;
-        // console.log("searchBangumiRes:",rd);
-        // let bangumis = "";
-        // let page = "";
-        // if(rd.code === 0){
-        //   bangumis = rd.data.content;
-        //   page = rd.data.page;
-        // }
-        // else {
-        //   console.log("no bangumi search result");
-        // }
-        this.$router.push({name: 'searchResult'});
+    searchText: async function(newText) {
+      this.searchText = newText;
+      if (newText == "") {
+        this.searchBoxMove = {
+          transform: "translate(-50%,-500%) rotate(-3deg)"
+        };
+        this.$router.push({ name: "index" });
+      } else {
+        this.routerInfo = {
+          searchText: this.searchText
+        };
+        this.searchBoxMove = {
+          transform: "translate(-50%,-600%)"
+        };
+        this.$router.push({ name: "searchResult" });
       }
     }
   },
-  methods:{
+  methods: {
     //组件中无法使用this.$router对象，只能在App.vue将跳转函数传递给组件
-    jmpIndex:function(){
-      this.$router.push({name: 'index'});
+    jmpIndex: function() {
+      this.$router.push({ name: "index" });
     },
-    jmpWatch:function(){
-      this.$router.push({name: 'watch'});
+    jmpWatch: function() {
+      this.$router.push({ name: "watch" });
     },
-    jmpPersonal:function(){
-      this.$router.push({name: 'personal'});
+    jmpPersonal: function() {
+      this.$router.push({ name: "personal" });
     },
-    jmpNotice:function(pageNum){
-      console.log('App',pageNum);
-      this.$router.push({name: 'notice',params:{'pageNum':pageNum}});
+    jmpNotice: function(pageNum) {
+      console.log("App", pageNum);
+      //this.$router.push({ name: "notice", params: { pageNum: pageNum } });
+      console.log(window.location.host);
+      window.location.assign('#/notice/'+pageNum);
     },
     checkLocalStorage() {
       if (typeof window.localStorage === "undefined") {
@@ -102,7 +94,7 @@ export default {
       } else {
         return true;
       }
-    },
+    }
   }
 };
 </script>
@@ -131,7 +123,6 @@ export default {
 .header-leave-to {
   opacity: 0;
 }
-
 .headerBtnBox {
   width: 150px;
   display: flex;
@@ -161,27 +152,48 @@ export default {
   background-color: rgba(255, 228, 225, 1);
 }
 */
-.searchBar{
-    position: absolute;
-    background: bisque;
-    opacity: .8;
-    height: 50px;
-    width: 250px;
-    z-index: 1000;
-    display: flex;
-    flex-direction: row;
-    border-radius: 50px;
-    /*绝对布局居中法*/
-    top: 50%;
-    left: 50%;
-    transition: transform 1s;
+.searchBar {
+  background-image: url("../static/img/text.png");
+  background-size:contain;
+  position: absolute;
+  opacity: 1;
+  height: 80px;
+  width: 110%;
+  z-index: 300;
+  display: flex;
+  flex-direction: row;
+  filter: grayscale(15%);
+  /*绝对布局居中法*/
+  top: 70%;
+  left: 50%;
+  transition: transform 1s;
 }
-.searchBarItem{
-    margin: auto auto;
-    border-radius: 10px;
-    height: 20px;
-    line-height: 20px;
-    font: 23px;
-    font-weight: bold;
+.searchInBar{
+  margin: auto auto;
+  display: flex;
+  flex-direction: row;
+  width: 450px;
+}
+.searchInBar input{
+  outline: none;
+  height: 20px;
+  background: rgba(255, 255, 255, 0);
+  border: 3px dashed black;
+  padding:10px;
+  font-size: 20px;
+  font-family: 华文琥珀;
+  font-weight: bold;
+  line-height: 20px;
+  margin: auto auto;
+}
+.searchBarItem {
+  color: black;
+  margin: auto auto;
+  margin-right: 10px;
+  line-height: 23px;
+  font-size: 45px;
+  font-family: 华文琥珀;
+  font-weight: bold;
+  text-align: center;
 }
 </style>

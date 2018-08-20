@@ -17,17 +17,6 @@
 
             <div class="sysMsgBox" @click="jmpAnnounce" style="cursor:pointer">
                 <marquee class="sysMsg">{{announceInfo.title}}</marquee>
-            <!--<div class="sysMsgBox">-->
-                  <!--<div v-if="notice && showNotice" class="notify">-->
-                    <!--<div class="content">-->
-                      <!--<i class="el-icon-bell notify-bell"></i>-->
-                      <!--<a :href="'#/rannounce/'+notice.id" class="notify-link">{{notice.title}}</a>-->
-                      <!--<i @click="closeNotice" class="el-icon-close notify-close"></i>-->
-                    <!--</div>-->
-                  <!--</div>-->
-              <!--<div v-else >-->
-                  <!--没有通知-->
-              <!--</div>-->
             </div>
             <div class="barrageBox" v-if="false">
                 <input class="barrageInput" placeholder="在这里输入弹幕" style="width:140px; padding-left:10px;padding-right:10px;">
@@ -36,10 +25,8 @@
         </div>
         <div class="hotImgBox">
             <div class="hotImgInBox">
-                <div class="hotImgNow" :style="{'margin-left':hotImgNowLoc}"></div>
-                <div v-for="(url,index) in bgImgUrl">
-                    <img :src="url.thumb" @mouseover="userChangeHotImgNow(index)">
-                </div>
+                <div class="hotImgNow" :style="{'margin-left':hotImgNowLoc,width:imgWidth}"></div>
+                <img v-for="(url,index) in bgImgUrl" :src="url.thumb" :style="[{width:imgWidth}]" class="hotImgItemBox" @mouseover="userChangeHotImgNow(index)">
             </div>
         </div>
     </div>
@@ -57,8 +44,10 @@ export default {
       bgImgUrl: [
       ],
       bgImgIndex: 0,
-      hotImgNowLoc: "10px",
-      announceInfo:{}
+      hotImgNowLoc: "0px",
+      announceInfo:{},
+      imgWidth:'',
+      widthNum:0,
       // notice: "",
       // showNotice: false,
       // lastNoticeId: "",
@@ -80,7 +69,7 @@ export default {
     },
     userChangeHotImgNow: function(index) {
       this.bgImgIndex = index;
-      this.hotImgNowLoc = (10 + 100 * index).toString() + "px";
+      this.hotImgNowLoc = (this.widthNum * this.bgImgIndex).toString() + "%";
       clearInterval(this.carouselTimer);
       let carousel = document.getElementById("carousel");
       carousel.classList.remove("run-animation");
@@ -90,7 +79,7 @@ export default {
       this.carouselTimer = setInterval(function() {
         that.bgImgIndex++;
         if (that.bgImgIndex == that.bgImgUrl.length) that.bgImgIndex = 0;
-        that.hotImgNowLoc = (10 + 100 * that.bgImgIndex).toString() + "px";
+        that.hotImgNowLoc = (that.widthNum * that.bgImgIndex).toString() + "%";
       }, 5000);
     },
     jmpAnnounce() {
@@ -108,41 +97,9 @@ export default {
       console.log('推荐番剧',resData);
       if(resData.code===0){
         this.bgImgUrl=resData.data.bangumi;
-        console.log(this.bgImgUrl);
+        this.imgWidth=(100/this.bgImgUrl.length).toString()+'%';
+        this.widthNum=100/this.bgImgUrl.length;
       }
-    // async getNotice(){
-    //   let res = await api.getNotice();
-    //   let rd = res.data;
-    //   console.log(rd);
-    //   if(rd.code === 0){
-    //     this.notice = rd.data.indexNotice;
-    //     if(rd.data.indexNotice === null){
-    //       this.showNotice = false;
-    //       return
-    //     }
-    //     this.curNoticeId = rd.data.indexNotice.id;
-    //     if(this.lastNoticeId !== null){
-    //       if(this.lastNoticeId !== this.curNoticeId){
-    //         this.showNotice = true;
-    //         console.log("set showNotice true");
-    //         console.log("curNotice id: ",this.curNoticeId);
-    //         console.log("lastNoticeId: ",this.lastNoticeId);
-    //         console.log("cur equals last: ",this.lastNoticeId === this.curNoticeId);
-    //       }
-    //     }
-    //     else {
-    //       this.showNotice = true;
-    //       console.log("this.lastNoticeId not null: ",this.lastNoticeId);
-    //     }
-    //   }
-    //   else {
-    //     console.log("get notice err");
-    //   }
-    // },
-    // closeNotice(){
-    //   localStorage.setItem("lastNoticeId",this.curNoticeId);
-    //   this.showNotice = false;
-    //   console.log("close notice.");
     }
   },
   async created() {
@@ -152,14 +109,9 @@ export default {
     this.carouselTimer = setInterval(function() {
       that.bgImgIndex++;
       if (that.bgImgIndex == that.bgImgUrl.length) that.bgImgIndex = 0;
-      that.hotImgNowLoc = (10 + 100 * that.bgImgIndex).toString() + "px";
+      that.hotImgNowLoc = (that.widthNum * that.bgImgIndex).toString() + "%";
     }, 5000);
     await this.initAnnounce();
-    // let lt = localStorage.getItem("lastNoticeId");
-    // if(lt){
-    //   that.lastNoticeId = parseInt(lt);
-    // }
-    // that.getNotice();
   }
 };
 </script>
@@ -169,7 +121,7 @@ export default {
   left: 0;
   top: 0;
   width: 100%;
-  height: 876px;
+  height: 100%;
   overflow-x: hidden;
   position: absolute;
   z-index: 1;
@@ -208,6 +160,8 @@ export default {
   display: flex;
   flex-direction: column;
   z-index: 1000;
+  border-left: 10px solid black;
+  border-right: 10px solid black;
 }
 .textBox {
   position: absolute;
@@ -217,7 +171,7 @@ export default {
 }
 .text {
   background: rgb(228, 166, 8);
-  opacity: 0.7;
+  opacity: 0.8;
   position: absolute;
   height: 100%;
   width: 100%;
@@ -374,7 +328,7 @@ export default {
   position: absolute;
   top: -13px;
   background: rgb(228, 166, 8);
-  opacity: 0.8;
+  opacity: 0.9;
   height: 30px;
   width: 100%;
   border-bottom: 3px solid gray;
@@ -386,29 +340,33 @@ export default {
   font-weight: bold;
 }
 .hotImgBox {
+  background: rgba(228, 166, 8, 0.8);
+  border: 3px dashed black;
+  border-radius: 10px;
   position: absolute;
-  height: 15%;
+  height: 10%;
+  width: 50%;
   /*绝对布局的居中法*/
   top: 50%;
-  left: 50%;
-  transform: translate(-50%, 20%);
+  left: 26%;
   display: flex;
   flex-direction: row;
   z-index: 1000;
 }
 .hotImgInBox {
-  height: 100px;
+  height: 100%;
+  width: 100%;
   display: flex;
   flex-direction: row;
-  margin: auto;
+  margin: auto auto;
+}
+.hotImgItemBox{
+  cursor: pointer;
 }
 .hotImgInBox img {
-  width: 80px;
-  height: 80px;
-  border-radius: 80px;
-  margin: 10px 10px;
-  cursor: pointer;
-  /*
+  height: 100%;
+  width: inherit;
+    /*
     置于a底下
     position: relative;
     z-index: -1;
@@ -416,13 +374,11 @@ export default {
 }
 .hotImgNow {
   position: absolute;
-  width: 80px;
-  height: 80px;
-  border-radius: 80px;
+  height: 100%;
   border: 1px solid white;
   box-shadow: 0px 0px 30px white inset;
   cursor: pointer;
-  margin-top: 10px;
+  margin-top: 0px;
   transition: margin-left 1s;
 }
 .barrageBox {

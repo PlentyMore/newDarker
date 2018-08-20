@@ -1,6 +1,6 @@
 <template>
-    <div>
-        <div class="scrollBox" :style="scrollBoxSize" @mousewheel="scroll($event)">
+    <div class="scrollBox">
+        <div class="scrollInBox" :style="scrollBoxSize" @mousewheel="scroll($event)">
             <div class="scrollInBox" :style="marginTop">
                 <slot></slot>
             </div>
@@ -33,15 +33,15 @@ export default {
       //底部限制 = 实际项高*(项数-滚动窗高/实际项高)+滚动窗高%实际项高/4
       min:
         (this.itemSpacing + this.itemHeight) *
-          (
-            this.itemCount -
-            this.scrollHight / (this.itemSpacing + this.itemHeight)
-          ).toFixed(0) +
+          Math.floor(
+            this.itemCount - (this.scrollHight/(this.itemHeight+this.itemSpacing))
+          ) +
         (this.scrollHight % (this.itemSpacing + this.itemHeight)) / 4
     };
   },
   watch: {
     itemCount(newValue, oldValue) {
+      console.log(newValue,oldValue);
       if (newValue < oldValue) {
         this.marginTop = {
           "margin-top": "0px"
@@ -55,10 +55,9 @@ export default {
       }
       this.min =
         (this.itemSpacing + this.itemHeight) *
-          (
-            this.itemCount -
-            this.scrollHight / (this.itemSpacing + this.itemHeight)
-          ).toFixed(0) +
+          Math.floor(
+            this.itemCount - (this.scrollHight/(this.itemHeight+this.itemSpacing))
+          ) +
         (this.scrollHight % (this.itemSpacing + this.itemHeight)) / 4;
       console.log(this.min);
     }
@@ -89,7 +88,7 @@ export default {
 </script>
 
 <style>
-.scrollBox {
+.scrollInBox {
   overflow: hidden;
   position: relative;
   display: flex;

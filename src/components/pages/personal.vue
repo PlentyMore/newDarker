@@ -16,57 +16,60 @@
 </template>
 
 <script>
-import leftMenu from '../menu/leftMenu.vue'
-import info from '../personal/info.vue'
-import safe from '../personal/safe.vue'
-import movie from '../personal/movie.vue'
+import leftMenu from "../menu/leftMenu.vue";
+import info from "../personal/info.vue";
+import safe from "../personal/safe.vue";
+import movie from "../personal/movie.vue";
 export default {
-    components:{
-        leftMenu,
-        info,
-        safe,
-        movie
-    },
-    data(){
-        return{
-            menuTitle:'个人信息',
-            test:{
-                0:'个人资料',
-                1:'账号安全',
-                2:'我的番剧',
-            },
-            pageIndex:0,
-        };
-    },
-    watch:{
-        pageIndex:function(i){
-            
-        }
-    }
-}
+  components: {
+    leftMenu,
+    info,
+    safe,
+    movie
+  },
+  data() {
+    return {
+      menuTitle: "个人信息",
+      test: {
+        0: "个人资料",
+        1: "账号安全",
+        2: "我的番剧"
+      },
+      pageIndex: 0
+    };
+  },
+  watch: {
+    pageIndex: function(i) {}
+  }
+};
 </script>
 
 <style>
-.personalBox{
-    display: flex;
-    flex-direction: row;
+.personalBox {
+  display: flex;
+  flex-direction: row;
+  position: absolute;
+  width: 100%;
+  height: 93%;
+  overflow: hidden;
 }
-.personalInBox{
-    display: flex;
-    flex-direction: row;
-    margin: 3% auto;
+.personalInBox {
+  display: flex;
+  flex-direction: row;
+  margin: 2% auto;
+  height: 100%;
 }
-.leftMenu{
-    margin-left: auto;
+.leftMenu {
+  margin-left: auto;
 }
-.infoBox{
-    background: rgba(24, 24, 24, 0.671);
-    height: 650px;
-    width: 750px;
-    display: flex;
-    flex-direction: column;
-    padding-top: 0px;
-    border-radius: 10px;
-    margin-left: 2%;
+.infoBox {
+  background: rgba(24, 24, 24, 0.671);
+  height: 100%;
+  width: 900px;
+  display: flex;
+  flex-direction: column;
+  padding-top: 0px;
+  border-radius: 5px;
+  margin-left: 2%;
 }
 </style>

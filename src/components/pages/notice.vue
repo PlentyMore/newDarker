@@ -34,7 +34,7 @@ export default {
   data() {
     return {
       menuTitle: "消息",
-      pageIndex: 0,
+      pageIndex: 1,
       test: {
         0: "系统通知",
         1: "回复我的",
@@ -43,9 +43,9 @@ export default {
       }
     };
   },
-  mounted(){
-      this.pageIndex=this.$route.params.pageNum;
-      console.log('notice页：',this.pageIndex);
+  mounted() {
+    this.pageIndex = this.$route.params.pageNum;
+    console.log("notice页：", this.pageIndex);
   }
 };
 </script>
@@ -54,23 +54,28 @@ export default {
 .noticeBox {
   display: flex;
   flex-direction: row;
+  position: absolute;
+  width: 100%;
+  height: 93%;
+  overflow: hidden;
 }
 .noticeInBox {
   display: flex;
   flex-direction: row;
-  margin: 3% auto;
+  margin: 2% auto;
+  height: 100%;
 }
 .leftMenu {
   margin-left: auto;
 }
 .msgListBox {
   background: rgba(24, 24, 24, 0.671);
-  height: 650px;
-  width: 750px;
+  height: 100%;
+  width: 900px;
   display: flex;
   flex-direction: column;
   padding-top: 0px;
-  border-radius: 10px;
+  border-radius: 5px;
   margin-left: 2%;
 }
 </style>

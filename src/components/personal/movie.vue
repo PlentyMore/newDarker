@@ -44,9 +44,9 @@
             <darker-scroll
                 :item-count=pageSize
                 :item-height=120
-                :item-spacing=10
-                :scroll-hight=500
-                :scroll-width=600
+                :item-spacing=15
+                :scroll-hight=540
+                :scroll-width=850
                 @nextPage="nextPage"
                 class="scroll">
                 <div v-for="(item,index) in postBangumiList" class="movieItem">
@@ -252,11 +252,11 @@ export default {
       if (this.mvToolShow[index]) this.showToolIndex = index;
       else this.showToolIndex = -1;
     },
-    updateBangumiCover(id,index) {
+    updateBangumiCover(id, index) {
       console.log(index);
       this.pb = {
-        id:id,
-        index:index
+        id: id,
+        index: index
       };
       this.updateBangumiCoverShow = true;
       console.log(this.pb);
@@ -277,14 +277,12 @@ export default {
         setTimeout(() => (this.show = false), 100);
         this.$alert("修改封面需要审核，结果请留意系统通知", "封面提交成功", {
           confirmButtonText: "确定",
-          callback: action => {
-            
-          }
+          callback: action => {}
         });
       } else {
         this.$message.error(rd.msg);
       }
-      this.postBangumiList[this.pb.index].thumb=coverUrl;
+      this.postBangumiList[this.pb.index].thumb = coverUrl;
       this.pb = null;
       console.log(this.pb);
     },
@@ -349,7 +347,7 @@ export default {
   height: 90px !important;
 }
 .lastItemMenu {
-  margin-top: -170px !important;
+  margin-top: -180px !important;
 }
 .submitMvBoxTran-leave-active,
 .submitMvBoxTran-enter-active {
@@ -370,27 +368,28 @@ export default {
 .subBox {
   display: flex;
   flex-direction: row;
-  margin-top: 10px;
+  margin: 20px auto;
+  width: 90%;
 }
 .subTitle {
   color: white;
-  font-size: 20px;
-  margin-left: 30px;
+  font-size: 15px;
+  margin-left: 0;
+  line-height: 15px;
   font-weight: bold;
 }
 .subNum {
   color: white;
   font-size: 10px;
-  padding-top: 20px;
+  margin: 20px 3px;
   font-weight: bold;
 }
 .subSelectBox {
   margin: auto;
-  width: 80%;
+  margin-right: 0;
 }
 .subSelect {
   width: 100px !important;
-  margin: auto 80%;
 }
 .sortBox {
   display: flex;
@@ -400,9 +399,10 @@ export default {
   height: 25px;
   width: 20%;
   line-height: 25px;
-  border-radius: 25px;
+  border-radius: 5px;
   border: 1px solid white;
   font-weight: bold;
+  font-size: 13px;
   background: rgb(100, 149, 237);
   transition: all 0.1s;
   margin: 25px 30px;
@@ -422,6 +422,7 @@ export default {
   margin-left: 20%;
 }
 .sortSelect {
+  margin: auto;
   width: 160px;
 }
 .searchMvBox {
@@ -437,7 +438,7 @@ export default {
   flex-direction: column;
 }
 .scroll {
-  margin: 0px auto;
+  margin: auto 18px;
 }
 input {
   height: 22px;
@@ -460,7 +461,7 @@ input:focus {
 .movieItem {
   background: rgba(0, 0, 0, 0.253);
   height: 120px;
-  width: 100%;
+  width: 94%;
   margin-top: 10px;
   display: flex;
   flex-direction: row;
@@ -468,13 +469,13 @@ input:focus {
 }
 .mvImg {
   height: 100%;
-  width: 35%;
+  width: 30%;
   margin-left: 0;
   border-top-left-radius: 10px;
   border-bottom-left-radius: 10px;
 }
 .mvInfoBox {
-  width: 50%;
+  width: 54%;
   display: flex;
   flex-direction: column;
 }
@@ -484,22 +485,22 @@ input:focus {
   font-size: 18px !important;
   width: 100% !important;
   text-align: center !important;
-  margin: auto auto;
+  margin: 10px 5px !important;
 }
 .mvMsg {
-  margin-top: -10px;
+  margin-top: 5px;
   margin-bottom: -10px;
   margin-left: 5px;
   font-size: 14px;
   height: 40px;
-  width: 295px;
+  width: 100%;
   color: wheat;
   text-align: center;
   word-break: break-all;
   word-wrap: break-word;
 }
 .mvTime {
-  margin-top: -10px;
+  margin-top: 20px;
   font-size: 10px;
   color: white;
 }
@@ -540,12 +541,11 @@ input:focus {
   background: white;
   position: absolute;
   margin-top: -15px;
-  right: 20px;
+  right: 55px;
   overflow: hidden;
-  height: 130px;
-  width: 180px;
+  width: 80px;
   border-radius: 8px;
-  box-shadow: 0px 2px 10px gainsboro;
+  font-size: 13px;
   display: flex;
   flex-direction: column;
 }
@@ -557,6 +557,7 @@ input:focus {
 .mvTool-enter {
   height: 0px !important;
   /*!important 将该样式优先级调至最高*/
+  opacity: 0;
 }
 .mvTool-leave,
 .mvTool-enter-active {
@@ -602,7 +603,7 @@ input:focus {
   width: 100%;
   position: absolute;
   left: 0;
-  top: 60px;
+  top: 0px;
   z-index: 300;
   display: flex;
   flex-direction: column;

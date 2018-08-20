@@ -161,6 +161,7 @@ export default {
 .personalInfoBox {
   display: flex;
   flex-direction: column;
+  margin-top: 50px;
 }
 .avatarBox {
   
@@ -176,9 +177,10 @@ export default {
   cursor: pointer;
 }
 .infoForm {
-  width: 330px;
+  width: 200px;
   height: 350px;
   margin: auto auto;
+  text-align: center;
 }
 .infoForm p {
   line-height: 20px;
@@ -191,17 +193,17 @@ export default {
 .infoForm input,
 select {
   height: 22px;
-  width: 60%;
+  width: 40%;
   border-radius: 4px;
   border: 1px solid gray;
   padding-left: 10px;
   padding-right: 10px;
   transition: all 0.2s;
-  margin: auto 0;
   background: rgba(255, 255, 255, 0.623);
 }
 .infoForm select {
-  width: 66% !important;
+  width: 45% !important;
+  margin-top: 8px;
 }
 .infoForm input:hover,
 textarea:hover,
@@ -224,7 +226,8 @@ select:focus {
 }
 .sign {
   flex-direction: column !important;
-  height: 90px !important;
+  height: 100px !important;
+  text-align: center;
 }
 .sign p {
   margin: 0 0 !important;
@@ -234,11 +237,12 @@ select:focus {
   padding: 5px 10px 5px 10px;
   resize: none;
   height: 80px;
-  width: 72%;
+  width: 53%;
   border-radius: 4px;
   border: 1px solid gray;
   transition: border 0.2s;
   background: rgba(255, 255, 255, 0.623);
+  margin-top: 10px;
 }
 .wattingBox {
   background: white;

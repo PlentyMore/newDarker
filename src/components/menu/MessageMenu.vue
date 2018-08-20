@@ -1,14 +1,14 @@
 <template>
     <div class="msgBox">
         <div class="msgInbox" @mouseover="show=true" @mouseout="show=false">
-            <menu-item-button class="msgTitle">消息<div class="unreadNum" v-if="unreadNoticeNum.total!=0"><p>{{unreadNoticeNum.total}}</p></div></menu-item-button>
+            <menu-item-button :class="['msgTitle',{'animation-run':unreadNoticeNum.total>0}]" icon-img="../../../static/img/notice.png">消息<el-badge v-if="unreadNoticeNum.total>0" :value="unreadNoticeNum.total" class="unreadNum"></el-badge></menu-item-button>
             <transition name="msgMenu">
                 <div v-if="show" class="msgMenuBox">
                     <div class="msgItemBox">
-                        <p class="msgItem" @click="jmpNotice(0)">系统通知 <span class="unReadItemNum" v-if="unreadNoticeNum.system>0">{{unreadNoticeNum.system}}</span></p>
-                        <p class="msgItem" @click="jmpNotice(1)">回复我的 <span class="unReadItemNum" v-if="unreadNoticeNum.reply>0">{{unreadNoticeNum.reply}}</span></p>
-                        <p class="msgItem" @click="jmpNotice(2)">@我的 <span class="unReadItemNum" v-if="unreadNoticeNum.at>0">{{unreadNoticeNum.at}}</span></p>
-                        <p class="msgItem" @click="jmpNotice(3)">收到的赞 <span class="unReadItemNum" v-if="unreadNoticeNum.like>0">{{unreadNoticeNum.like}}</span></p>
+                        <p class="msgItem" @click="jmpNotice(0)">系统通知 <el-badge :value="unreadNoticeNum.system" v-if="unreadNoticeNum.system>0" :style="{'margin-top':auto}"></el-badge></p>
+                        <p class="msgItem" @click="jmpNotice(1)">回复我的 <el-badge :value="unreadNoticeNum.reply" v-if="unreadNoticeNum.reply>0" :style="{'margin-top':auto}"></el-badge></p>
+                        <p class="msgItem" @click="jmpNotice(2)">@我的 <el-badge :value="unreadNoticeNum.at" v-if="unreadNoticeNum.at>0" :style="{'margin-top':auto}"></el-badge></p>
+                        <p class="msgItem" @click="jmpNotice(3)">收到的赞 <el-badge :value="unreadNoticeNum.like" v-if="unreadNoticeNum.like>0" :style="{'margin-top':auto}"></el-badge></p>
                     </div>
                 </div>
             </transition>
@@ -54,12 +54,13 @@ export default {
 }
 .msgMenu-leave-active,
 .msgMenu-enter-active {
-  transition: all 0.2s ease;
+  transition: all 0.5s ease;
 }
 .msgMenu-leave-active,
 .msgMenu-enter {
   height: 0px !important;
   /*!important将该样式优先级调至最高*/
+  opacity: 0;
 }
 .msgMenu-leave,
 .msgMenu-enter-active {
@@ -68,13 +69,12 @@ export default {
 .msgMenuBox {
   background: white;
   position: absolute;
-  right: 5.5%;
+  right: 265px;
   top: 60px;
   overflow: hidden;
   height: 160px;
-  width: 180px;
-  border-radius: 8px;
-  box-shadow: 0px 10px 20px gainsboro;
+  width: 120px;
+  border-radius: 3px;
   display: flex;
   flex-direction: column;
 }
@@ -84,6 +84,7 @@ export default {
   margin: auto;
   display: flex;
   flex-direction: column;
+  font-size: 13px;
 }
 .msgItem {
   height: 35px;
@@ -97,13 +98,9 @@ export default {
   background: rgba(100, 149, 237, 0.6);
 }
 .unreadNum{
-  background: red;
-  position: absolute;
-  height: 15px;
-  width: 15px;
-  border-radius: 15px;
+  position: absolute;;
   top:12px;
-  right: 125px;
+  right: 15.5%;
 }
 .unreadNum p{
   margin: 0 0;
@@ -114,5 +111,16 @@ export default {
 .unReadItemNum{
   color: red;
   font-size: 12px;
+  font-family: Stencil Std;
+}
+.animation-run{
+  background: rgba(255, 166, 0, 0.5);
+  
+  animation: shining 2s infinite;
+}
+@keyframes shining {
+  0% {filter: grayscale(0%);background: rgba(255, 166, 0, 0.5);box-shadow:0px 0px 15px rgba(255, 166, 0, 0.5);}
+  50% {filter: grayscale(100%);background: rgba(255, 166, 0, 0);box-shadow:0px 0px 0px rgba(255, 166, 0, 0);}
+  100% {filter: grayscale(0%);background: rgba(255, 166, 0, 0.5);box-shadow:0px 0px 15px rgba(255, 166, 0, 0.5);}
 }
 </style>

@@ -5,7 +5,7 @@
         </div>
 
         <div style="margin-top:40px;">
-            <el-button type="primary">回到首页</el-button>
+            <el-button type="primary" @click="jmpToMain">回到首页</el-button>
         </div>
     </div>
 </template>
@@ -29,6 +29,9 @@ export default {
       console.log("rd:", rd);
       this.verifyResult.code = rd.code;
       this.verifyResult.result = rd.msg;
+    },
+    jmpToMain(){
+      this.$router.push({name:'index'});
     }
   },
   created() {
