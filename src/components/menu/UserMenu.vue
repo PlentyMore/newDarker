@@ -40,9 +40,8 @@ export default {
       show: false,
       login: this.isLogin,
       avatar:
-        localStorage.getItem("face") == null
-          ? "../../../static/img/noAvatar.jpg"
-          : localStorage.getItem("face"),
+        localStorage.getItem("face")
+          ?  localStorage.getItem("face"):"../../../static/img/noAvatar.jpg",
       account: localStorage.getItem("loginUserName")
     };
   },
