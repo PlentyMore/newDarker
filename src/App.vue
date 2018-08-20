@@ -46,7 +46,7 @@ export default {
     aNum: function(newValue) {
       TweenLite.to(this.$data, 0.5, { a: newValue + "px" });
     },
-    searchText:function(newText){
+    searchText:async function(newText){
       this.searchText=newText;
       if(newText==""){
         this.searchBoxMove={
@@ -61,6 +61,18 @@ export default {
         this.searchBoxMove={
           transform: 'translate(-50%,-700%)'
         }
+        // let res = await api.getsearchBangumisIdResult(newText);
+        // let rd = res.data;
+        // console.log("searchBangumiRes:",rd);
+        // let bangumis = "";
+        // let page = "";
+        // if(rd.code === 0){
+        //   bangumis = rd.data.content;
+        //   page = rd.data.page;
+        // }
+        // else {
+        //   console.log("no bangumi search result");
+        // }
         this.$router.push({name: 'searchResult'});
       }
     }
@@ -109,7 +121,7 @@ export default {
   width: 100%;
   left: 0;
   top: 0;
-  z-index: 100;
+  z-index: 1000;
 }
 .header-enter-active,
 .header-leave-active {

@@ -12,6 +12,8 @@ import notice from '@/components/pages/notice'
 import vemail from '@/components/pages/verifyMail'
 import announce from '@/components/pages/announce'
 import test from '@/components/pages/test'
+import bangumiDetail from '@/components/pages/bangumiDetail'
+import realAnnounce from '@/components/pages/realAnnounce'
 
 Vue.use(Router)
 
@@ -87,5 +89,15 @@ export default new Router({
       name: 'test',
       component: test
     },
+    {
+      path: '/bangumi/:bid',
+      name: 'bangumiDetail',
+      component: bangumiDetail
+    },
+    {
+      path: '/rannounce/:id',
+      name: 'rannounce',
+      component: realAnnounce
+    }
   ]
 })

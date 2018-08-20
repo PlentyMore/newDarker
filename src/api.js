@@ -128,7 +128,7 @@ const reVerifyEmail = ()=> {
 
 //评论API-------------------------------
 const getRepliesByEpId = epId => {
-  return axios.get(`${baseURL}/replies`, {
+  return axios.get(`${baseURL2}/replies`, {
     params: {
       epId: epId
     }
@@ -136,7 +136,7 @@ const getRepliesByEpId = epId => {
 };
 
 const getRepliesByEpIdAndPageNum = (epId, pn) => {
-  return axios.get(`${baseURL}/replies`, {
+  return axios.get(`${baseURL2}/replies`, {
     params: {
       epId: epId,
       pn: pn
@@ -145,7 +145,7 @@ const getRepliesByEpIdAndPageNum = (epId, pn) => {
 };
 
 const getSubReplies = (prid, pn) => {
-  return axios.get(`${baseURL}/replies/son`, {
+  return axios.get(`${baseURL2}/replies/son`, {
     params: {
       prid: prid,
       pn: pn
@@ -154,15 +154,15 @@ const getSubReplies = (prid, pn) => {
 };
 
 const addReply = data => {
-  return axios.post(`${baseURL}/replies`, data);
+  return axios.post(`${baseURL2}/replies`, data);
 };
 
 const deleteReply = rid => {
-  return axios.delete(`${baseURL}/replies/${rid}`);
+  return axios.delete(`${baseURL2}/replies/${rid}`);
 };
 
 const postActiontoReply = (rid, action) => {
-  return axios.post(`${baseURL}/replies/like/${rid}/${action}`);
+  return axios.post(`${baseURL2}/replies/like/${rid}/${action}`);
 };
 //评论API-------------------------------
 
@@ -187,7 +187,7 @@ const countUnreadMsg = userId => {
 };
 
 const getSpecificReply = rid => {
-  return axios.get(`${baseURL}/replies`, {
+  return axios.get(`${baseURL2}/replies`, {
     params: {
       rid: rid
     }
@@ -237,15 +237,15 @@ const deletePostBangumi = pbId => {
 };
 
 const matchVideoSuccess = data => {
-  return axios.post(`${baseURL}/videos/matchSuccess`, data);
+  return axios.post(`${baseURL2}/videos/matchSuccess`, data);
 };
 
 const getEpisodesByBid = bid => {
-  return axios.get(`${baseURL}/episodes/bid/${bid}`);
+  return axios.get(`${baseURL2}/episodes/bid/${bid}`);
 };
 
 const getBangumiById = bid => {
-  return axios.get(`${baseURL}/bangumis/${bid}`);
+  return axios.get(`${baseURL2}/bangumis/${bid}`);
 };
 
 const getMostViewBangumis = () => {
@@ -253,7 +253,7 @@ const getMostViewBangumis = () => {
 };
 
 const searchBangumisByName = (name, pn, ps) => {
-  return axios.get(`${baseURL}/bangumis`,{
+  return axios.get(`${baseURL2}/bangumis`,{
     params: {
       bangumiName: name,
       pageNum: pn,

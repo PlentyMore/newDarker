@@ -54,7 +54,6 @@ export default {
       } else {
         return;
       }
-      let that = this;
       let postRes;
       //发送父级评论
       if (this.mode == 0) {

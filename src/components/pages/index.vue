@@ -14,8 +14,20 @@
             <div class="textBox" @mouseover="startFn" @mouseout="endFn">
                 <h1 :data-start="start" :data-startB="startB" class="text" data-text="Welcome to Darker!!">Welcome to Darker!!</h1>
             </div>
+
             <div class="sysMsgBox" @click="jmpAnnounce" style="cursor:pointer">
                 <marquee class="sysMsg">{{announceInfo.title}}</marquee>
+            <!--<div class="sysMsgBox">-->
+                  <!--<div v-if="notice && showNotice" class="notify">-->
+                    <!--<div class="content">-->
+                      <!--<i class="el-icon-bell notify-bell"></i>-->
+                      <!--<a :href="'#/rannounce/'+notice.id" class="notify-link">{{notice.title}}</a>-->
+                      <!--<i @click="closeNotice" class="el-icon-close notify-close"></i>-->
+                    <!--</div>-->
+                  <!--</div>-->
+              <!--<div v-else >-->
+                  <!--没有通知-->
+              <!--</div>-->
             </div>
             <div class="barrageBox" v-if="false">
                 <input class="barrageInput" placeholder="在这里输入弹幕" style="width:140px; padding-left:10px;padding-right:10px;">
@@ -46,7 +58,11 @@ export default {
       ],
       bgImgIndex: 0,
       hotImgNowLoc: "10px",
-      announceInfo:{},
+      announceInfo:{}
+      // notice: "",
+      // showNotice: false,
+      // lastNoticeId: "",
+      // curNoticeId: ""
     };
   },
   methods: {
@@ -94,6 +110,39 @@ export default {
         this.bgImgUrl=resData.data.bangumi;
         console.log(this.bgImgUrl);
       }
+    // async getNotice(){
+    //   let res = await api.getNotice();
+    //   let rd = res.data;
+    //   console.log(rd);
+    //   if(rd.code === 0){
+    //     this.notice = rd.data.indexNotice;
+    //     if(rd.data.indexNotice === null){
+    //       this.showNotice = false;
+    //       return
+    //     }
+    //     this.curNoticeId = rd.data.indexNotice.id;
+    //     if(this.lastNoticeId !== null){
+    //       if(this.lastNoticeId !== this.curNoticeId){
+    //         this.showNotice = true;
+    //         console.log("set showNotice true");
+    //         console.log("curNotice id: ",this.curNoticeId);
+    //         console.log("lastNoticeId: ",this.lastNoticeId);
+    //         console.log("cur equals last: ",this.lastNoticeId === this.curNoticeId);
+    //       }
+    //     }
+    //     else {
+    //       this.showNotice = true;
+    //       console.log("this.lastNoticeId not null: ",this.lastNoticeId);
+    //     }
+    //   }
+    //   else {
+    //     console.log("get notice err");
+    //   }
+    // },
+    // closeNotice(){
+    //   localStorage.setItem("lastNoticeId",this.curNoticeId);
+    //   this.showNotice = false;
+    //   console.log("close notice.");
     }
   },
   async created() {
@@ -105,8 +154,12 @@ export default {
       if (that.bgImgIndex == that.bgImgUrl.length) that.bgImgIndex = 0;
       that.hotImgNowLoc = (10 + 100 * that.bgImgIndex).toString() + "px";
     }, 5000);
-    
     await this.initAnnounce();
+    // let lt = localStorage.getItem("lastNoticeId");
+    // if(lt){
+    //   that.lastNoticeId = parseInt(lt);
+    // }
+    // that.getNotice();
   }
 };
 </script>
@@ -429,5 +482,35 @@ export default {
   margin: auto auto;
   margin-right: 0;
   width: 100px;
+/*.notify {*/
+  /*display: inline-block;*/
+/*}*/
+/*.notify .content {*/
+  /*display: inline-block;*/
+  /*border: 1px solid #f8dfaa;*/
+  /*width: 600px;*/
+  /*background-color: #fff1d3;*/
+  /*color: #e78b1f;*/
+  /*position: relative;*/
+  /*line-height: 30px;*/
+  /*text-align: left;*/
+  /*border-radius: 4px;*/
+/*}*/
+/*.notify .content a:hover {*/
+  /*cursor: pointer;*/
+/*}*/
+/*.notify-bell {*/
+  /*left: 10px;*/
+  /*top: 6px;*/
+  /*position: absolute;*/
+/*}*/
+/*.notify-close {*/
+  /*right: 10px;*/
+  /*top: 6px;*/
+  /*position: absolute;*/
+/*}*/
+/*.notify-link {*/
+  /*margin-left: 35px;*/
+  /*font-size: 14px;*/
 }
 </style>
