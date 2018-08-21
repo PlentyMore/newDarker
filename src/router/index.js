@@ -10,7 +10,6 @@ import forget from '@/components/pages/forgetPsw'
 import personal from '@/components/pages/personal'
 import notice from '@/components/pages/notice'
 import vemail from '@/components/pages/verifyMail'
-import announce from '@/components/pages/announce'
 import test from '@/components/pages/test'
 import bangumiDetail from '@/components/pages/bangumiDetail'
 import realAnnounce from '@/components/pages/realAnnounce'
@@ -24,11 +23,6 @@ export default new Router({
       path: '/',
       name: 'index',
       component: index
-    },
-    {
-      path:'/announce/:id',
-      name:'announce',
-      component: announce
     },
     {
       path: '/searchResult',

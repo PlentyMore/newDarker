@@ -1,9 +1,15 @@
 <template>
   <div class="commentChildItemBox" :id="subReply.rpid">
     <div class="commentChildItemInBox">
-      <img :src="subReply.user.avatar?subReply.user.avatar:'../../../static/img/noAvatar.jpg'" class="commentChildItemAvatar">
+      <a :href="'#/user/'+subReply.uid" target="_blank" >
+        <img :src="subReply.user.avatar?subReply.user.avatar:'../../../static/img/noAvatar.jpg'" class="commentChildItemAvatar">
+      </a>
       <div class="commentChildContentBox">
-        <p class="replyChildUsername">{{subReply.user.nick}}</p>
+        <p class="replyChildUsername">
+          <a :href="'#/user/'+subReply.uid" target="_blank" style="text-decoration: none;color: rgb(127, 162, 238);">
+            {{subReply.user.nick}}
+          </a>
+        </p>
         <p class="replyChildContent">{{subReply.content}}</p>
         <div class="commentChildControlBox">
           <p class="commentChildTime">{{getDateDiff}}</p>
@@ -149,14 +155,16 @@
     display: inline-block;
   }
   .replyChildContent {
-    color: white;
     height: auto;
     text-align: left;
-    font-size: 13px;
     margin: -10px 10px;
     width: 770px;
     word-wrap: break-word;
     word-break: break-all;
+    font-weight: 400;
+    font-size: 15px;
+    color: #c5c8c6;
+    line-height: 20px;
   }
   .commentChildControlBox {
     width: 770px;

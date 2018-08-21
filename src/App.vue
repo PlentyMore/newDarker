@@ -13,7 +13,7 @@
         <input v-model="searchText">
       </div>
     </div>
-    <router-view v-bind="routerInfo"></router-view>
+    <router-view :key="activeDate" v-bind="routerInfo"></router-view>
   </div>
 </template>
 
@@ -34,7 +34,8 @@ export default {
       searchText: "",
       searchBoxMove: {
         transform: "translate(-50%,-500%) rotate(-3deg)"
-      }
+      },
+      activeDate: ""
     };
   },
   computed: {
@@ -70,18 +71,22 @@ export default {
   methods: {
     //组件中无法使用this.$router对象，只能在App.vue将跳转函数传递给组件
     jmpIndex: function() {
+      this.activeDate = new Date().getTime();
       this.$router.push({ name: "index" });
     },
     jmpWatch: function() {
+      this.activeDate = new Date().getTime();
       this.$router.push({ name: "watch" });
     },
     jmpPersonal: function() {
+      this.activeDate = new Date().getTime();
       this.$router.push({ name: "personal" });
     },
     jmpNotice: function(pageNum) {
       console.log("App", pageNum);
       //this.$router.push({ name: "notice", params: { pageNum: pageNum } });
       console.log(window.location.host);
+      this.activeDate = new Date().getTime();
       window.location.assign('#/notice/'+pageNum);
     },
     checkLocalStorage() {

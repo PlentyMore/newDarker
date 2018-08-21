@@ -12,7 +12,7 @@
   <div class="user-p-container">
     <div class="profile-wrapper">
       <div class="u-avatar">
-        <img class="avatar-img" :src="userInfo.face?userInfo.face:'/static/akari.jpg'"/>
+        <img class="avatar-img" :src="userInfo.face?userInfo.face:'../../../static/img/noAvatar.jpg'"/>
       </div>
       <div class="u-infos">
         <div class="u-nick">

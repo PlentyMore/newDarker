@@ -96,7 +96,6 @@
 <script>
 import VueDPlayer from "dplayer";
 import "dplayer/dist/DPlayer.min.css";
-import comment from "../comment/Comment.vue";
 import api from "../../api.js";
 import SparkMD5 from "spark-md5";
 import hashMe from "../../assets/hashme.js";
@@ -105,7 +104,6 @@ import realComment from "../comment/RealComment.vue";
 export default {
   components: {
     VueDPlayer,
-    comment,
     submitMovie,
     'real-comment': realComment
   },

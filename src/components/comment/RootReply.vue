@@ -1,9 +1,15 @@
 <template>
   <div class="commentItemBox" :id="rootReply.rpid">
     <div class="commentItemInBox">
-      <img :src="rootReply.user.avatar?rootReply.user.avatar:'../../../static/img/noAvatar.jpg'" class="commentItemAvatar">
+      <a :href="'#/user/'+rootReply.uid" target="_blank">
+        <img :src="rootReply.user.avatar?rootReply.user.avatar:'../../../static/img/noAvatar.jpg'" class="commentItemAvatar">
+      </a>
       <div class="commentContentBox">
-        <p class="replyUsername">{{rootReply.user.nick}}</p>
+        <p class="replyUsername">
+          <a :href="'#/user/'+rootReply.uid" target="_blank" style="text-decoration: none;color: rgb(127, 162, 238);">
+            {{rootReply.user.nick}}
+          </a>
+        </p>
         <p class="replyContent">{{rootReply.content}}</p>
         <div class="commentControlBox">
           <p class="commentFloor">#{{rootReply.floor}}</p>
@@ -17,7 +23,7 @@
         </div>
       </div>
     </div>
-    <div v-for="(subReply,index) in rootReply.replies">
+    <div v-for="(subReply,index) in rootReply.replies" :key="subReply.rpid">
       <sub-reply :subReply="subReply"
                  :subIndex="index"
                  :oid="oid"
@@ -61,7 +67,7 @@
   import { formatDate } from "../../time.js";
   export default {
     name: "RootReply",
-    props:["rootReply","rootIndex","oid","type","refresh","rpid","subPage"],
+    props:["rootReply","rootIndex","oid","type","rpid","subPage"],
     components:{
       'post-reply': PostReply,
       'sub-reply': SubReply,
@@ -76,14 +82,6 @@
         replyInfo:"",
         placeholder:""
       };
-    },
-    watch:{
-      refresh(val){
-        //刷新消息时清空子评论的信息，相当于重置到刚刚创建的状态
-        this.noMore = false;
-        this.page = "";
-        this.showReplyBox = false;
-      }
     },
     computed: {
       getDateDiff() {
@@ -128,7 +126,12 @@
         let rd = res.data;
         console.log("view more subReplies:",rd);
         if(rd.code === 0){
-          this.rootReply.replies = rd.data.replies;
+          // this.rootReply.replies = rd.data.replies;
+          this.rootReply.replies.splice(0);
+          let i = 0;
+          for(i=0;i<rd.data.replies.length;i++){
+            this.rootReply.replies.push(rd.data.replies[i]);
+          }
           this.page = rd.data.page;
           this.noMore = true;
         }
@@ -145,11 +148,12 @@
         });
         let rd = res.data;
         if(rd.code === 0){
-          // this.rootReply.replies.splice(0);
-          // for(i=0;i<rd.replies.length;i++){
-          //   this.rootReply.replies.push(rd.replies[i]);
-          // }
-          this.rootReply.replies = rd.data.replies;
+          this.rootReply.replies.splice(0);
+          let i = 0;
+          for(i=0;i<rd.data.replies.length;i++){
+            this.rootReply.replies.push(rd.data.replies[i]);
+          }
+          // this.rootReply.replies = rd.data.replies;
           this.page = rd.data.page;
         }
         else {
