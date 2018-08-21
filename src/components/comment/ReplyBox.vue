@@ -78,6 +78,7 @@ export default {
       this.content = "";
       this.sendingFlag = false;
       this.sendBtnText = "发表评论";
+      console.log('发送评论',postRes,this.type);
     }
   }
 };
