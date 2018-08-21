@@ -25,8 +25,8 @@
         </div>
         <div class="hotImgBox">
             <div class="hotImgInBox">
-                <div class="hotImgNow" :style="{'margin-left':hotImgNowLoc,width:imgWidth}"></div>
-                <img v-for="(url,index) in bgImgUrl" :src="url.thumb" :style="[{width:imgWidth}]" class="hotImgItemBox" @mouseover="userChangeHotImgNow(index)">
+                <div class="hotImgNow" @click="jmpNowBangumi" :style="{'margin-left':hotImgNowLoc,width:imgWidth}"></div>
+                <img v-for="(url,index) in bgImgUrl" :src="url.thumb" :style="[{width:imgWidth}]" @click="jmpToBangumi(url)" class="hotImgItemBox" @mouseover="userChangeHotImgNow(index)">
             </div>
         </div>
     </div>
@@ -81,6 +81,13 @@ export default {
         if (that.bgImgIndex == that.bgImgUrl.length) that.bgImgIndex = 0;
         that.hotImgNowLoc = (that.widthNum * that.bgImgIndex).toString() + "%";
       }, 5000);
+    },
+    jmpToBangumi(item){
+      console.log(item);
+      window.location.assign('/#/bangumi/'+item.bangumiId);
+    },
+    jmpNowBangumi(){
+      window.location.assign('/#/bangumi/'+this.bgImgUrl[this.bgImgIndex].bangumiId);
     },
     jmpAnnounce() {
       this.$router.push({ name: "announce" ,params:{id:this.announceInfo.id} });

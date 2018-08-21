@@ -143,7 +143,7 @@ export default {
 .emojiBox {
   background: rgba(255, 255, 255, 0.219);
   color: black;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: bold;
   height: 20px;
   width: 60px;

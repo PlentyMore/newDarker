@@ -187,7 +187,7 @@ export default {
 .commentNum p {
   text-align: left;
   color: antiquewhite;
-  font-size: 20px;
+  font-size: 15px;
   line-height: 30px;
   height: 30px;
   width: 100%;
@@ -199,8 +199,10 @@ export default {
   flex-direction: row;
   width: 900px;
   margin: auto auto;
-  height: 50px;
+  height: 40px;
   border-bottom: 2px solid rgb(65, 163, 134);
+  font-size: 12px;
+  color: wheat;
 }
 .commentAll {
   color: antiquewhite;

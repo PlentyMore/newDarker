@@ -158,7 +158,7 @@ export default {
   position: absolute;
   opacity: 1;
   height: 80px;
-  width: 110%;
+  width: 101%;
   z-index: 300;
   display: flex;
   flex-direction: row;

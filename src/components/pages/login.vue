@@ -2,17 +2,16 @@
     <div class="loginPage">
         <div class="loginBox">
             <form action="" method="get">
+                <img src="../../../static/img/logo.png" class="loginLogo">
                 <p>登入 Darker</p>
-                <p></p>
                 <input type="text" name="fname" placeholder="昵称/邮箱" v-model="username"/>
                 <input type="password" name="lname" min="6" max="20" placeholder="请输入密码" v-model="password"/>
                 <div class="switchBox">
                     记住我
                     <darker-switch :choose.sync="choose" class="switch"></darker-switch>
-                     不在自己电脑上不要选择该选项
                 </div>
                 <a @click="login">登陆</a>
-                <a href="#/forget">忘记密码？</a>
+                <div class="pswToolBox"><a href="#/register" class="pswToolBtn">马上注册</a> | <a href="#/forget" class="pswToolBtn">忘记密码？</a></div>
             </form>
         </div>
     </div>
@@ -111,61 +110,81 @@ export default {
   margin: auto auto;
 }
 .loginPage {
+  margin:-60px 0;
   width: 100%;
-  height: 800px;
+  height: 870px;
+  background-image: url('');
+  background-size: contain;
 }
 .loginBox {
-  background: rgba(128, 128, 128, 0.596);
-  width: 400px;
-  height: 350px;
-  border-radius: 20px;
-  border: 2px solid white;
+  background: rgba(97, 97, 97, 0.596);
+  width: 350px;
+  height: 450px;
+  border-radius: 5px;
+  border: 0px solid white;
   box-shadow: 0px 0px 10px gray;
   transition: all 0.2s;
 }
 .loginBox:hover {
-  box-shadow: 5px 5px 10px gray;
-  border: 2px solid rgb(228, 225, 225);
+  box-shadow: 0px 0px 5px gray;
+  border: 0px solid rgb(228, 225, 225);
+}
+.loginBox img{
+  height: 15%;
+  width: 35%;
+  margin: 0 auto;
 }
 .loginBox p {
-  font-size: 35px;
-  font-weight: bold;
+  font-size: 25px;
+  color: wheat;
+  font-family: 华文琥珀;
 }
 .loginBox form {
-  height: 80%;
+  height: 90%;
   width: 100%;
 }
 .loginBox input {
-  height: 22px;
+  background: rgba(255, 255, 255, 0.85);
+  height: 40px;
   width: 60%;
   border-radius: 4px;
   border: 1px solid gray;
   padding-left: 10px;
   padding-right: 10px;
   transition: border 0.2s;
+  outline: none;
+  font-family: 华文琥珀;
 }
 .loginBox input:hover {
   border: 1px solid white;
 }
 .loginBox input:focus {
-  border: 1px solid rgb(100, 149, 237);
+  border: 2px solid rgb(0, 0, 0);
 }
 .switchBox {
   display: flex;
   flex-direction: row;
-  font-size: 15px;
-  width: 80%;
-  margin: auto auto;
+  font-size: 12px;
+  color: white;
+  line-height: 20px;
+  width: 67%;
+  margin: 0 auto;
+}
+.switch{
+  margin-right: 0;
 }
 .loginBox a {
-  height: 30px;
-  width: 70%;
-  line-height: 30px;
-  border-radius: 30px;
+  height: 40px;
+  width: 67%;
+  line-height: 40px;
+  border-radius: 5px;
+  color: white;
   border: 1px solid white;
-  font-weight: bold;
   background: rgb(100, 149, 237);
   transition: all 0.1s;
+  cursor: pointer;
+  /*去掉a标签下划线*/
+  text-decoration: none;
 }
 .loginBox a:hover {
   background: rgb(65, 105, 225);
@@ -173,5 +192,21 @@ export default {
 .loginBox a:active {
   background: rgb(100, 149, 237);
   border: 1px solid gray;
+}
+.pswToolBox{
+  color: white;
+  width: 70%;
+  margin: 0px auto;
+}
+.pswToolBox a{
+  background: rgba(228, 225, 225,0);
+  color: white;
+  border: 0px;
+  font-size: 12px;
+  transition: all .2s;
+}
+.pswToolBox a:hover{
+  color: black;
+  background: rgba(228, 225, 225,0);
 }
 </style>

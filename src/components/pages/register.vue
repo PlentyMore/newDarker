@@ -2,8 +2,8 @@
     <div class="registerPage">
         <div class="registerBox">
             <form action="" method="get">
+              <img src="../../../static/img/logo.png" class="registerLogo">
                 <p>加入 Darker</p>
-                <p></p>
                 <input type="text" name="nick" placeholder="请输入一个昵称" @blur='checkNick' v-model="nickname" :data-correct="correctNickname"/>
                 <p class="wrongTips" v-if="correctNickname">请输入正确的昵称</p>
                 <input type="text" name="mail" placeholder="请输入您的邮箱" @blur='checkMail' v-model="mail" :data-correct="correctMail"/>
@@ -13,6 +13,7 @@
                 <input type="password" name="psw2" min="6" max="20" placeholder="确认密码" @blur="checkPsw2" v-model="psw2" :data-correct="correctPsw2"/>
                 <p class="wrongTips" v-if="correctPsw2">两次输入密码不相同或为空，请重新输入</p>
                 <a type="submit" @click="register">注册</a>
+                <div class="pswToolBox"><a href="#/forget" class="pswToolBtn">已有账号？马上登录</a></div>
             </form>
         </div>
     </div>
@@ -137,7 +138,6 @@ export default {
 .registerBox,
 .registerBox p,
 .registerBox form,
-.registerBox input,
 .registerBox a,
 .switch {
   margin: auto auto;
@@ -147,41 +147,57 @@ export default {
   height: 800px;
 }
 .registerBox {
-  background: rgba(128, 128, 128, 0.596);
-  width: 400px;
-  height: 400px;
-  border-radius: 20px;
-  border: 2px solid white;
+  background: rgba(97, 97, 97, 0.596);
+  width: 350px;
+  height: 550px;
+  border-radius: 5px;
+  border: 0px solid white;
   box-shadow: 0px 0px 10px gray;
   transition: all 0.2s;
 }
 .registerBox:hover {
-  box-shadow: 5px 5px 10px gray;
-  border: 2px solid rgb(228, 225, 225);
+  box-shadow: 0px 0px 5px gray;
+  border: 0px solid rgb(228, 225, 225);
+}
+.registerBox img{
+  height: 13%;
+  width: 35%;
+  margin: 0 auto;
 }
 .registerBox p {
-  font-size: 35px;
-  font-weight: bold;
+  font-size: 25px;
+  color: wheat;
+  font-family: 华文琥珀;
 }
 .registerBox form {
-  height: 80%;
+  height: 90%;
   width: 100%;
 }
+.registerInputBox{
+  background: salmon;
+  margin-top: 0px;
+  height: 60%;
+}
 .registerBox input {
-  outline: none;
-  height: 22px;
-  width: 60%;
+  background: rgba(255, 255, 255, 0.85);
+  height: 40px;
+  width: 67%;
   border-radius: 4px;
   border: 1px solid gray;
-  padding-left: 10px;
   padding-right: 10px;
-  transition: border 0.2s;
+  margin: 10px auto;
+  transition: all 0.2s;
+  outline: none;
+  font-family: 华文琥珀;
 }
 .wrongTips {
   font-size: 10px !important;
   margin-top: 1px !important;
-  color: red;
+  margin-bottom: 0px !important;
+  color: red !important;
   transition: all 0.1s;
+  text-align: left;
+  width: 67%;
 }
 .registerBox input:hover {
   border: 1px solid white;
@@ -200,14 +216,18 @@ export default {
   margin: auto auto;
 }
 .registerBox a {
-  height: 30px;
-  width: 70%;
-  line-height: 30px;
-  border-radius: 30px;
+  height: 40px;
+  width: 67%;
+  line-height: 40px;
+  border-radius: 5px;
+  color: white;
   border: 1px solid white;
-  font-weight: bold;
   background: rgb(100, 149, 237);
   transition: all 0.1s;
+  cursor: pointer;
+  margin-top: 10px;
+  /*去掉a标签下划线*/
+  text-decoration: none;
 }
 .registerBox a:hover {
   background: rgb(65, 105, 225);
@@ -215,5 +235,23 @@ export default {
 .registerBox a:active {
   background: rgb(100, 149, 237);
   border: 1px solid gray;
+}
+.pswToolBox{
+  color: white;
+  width: 70%;
+  height: 20px;
+  margin: 0px auto !important;
+}
+.pswToolBox a{
+  background: rgba(228, 225, 225,0);
+  color: white;
+  border: 0px;
+  font-size: 12px;
+  line-height: 12px;
+  transition: all .2s;
+}
+.pswToolBox a:hover{
+  color: black;
+  background: rgba(228, 225, 225,0);
 }
 </style>
