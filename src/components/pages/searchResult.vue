@@ -4,20 +4,20 @@
         <div class="searchResultBgBox"><img :src="bgUrl" class='searchResultBgImg'></div>
         <div class="searchResultBox">
           <h1 style="color: #1b84ec" v-show="bangumis === ''">什么都没有找到</h1>
-            <div v-for="item in bangumis" class="searchResultItem" @mouseover="changeBgUrl(item.thumb)" :key="item.bangumiId">
+            <div v-for="(item,i) in bangumis" v-if="index>i" :class="['searchResultItem',{'run-animation2':item.bangumiId==showId[i]}]" @mouseover="changeBgUrl(item.thumb)" :key="item.bangumiId">
                 <img :src="item.thumb?item.thumb:'../../../static/img/1.jpg'" @click="goBangumiDetail(item)">
                 <div class="bangumiName" v-if="item.bangumiName.length<='ElderDriverBroken♂Man1'.length"><p>{{item.bangumiName}}</p></div>
                 <marquee v-else behavior="alternate" scrollamount="6">{{item.bangumiName}}</marquee>
                 <p class="bangumiEpInfo">集数：{{item.episodeTotal}}</p>
             </div>
-            <div v-if="bangumis" class="page-container">
+        </div>
+                    <div v-if="bangumis" class="page-container">
               <el-pagination v-show="page.totalSize>10" @size-change="handleSizeChange" @current-change="handleCurrentChange"
                              :current-page.sync="page.pageNumber"
                              :page-sizes="[10,20,30,40,50]" :page-size="page.pageSize"
                              layout="total, sizes, prev, pager, next, jumper" :total="page.totalSize">
               </el-pagination>
             </div>
-        </div>
     </div>
 </template>
 
@@ -30,7 +30,10 @@ export default {
       bangumis: "",
       page: "",
       result: [],
-      bgUrl: ""
+      bgUrl: "",
+      index:0,
+      showId:[],
+      showTimer:null
     };
   },
   methods: {
@@ -89,6 +92,9 @@ export default {
       console.log("href:", routeData.href);
       window.open(routeData.href, "_blank");
     },
+    showIndex(index){
+      return index;
+    },
     test() {
       //alert(this.$route.params.searchText);
       console.log(this.searchText);
@@ -103,11 +109,27 @@ export default {
   created() {
     console.log(this.searchText);
     this.searchBangumis(this.searchText);
+    this.showTimer=setInterval(()=>{
+      this.showId.push(this.bangumis[this.index].bangumiId);
+      this.index++;
+      if(this.index==this.bangumis.length){
+        clearInterval(this.showTimer);
+        this.showTimer=null;
+      }
+    },100);
   }
 };
 </script>
 
 <style>
+.run-animation2 {
+  animation: show .3s linear 0s 1 normal;
+}
+@keyframes show {
+  0% { margin: 0px 10px;opacity: 0;}
+  60% {  opacity: 0;}
+  100%  {  margin: 30px 10px; opacity: 1;}
+}
 .page-container {
   display: block !important;
   width: 100% !important;
@@ -115,7 +137,7 @@ export default {
   background: none !important;
 }
 .searchResultBgBox {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   height: 100%;
@@ -127,7 +149,7 @@ export default {
   background: rgba(0, 0, 0, 0.486);
   top: 0;
   left: 0;
-  position: absolute;
+  position: fixed;
   z-index: 3;
   width: 100%;
   height: 100%;
@@ -139,7 +161,7 @@ export default {
 }
 .searchResultPage {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
 }
 .searchResultBox {
   width: 1600px;
@@ -158,6 +180,7 @@ export default {
   box-shadow: 0 0 10px white;
   transition: box-shadow 0.5s;
   cursor: pointer;
+  opacity: 1;
 }
 .searchResultItem:hover {
   box-shadow: 0px 0px 20px white;
