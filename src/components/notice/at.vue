@@ -15,7 +15,7 @@
                 @nextPage="nextPage"
                 style="margin-top:0;"
                 class="scroll">
-                <div class="atMsgItem" v-for="(item,index) in atNoticeList">
+                <div class="atMsgItem" v-for="item in atNoticeList" :key="item.id">
                     <div class="atMsgInfoBox">
                         <img :src="item.publisher.face" class="atAvatar">
                         <div class="atMsgInfo">
@@ -143,7 +143,6 @@ export default {
   height: 800px;
   display: flex;
   flex-direction: column;
-  background: rgba(163, 163, 163, 0.3);
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 3px;
 }

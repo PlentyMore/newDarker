@@ -1,6 +1,6 @@
 <template>
     <div class="msgBox">
-        <div class="msgInbox" @mouseover="show=true" @mouseout="show=false">
+        <div class="msgInbox" @mousemove="show=true" @mouseover="show=true" @mouseout="show=false">
             <menu-item-button :class="['msgTitle',{'animation-run':unreadNoticeNum.total>0}]" icon-img="../../../static/img/notice.png">消息<el-badge v-if="unreadNoticeNum.total>0" :value="unreadNoticeNum.total" class="unreadNum"></el-badge></menu-item-button>
             <transition name="msgMenu">
                 <div v-if="show" class="msgMenuBox">

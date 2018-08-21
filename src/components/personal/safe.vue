@@ -330,7 +330,7 @@ export default {
   height: 200px;
   border-radius: 5px;
   left: 46%;
-  top: 40%;
+  top: 300px;
   background: #252e53;
 }
 .safeTitle {
@@ -459,7 +459,7 @@ export default {
   height: 200px;
   border-radius: 5px;
   left: 46%;
-  top: 40%;
+  top: 300px;
   background: #252e53;
 }
 .setBox1 input {

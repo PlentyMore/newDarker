@@ -37,7 +37,7 @@
               <div class="chooseMvBox" @click.stop v-if="videoListShow">
                 <p class="choosMvTitle">确认番剧</p>
                 <select class="chooseMv" v-model="mvIndex">
-                  <option v-for="(item,index) in videoList" :value="index">{{item.bangumiName}} - 第{{item.episodeIndex}}集</option>
+                  <option v-for="(item,index) in videoList" :value="index" :key="item.bangumiId">{{item.bangumiName}} - 第{{item.episodeIndex}}集</option>
                 </select>
                 <div class="chooseMvBtnBox">
                   <div class="confrimMvBtn" @click="chooseMv">确定</div>
@@ -53,7 +53,7 @@
                       <input placeholder="请输入番剧关键词" v-model="searchMvKey">
                       <div class="searchMvResultBox" v-if="searchMvKey!=''&&searchMvBoxShow">
                         <div class="searchMvResultInBox" v-if="!searchWaitingShow">
-                          <p v-for="(item,index) in searchMvResult" @click="chooseResult(index)">{{item.bangumiName}}</p>
+                          <p v-for="(item,index) in searchMvResult" @click="chooseResult(index)" :key="item.bangumiId">{{item.bangumiName}}</p>
                         </div>
                         <div class="searchMvResultInBox" v-if="searchWaitingShow">
                           <p>搜索中...</p>
@@ -65,7 +65,7 @@
                     </div>
                     <select v-model="searchResultEpisodeNum">
                       <option value="0">请选择集数</option>
-                      <option v-for="n in searchResultChoose.episodeTotal" :value="n">{{n}}</option>
+                      <option v-for="n in searchResultChoose.episodeTotal" :value="n" :key="n">{{n}}</option>
                     </select>
                   </div>
                   <div class="matchBtnBox">
@@ -83,13 +83,12 @@
           </el-upload>
         </div>
         <div class="commentList" v-if="hasInfo" id="comment">
-          <comment
-            :video-info="videoInfo"
-            :specific-rpid="specificRpid"
+          <real-comment
+            :oid="videoInfo?videoInfo.episodeId:''"
             :type=1
-            @goAnchor="goAnchor"
-            @cantGoAnchor="cantGoAnchor"
-            @nextPageGoAnchor="nextPageGoAnchor"></comment>
+            :rpid="specificRpid"
+          >
+          </real-comment>
         </div>
     </div>
 </template>
@@ -97,16 +96,16 @@
 <script>
 import VueDPlayer from "dplayer";
 import "dplayer/dist/DPlayer.min.css";
-import comment from "../comment/Comment.vue";
 import api from "../../api.js";
 import SparkMD5 from "spark-md5";
 import hashMe from "../../assets/hashme.js";
 import submitMovie from "../submitMovie/submitMovie.vue";
+import realComment from "../comment/RealComment.vue";
 export default {
   components: {
     VueDPlayer,
-    comment,
-    submitMovie
+    submitMovie,
+    'real-comment': realComment
   },
   data() {
     return {
@@ -171,7 +170,7 @@ export default {
       this.searchWaitingShow = false;
       console.log("搜索结果", resData);
       if (
-        resData.status == 200 &&
+        resData.data.code == 0 &&
         typeof resData.data.data.content !== "undefined"
       ) {
         if (this.searchMvKey != key) return; //防止在未搜索出结果的情况下，更改了关键词，导致搜索结果记录错误
@@ -501,7 +500,6 @@ export default {
     if (epid) {
       console.log("video epid", epid);
       await this.initEpisodeInfo(epid);
-      if (this.specificRpid) this.loading = true;
     }
   }
 };
@@ -555,7 +553,7 @@ export default {
   width: 500px;
   background: rgba(105, 105, 105, 0.8);
   position: absolute;
-  top: 25%;
+  top: 150px;
   left: 200px;
   z-index: 800;
   display: flex;
@@ -795,7 +793,7 @@ export default {
   width: 400px;
   border-radius: 10px;
   border: 1px solid rgba(89, 147, 255, 0.692);
-  top: 25%;
+  top: 150px;
   left: 250px;
 }
 .choosMvTitle {
@@ -865,7 +863,7 @@ export default {
   display: flex;
   flex-direction: column;
   border-radius: 5px;
-  top: 40%;
+  top: 200px;
   left: 50%;
   transform: translate(-50%, 20%);
 }

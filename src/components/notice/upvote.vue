@@ -15,7 +15,7 @@
                 @nextPage="nextPage"
                 style="margin-top:0;"
                 class="scroll">
-                <div class="upvoteItem" v-for="item in upvoteNoticeList">
+                <div class="upvoteItem" v-for="item in upvoteNoticeList" :key="item.id">
                     <div class="upvoteInfo">
                         <div class="upvoteLogoBox">
                             <img src="../../../static/img/upvote.png" class="upvoteLogo">
@@ -124,7 +124,6 @@ export default {
   height: 800px;
   display: flex;
   flex-direction: column;
-  background: rgba(163, 163, 163, 0.3);
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 3px;
 }

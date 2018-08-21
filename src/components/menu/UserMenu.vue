@@ -1,11 +1,11 @@
 <template>
-    <div @mouseover="show = true" @mouseout="show = false" class="userMenuBox">
+    <div @mouseover="show=true" @mousemove="show = true" @mouseout="show = false" class="userMenuBox">
         <img :src="avatar" class="avatar">
         <transition name="menu" v-if="!login">
             <div v-if="show" class="withoutLogin">
                 <div class="afterLoginYouCan">
                     <p @click="logout">登陆后你可以</p>
-                    <img width="100%" height="80%" src="../../../static/img/afterLoginYouCan.jpg">
+                    <img width="100%" height="90%" src="../../../static/img/afterLoginYouCan.jpg">
                 </div>
                 <a href="#/login/" style="text-decoration:none"><div class="login">登入</div></a>
                 <!--后期加入注册url-->
@@ -108,7 +108,7 @@ export default {
   top: 60px;
   right: 20px;
   overflow: hidden;
-  height: 250px;
+  height: 350px;
   width: 350px;
   border-radius: 3px;
   display: flex;
@@ -133,7 +133,7 @@ export default {
   background: rgb(100, 149, 237);
   height: 40px;
   width: 92%;
-  margin: -10px auto;
+  margin: 5px auto;
   line-height: 40px;
   font-size: 15px;
   border-radius: 5px;
@@ -148,7 +148,7 @@ export default {
   background: rgb(100, 149, 237);
 }
 .register {
-  margin-top: 15px;
+  margin-top: 5px;
   font-size: 10px;
 }
 .withLogin {

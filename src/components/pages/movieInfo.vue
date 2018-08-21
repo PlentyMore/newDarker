@@ -8,7 +8,7 @@
             </div>
         </div>
         <div class="episodeBox">
-            <div class="episodeNumBox" v-for="n in episode" >
+            <div class="episodeNumBox" v-for="n in episode" :key="n">
                 <p class="episodeNum">{{n}}</p>
             </div>
         </div>

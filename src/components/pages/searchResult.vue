@@ -4,7 +4,7 @@
         <div class="searchResultBgBox"><img :src="bgUrl" class='searchResultBgImg'></div>
         <div class="searchResultBox">
           <h1 style="color: #1b84ec" v-show="bangumis === ''">什么都没有找到</h1>
-            <div v-for="(item,index) in bangumis" class="searchResultItem" @mouseover="changeBgUrl(item.thumb)">
+            <div v-for="item in bangumis" class="searchResultItem" @mouseover="changeBgUrl(item.thumb)" :key="item.bangumiId">
                 <img :src="item.thumb?item.thumb:'../../../static/img/1.jpg'" @click="goBangumiDetail(item)">
                 <div class="bangumiName" v-if="item.bangumiName.length<='ElderDriverBroken♂Man1'.length"><p>{{item.bangumiName}}</p></div>
                 <marquee v-else behavior="alternate" scrollamount="6">{{item.bangumiName}}</marquee>

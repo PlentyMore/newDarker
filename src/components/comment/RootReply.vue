@@ -1,9 +1,15 @@
 <template>
   <div class="commentItemBox" :id="rootReply.rpid">
     <div class="commentItemInBox">
-      <img :src="rootReply.user.avatar?rootReply.user.avatar:'../../../static/img/noAvatar.jpg'" class="commentItemAvatar">
+      <a :href="'#/user/'+rootReply.uid" target="_blank">
+        <img :src="rootReply.user.avatar?rootReply.user.avatar:'../../../static/img/noAvatar.jpg'" class="commentItemAvatar">
+      </a>
       <div class="commentContentBox">
-        <p class="replyUsername">{{rootReply.user.nick}}</p>
+        <p class="replyUsername">
+          <a :href="'#/user/'+rootReply.uid" target="_blank" style="text-decoration: none;color: rgb(127, 162, 238);">
+            {{rootReply.user.nick}}
+          </a>
+        </p>
         <p class="replyContent">{{rootReply.content}}</p>
         <div class="commentControlBox">
           <p class="commentFloor">#{{rootReply.floor}}</p>
@@ -17,7 +23,7 @@
         </div>
       </div>
     </div>
-    <div v-for="(subReply,index) in rootReply.replies">
+    <div v-for="(subReply,index) in rootReply.replies" :key="subReply.rpid">
       <sub-reply :subReply="subReply"
                  :subIndex="index"
                  :oid="oid"
@@ -61,7 +67,7 @@
   import { formatDate } from "../../time.js";
   export default {
     name: "RootReply",
-    props:["rootReply","rootIndex","oid","type","refresh","rpid","subPage"],
+    props:["rootReply","rootIndex","oid","type","rpid","subPage"],
     components:{
       'post-reply': PostReply,
       'sub-reply': SubReply,
@@ -76,14 +82,6 @@
         replyInfo:"",
         placeholder:""
       };
-    },
-    watch:{
-      refresh(val){
-        //刷新消息时清空子评论的信息，相当于重置到刚刚创建的状态
-        this.noMore = false;
-        this.page = "";
-        this.showReplyBox = false;
-      }
     },
     computed: {
       getDateDiff() {
@@ -128,7 +126,12 @@
         let rd = res.data;
         console.log("view more subReplies:",rd);
         if(rd.code === 0){
-          this.rootReply.replies = rd.data.replies;
+          // this.rootReply.replies = rd.data.replies;
+          this.rootReply.replies.splice(0);
+          let i = 0;
+          for(i=0;i<rd.data.replies.length;i++){
+            this.rootReply.replies.push(rd.data.replies[i]);
+          }
           this.page = rd.data.page;
           this.noMore = true;
         }
@@ -145,11 +148,12 @@
         });
         let rd = res.data;
         if(rd.code === 0){
-          // this.rootReply.replies.splice(0);
-          // for(i=0;i<rd.replies.length;i++){
-          //   this.rootReply.replies.push(rd.replies[i]);
-          // }
-          this.rootReply.replies = rd.data.replies;
+          this.rootReply.replies.splice(0);
+          let i = 0;
+          for(i=0;i<rd.data.replies.length;i++){
+            this.rootReply.replies.push(rd.data.replies[i]);
+          }
+          // this.rootReply.replies = rd.data.replies;
           this.page = rd.data.page;
         }
         else {
@@ -236,110 +240,111 @@
 
 </style>
 <style>
-  .commentItemBox {
-    display: flex;
-    flex-direction: column;
-    width: 900px;
-    margin: 10px auto;
-    border-bottom: 1px solid gray;
-  }
-  .commentItemInBox {
-    display: flex;
-    flex-direction: row;
-  }
-  .commentItemAvatar {
-    height: 50px;
-    width: 50px;
-    border-radius: 50px;
-    margin: auto auto;
-    cursor: pointer;
-  }
-  .commentContentBox {
-    margin: auto auto;
-  }
-  .commentControlBox {
-    display: flex;
-    flex-direction: row;
-  }
-  .replyUsername {
-    text-align: left;
-    margin-left: -760px;
-    font-weight: bold;
-    color: rgb(127, 162, 238);
-    cursor: pointer;
-    /*内容自适应宽度*/
-    display: inline-block;
-  }
-  .replyContent {
-    color: white;
-    height: auto;
-    text-align: left;
-    margin: -10px 10px;
-    width: 820px;
-    word-wrap: break-word;
-    word-break: break-all;
-  }
-  .commentControlBox {
-    width: 820px;
-    height: 20px;
-    margin: 12px 10px;
-  }
-  .commentFloor {
-    font-size: 12px;
-    margin: auto 0;
-    color: gray;
-  }
-  .commentTime {
-    font-size: 12px;
-    margin: auto 10px;
-    color: gray;
-  }
-  .commentUpvote {
-    display: flex;
-    flex-direction: row;
-    margin: auto 5px;
-    cursor: pointer;
-  }
-  .commentUpvote img {
-    width: 20px;
-    height: 20px;
-    margin: auto auto;
-  }
-  .commentUpvote p {
-    font-size: 12px;
-    margin: auto auto;
-    color: gray;
-  }
-  .commentReplyBtn {
-    margin: auto 10px;
-    color: rgb(24, 109, 189);
-  }
-  .commentDeleteBtn {
-    margin: auto auto;
-    margin-right: 0;
-    color: rgb(156, 4, 4);
-  }
-  .commentDeleteBtn,
-  .commentReplyBtn {
-    font-size: 13px;
-    cursor: pointer;
-    font-weight: bold;
-  }
-  .commentReplyBox {
-    margin: auto auto;
-    margin-bottom: 10px;
-  }
-  .seeMore {
-    color: rgb(127, 162, 238);
-    font-size: 13px;
-    font-weight: bold;
-    margin-bottom: 10px;
-    text-align: left;
-    margin-left: 50px;
-  }
-  .childRepliesPageBox {
-    display: flex;
-    flex-direction: row;
-    background: salmon;
-  }
+.commentItemBox {
+  display: flex;
+  flex-direction: column;
+  width: 900px;
+  margin: 10px auto;
+  border-bottom: 1px solid gray;
+}
+.commentItemInBox {
+  display: flex;
+  flex-direction: row;
+}
+.commentItemAvatar {
+  height: 50px;
+  width: 50px;
+  border-radius: 50px;
+  margin: 12px auto;
+  cursor: pointer;
+}
+.commentContentBox {
+  margin: auto auto;
+  text-align: left;
+}
+.commentControlBox {
+  display: flex;
+  flex-direction: row;
+}
+.replyUsername {
+  text-align: left;
+  margin-left: 10px;
+  font-weight: bold;
+  color: rgb(127, 162, 238);
+  cursor: pointer;
+  /*内容自适应宽度*/
+  display: inline-block;
+}
+.replyContent {
+  color: white;
+  height: auto;
+  text-align: left;
+  margin: -10px 10px;
+  width: 820px;
+  word-wrap: break-word;
+  word-break: break-all;
+}
+.commentControlBox {
+  width: 820px;
+  height: 20px;
+  margin: 12px 10px;
+}
+.commentFloor {
+  font-size: 12px;
+  margin: auto 0;
+  color: gray;
+}
+.commentTime {
+  font-size: 12px;
+  margin: auto 10px;
+  color: gray;
+}
+.commentUpvote {
+  display: flex;
+  flex-direction: row;
+  margin: auto 5px;
+  cursor: pointer;
+}
+.commentUpvote img {
+  width: 20px;
+  height: 20px;
+  margin: auto auto;
+}
+.commentUpvote p {
+  font-size: 12px;
+  margin: auto auto;
+  color: gray;
+}
+.commentReplyBtn {
+  margin: auto 10px;
+  color: rgb(24, 109, 189);
+}
+.commentDeleteBtn {
+  margin: auto auto;
+  margin-right: 0;
+  color: rgb(156, 4, 4);
+}
+.commentDeleteBtn,
+.commentReplyBtn {
+  font-size: 13px;
+  cursor: pointer;
+  font-weight: bold;
+}
+.commentReplyBox {
+  margin: auto auto;
+  margin-bottom: 10px;
+}
+.seeMore {
+  color: rgb(127, 162, 238);
+  font-size: 13px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  text-align: left;
+  margin-left: 50px;
+}
+.childRepliesPageBox {
+  display: flex;
+  flex-direction: row;
+  background: salmon;
+}
 </style>

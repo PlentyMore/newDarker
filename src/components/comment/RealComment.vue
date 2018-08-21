@@ -18,13 +18,12 @@
       </post-reply>
     </div>
     <div v-if="hotReplies.length!==0">
-      <div v-for="(rootReply,index) in hotReplies" style="color:red;">
+      <div v-for="(rootReply,index) in hotReplies" style="color:red;" :key="rootReply.rpid">
         <root-reply
           :oid="oid"
           :type="type"
           :rootReply="rootReply"
           :rootIndex="index"
-          :refresh="refreshVal"
           :subPage="subPage"
           @onRemoveRootReply="removeRootReply"
         ></root-reply>
@@ -36,13 +35,12 @@
       <p style="color:white">------------------</p>
     </div>
     <div>
-      <div v-for="(rootReply,index) in rootReplies" style="color:red;">
+      <div v-for="(rootReply,index) in rootReplies" style="color:red;" :key="rootReply.rpid">
         <root-reply
           :rootReply="rootReply"
           :rootIndex="index"
           :oid="oid"
           :type="type"
-          :refresh="refreshVal"
           :subPage="subPage"
           @onRemoveRootReply="removeRootReply"
           @onUpdateRootReply="updateRootReply"
@@ -85,7 +83,6 @@
           "请自觉遵守互联网相关的政策法规，严禁发布色情、暴力、反动的言论。",
         rootReplies:[],
         page:"",
-        refreshVal: 0,
         subPage: ""
       };
     },

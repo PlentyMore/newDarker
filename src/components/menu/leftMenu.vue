@@ -1,7 +1,7 @@
 <template>
     <div class="leftMenuBox">
         <div class="menuTitle">{{menuTitle}}</div>
-        <div v-for="(item,i) in btnTitle">
+        <div v-for="(item,i) in btnTitle" :key="i">
             <p @click="index=i" style="font-size:13px" :style="index==i?'background: rgba(255, 254, 254, 0.651)':''">{{item}}</p>
         </div>
     </div>
@@ -13,7 +13,8 @@ export default {
   props: ["menuTitle", "btnTitle", "pageIndex"],
   data() {
     return {
-      index: this.pageIndex
+      index: this.pageIndex,
+      key:'leftMenu'
     };
   },
   watch: {

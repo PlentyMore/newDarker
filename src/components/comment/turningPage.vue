@@ -6,8 +6,8 @@
             <div class="pageNumBox">
               <p @click="choosePage(1)">1</p>
               <p v-if="index-middleNum>1">...</p>
-              <p v-for="n in index" v-if="n>index-middleNum&&n>1&&n<maxPageNum" @click="choosePage(n)">{{n}}</p>
-              <p v-for="n in (index+middleNum)" v-if="n>index&&n<maxPageNum" @click="choosePage(n)">{{n}}</p>
+              <p v-for="n in index" v-if="n>index-middleNum&&n>1&&n<maxPageNum" @click="choosePage(n)" :key="n">{{n}}</p>
+              <p v-for="n in (index+middleNum)" v-if="n>index&&n<maxPageNum" @click="choosePage(n)" :key="n">{{n}}</p>
               <p v-if="index+middleNum<maxPageNum-1">...</p>
               <p @click="choosePage(maxPageNum)">{{maxPageNum}}</p>
             </div>

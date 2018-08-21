@@ -1,9 +1,15 @@
 <template>
   <div class="commentChildItemBox" :id="subReply.rpid">
     <div class="commentChildItemInBox">
-      <img :src="subReply.user.avatar?subReply.user.avatar:'../../../static/img/noAvatar.jpg'" class="commentChildItemAvatar">
+      <a :href="'#/user/'+subReply.uid" target="_blank" >
+        <img :src="subReply.user.avatar?subReply.user.avatar:'../../../static/img/noAvatar.jpg'" class="commentChildItemAvatar">
+      </a>
       <div class="commentChildContentBox">
-        <p class="replyChildUsername">{{subReply.user.nick}}</p>
+        <p class="replyChildUsername">
+          <a :href="'#/user/'+subReply.uid" target="_blank" style="text-decoration: none;color: rgb(127, 162, 238);">
+            {{subReply.user.nick}}
+          </a>
+        </p>
         <p class="replyChildContent">{{subReply.content}}</p>
         <div class="commentChildControlBox">
           <p class="commentChildTime">{{getDateDiff}}</p>
@@ -113,94 +119,95 @@
 
 </style>
 <style>
-  .commentChildItemBox {
-    display: flex;
-    flex-direction: column;
-    width: 850px;
-    margin: 0px auto;
-    margin-right: 0;
-  }
-  .commentChildItemInBox {
-    display: flex;
-    flex-direction: row;
-  }
-  .commentChildItemAvatar {
-    height: 30px;
-    width: 30px;
-    border-radius: 50px;
-    margin: auto auto;
-    cursor: pointer;
-  }
-  .commentChildContentBox {
-    margin: auto auto;
-  }
-  .commentChildControlBox {
-    display: flex;
-    flex-direction: row;
-  }
-  .replyChildUsername {
-    text-align: left;
-    margin-left: -720px;
-    font-weight: bold;
-    font-size: 13px;
-    color: rgb(127, 162, 238);
-    cursor: pointer;
-    /*内容自适应宽度*/
-    display: inline-block;
-  }
-  .replyChildContent {
-    color: white;
-    height: auto;
-    text-align: left;
-    font-size: 13px;
-    margin: -10px 10px;
-    width: 770px;
-    word-wrap: break-word;
-    word-break: break-all;
-  }
-  .commentChildControlBox {
-    width: 770px;
-    height: 20px;
-    margin: 12px 10px;
-  }
-  .commentChildTime {
-    font-size: 10px;
-    margin: auto 0px;
-    color: gray;
-  }
-  .commentChildUpvote {
-    display: flex;
-    flex-direction: row;
-    margin: auto 5px;
-    cursor: pointer;
-  }
-  .commentChildUpvote img {
-    width: 15px;
-    height: 15px;
-    margin: auto auto;
-  }
-  .commentChildUpvote p {
-    font-size: 10px;
-    margin: auto auto;
-    color: gray;
-  }
-  .commentChildReplyBtn {
-    margin: auto 10px;
-    color: rgb(24, 109, 189);
-  }
-  .commentChildDeleteBtn {
-    margin: auto auto;
-    margin-right: 0;
-    color: rgb(156, 4, 4);
-  }
-  .commentChildDeleteBtn,
-  .commentChildReplyBtn {
-    font-size: 11px;
-    cursor: pointer;
-    font-weight: bold;
-  }
-  .commentChildReplyBox {
-    margin: auto auto;
-    margin-bottom: 10px;
-  }
+.commentChildItemBox {
+  display: flex;
+  flex-direction: column;
+  width: 850px;
+  margin: 0px auto;
+  margin-right: 0;
+}
+.commentChildItemInBox {
+  display: flex;
+  flex-direction: row;
+}
+.commentChildItemAvatar {
+  height: 30px;
+  width: 30px;
+  border-radius: 50px;
+  margin: 13px auto;
+  cursor: pointer;
+}
+.commentChildContentBox {
+  text-align: left;
+  margin: auto 5px;
+}
+.commentChildControlBox {
+  display: flex;
+  flex-direction: row;
+}
+.replyChildUsername {
+  text-align: left;
+  font-weight: bold;
+  font-size: 13px;
+  margin-left: 10px;
+  color: rgb(127, 162, 238);
+  cursor: pointer;
+  /*内容自适应宽度*/
+  display: inline-block;
+}
+.replyChildContent {
+  color: white;
+  height: auto;
+  text-align: left;
+  font-size: 13px;
+  margin: -10px 10px;
+  width: 770px;
+  word-wrap: break-word;
+  word-break: break-all;
+}
+.commentChildControlBox {
+  width: 770px;
+  height: 20px;
+  margin: 12px 10px;
+}
+.commentChildTime {
+  font-size: 10px;
+  margin: auto 0px;
+  color: gray;
+}
+.commentChildUpvote {
+  display: flex;
+  flex-direction: row;
+  margin: auto 5px;
+  cursor: pointer;
+}
+.commentChildUpvote img {
+  width: 15px;
+  height: 15px;
+  margin: auto auto;
+}
+.commentChildUpvote p {
+  font-size: 10px;
+  margin: auto auto;
+  color: gray;
+}
+.commentChildReplyBtn {
+  margin: auto 10px;
+  color: rgb(24, 109, 189);
+}
+.commentChildDeleteBtn {
+  margin: auto auto;
+  margin-right: 0;
+  color: rgb(156, 4, 4);
+}
+.commentChildDeleteBtn,
+.commentChildReplyBtn {
+  font-size: 11px;
+  cursor: pointer;
+  font-weight: bold;
+}
+.commentChildReplyBox {
+  margin: auto auto;
+  margin-bottom: 10px;
+}
 </style>

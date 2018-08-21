@@ -98,7 +98,7 @@ export default {
         type: this.type,
         sort: this.sort
       });
-      if (repliesData.status === 200) {
+      if (repliesData.data.code === 0) {
         this.commentList = repliesData.data.data.replies;
         this.commentPageInfo = repliesData.data.data.page;
         this.hotComment = [];
@@ -113,7 +113,7 @@ export default {
         type: this.type,
         sort: this.sort
       });
-      if (repliesData.status === 200) {
+      if (repliesData.data.code === 200) {
         this.commentList = repliesData.data.data.replies;
       }
     },
@@ -125,7 +125,7 @@ export default {
         sort: this.sort
       });
       console.log("评论数据", repliesData);
-      if (repliesData.status === 200) {
+      if (repliesData.data.code === 0) {
         this.commentList = repliesData.data.data.replies;
         this.commentPageInfo = repliesData.data.data.page;
         if (this.hotComment === null)

@@ -49,7 +49,7 @@
                 :scroll-width=850
                 @nextPage="nextPage"
                 class="scroll">
-                <div v-for="(item,index) in postBangumiList" class="movieItem">
+                <div v-for="(item,index) in postBangumiList" class="movieItem" :key="item.id">
                     <img :src="item.thumb" class="mvImg">
                     <div class="mvInfoBox">
                         <p class="mvTitle">{{item.bn}} | 共{{item.et}}集</p>
@@ -407,6 +407,7 @@ export default {
   transition: all 0.1s;
   margin: 25px 30px;
   cursor: pointer;
+  color: white;
 }
 .sortTitle:hover {
   background: rgb(65, 105, 225);

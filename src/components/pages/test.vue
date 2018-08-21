@@ -16,7 +16,7 @@
       </div>
       <input @change="fileChange($event)" type="file" id="upload_file" multiple style="display: none"/>
       <div class="upload_warp_img" v-show="imgList.length!=0">
-        <div class="upload_warp_img_div" v-for="(item,index) of imgList">
+        <div class="upload_warp_img_div" v-for="(item,index) of imgList" :key="index">
           <div class="upload_warp_img_div_top">
             <div class="upload_warp_img_div_text">
               {{item.file.name}}

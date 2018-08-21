@@ -19,26 +19,40 @@
     <div class="bangumi-bottom">
       <div class="bottom-inner">
         <div class="bangumi-episodes">
-          <a target="_blank" :href="'#/video/'+e.epId" class="episode-link" v-for="e in episodes">
+          <a target="_blank" :href="'#/video/'+e.epId" class="episode-link" v-for="e in episodes" :key="e.epId">
             {{e.epIndex}}
           </a>
         </div>
       </div>
     </div>
+    <div class="comment-container">
+      <real-comment
+        :oid="bid"
+        :type=3
+        :rpid="rpid"
+      >
+      </real-comment>
+    </div>
   </div>
 </template>
 
 <script>
-  import api from "../../api"
+  import api from "../../api";
+  import realComment from "../comment/RealComment.vue";
   export default {
     name: "bangumiDetail",
     data(){
       return {
         episodes:"",
         page: "",
+        bid: "",
+        rpid: "",
         bangumi: "",
         blurImageStyle:""
       }
+    },
+    components:{
+      'real-comment':realComment
     },
     methods:{
       async initEpisodes(bid){
@@ -74,14 +88,19 @@
       console.log("bangumiDetail created!");
       let bid = this.$route.params.bid;
       let bangumi = this.$route.params.bangumi;
+      let rpid = this.$route.query.rpid;
       console.log("bid:",bid);
       console.log("bangumi:",bangumi);
       if(bid){
+        this.bid = bid;
         this.initBangumi(bid);
         this.initEpisodes(bid);
       }
       else{
         console.log("no bid");
+      }
+      if(rpid){
+        this.rpid = rpid;
       }
     }
   }
@@ -112,7 +131,7 @@
     width: 110%;
     min-width: 1120px;
     height: 480px;
-    top: 50%;
+    top: 400px;
     left: 50%;
     margin: -260px -55%;
     z-index: 10;
@@ -173,5 +192,11 @@
     background: #352c2c;
     border-radius: 8%;
     text-align: center;
+  }
+  .comment-container{
+    z-index: 100;
+    position: absolute;
+    top:600px;
+    left: 25%;
   }
 </style>

@@ -26,7 +26,7 @@
         <div class="hotImgBox">
             <div class="hotImgInBox">
                 <div class="hotImgNow" @click="jmpNowBangumi" :style="{'margin-left':hotImgNowLoc,width:imgWidth}"></div>
-                <img v-for="(url,index) in bgImgUrl" :src="url.thumb" :style="[{width:imgWidth}]" @click="jmpToBangumi(url)" class="hotImgItemBox" @mouseover="userChangeHotImgNow(index)">
+                <img v-for="(url,index) in bgImgUrl" :src="url.thumb" :style="[{width:imgWidth}]" @click="jmpToBangumi(url)" class="hotImgItemBox" @mouseover="userChangeHotImgNow(index)" :key="url.bangumiId">
             </div>
         </div>
     </div>

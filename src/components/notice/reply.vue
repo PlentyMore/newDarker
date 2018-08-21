@@ -15,7 +15,7 @@
                 @nextPage="nextPage"
                 style="margin-top:0;"
                 class="scroll">
-                <div class="replyMsgItem" v-for="(item,index) in replyNoticeList">
+                <div class="replyMsgItem" v-for="item in replyNoticeList" :key="item.id">
                     <div class="replyMsgInfoBox">
                         <img :src="item.publisher.face" class="replyAvatar">
                         <div class="replyMsgInfo">
@@ -145,7 +145,6 @@ export default {
   height: 800px;
   display: flex;
   flex-direction: column;
-  background: rgba(163, 163, 163, 0.3);
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 3px;
 }

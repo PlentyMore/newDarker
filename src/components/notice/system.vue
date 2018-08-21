@@ -15,7 +15,7 @@
                 @nextPage="nextPage"
                 style="margin-top:0;"
                 class="scroll">
-                <div class="systemMsgItem" v-for="item in systemNoticeList">
+                <div class="systemMsgItem" v-for="item in systemNoticeList" :key="item.id">
                     <div class="systemInfo">
                         <p class='systemTitle'>{{item.title}}</p>
                         <p class='systemTime'>{{new Date(item.createTime).toLocaleString()}}</p>
@@ -110,7 +110,6 @@ export default {
   height: 800px;
   display: flex;
   flex-direction: column;
-  background: rgba(163, 163, 163, 0.3);
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 3px;
 }

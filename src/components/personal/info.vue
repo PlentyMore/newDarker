@@ -177,7 +177,7 @@ export default {
   cursor: pointer;
 }
 .infoForm {
-  width: 200px;
+  width: 95%;
   height: 350px;
   margin: auto auto;
   text-align: center;
@@ -192,18 +192,21 @@ export default {
 }
 .infoForm input,
 select {
-  height: 22px;
+  height: 30px;
   width: 40%;
   border-radius: 4px;
   border: 1px solid gray;
   padding-left: 10px;
   padding-right: 10px;
   transition: all 0.2s;
-  background: rgba(255, 255, 255, 0.623);
+  background: rgba(255, 255, 255, 0);
+  color: rgb(177, 175, 172);
 }
 .infoForm select {
   width: 45% !important;
   margin-top: 8px;
+  background: rgba(255, 255, 255, 0);
+  height: 30px;
 }
 .infoForm input:hover,
 textarea:hover,
@@ -228,6 +231,7 @@ select:focus {
   flex-direction: column !important;
   height: 100px !important;
   text-align: center;
+  width: 100%;
 }
 .sign p {
   margin: 0 0 !important;
@@ -237,11 +241,12 @@ select:focus {
   padding: 5px 10px 5px 10px;
   resize: none;
   height: 80px;
-  width: 53%;
+  width: 200%;
   border-radius: 4px;
   border: 1px solid gray;
   transition: border 0.2s;
-  background: rgba(255, 255, 255, 0.623);
+  background: rgba(255, 255, 255, 0);
+  color: rgb(177, 175, 172);;
   margin-top: 10px;
 }
 .wattingBox {
@@ -264,9 +269,9 @@ select:focus {
   font-weight: bold;
 }
 .submitUserInfoBtn {
-  margin: 50px auto;
+  margin: 10px 30px;
   background: rgb(0, 164, 240);
-  border-radius: 10px;
+  border-radius: 5px;
   height: 30px;
   width: 100px;
   display: flex;
