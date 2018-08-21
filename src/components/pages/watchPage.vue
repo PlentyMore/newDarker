@@ -83,13 +83,12 @@
           </el-upload>
         </div>
         <div class="commentList" v-if="hasInfo" id="comment">
-          <comment
-            :video-info="videoInfo"
-            :specific-rpid="specificRpid"
+          <real-comment
+            :oid="videoInfo?videoInfo.episodeId:''"
             :type=1
-            @goAnchor="goAnchor"
-            @cantGoAnchor="cantGoAnchor"
-            @nextPageGoAnchor="nextPageGoAnchor"></comment>
+            :rpid="specificRpid"
+          >
+          </real-comment>
         </div>
     </div>
 </template>
@@ -102,11 +101,13 @@ import api from "../../api.js";
 import SparkMD5 from "spark-md5";
 import hashMe from "../../assets/hashme.js";
 import submitMovie from "../submitMovie/submitMovie.vue";
+import realComment from "../comment/RealComment.vue";
 export default {
   components: {
     VueDPlayer,
     comment,
-    submitMovie
+    submitMovie,
+    'real-comment': realComment
   },
   data() {
     return {

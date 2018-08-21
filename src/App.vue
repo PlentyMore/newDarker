@@ -164,7 +164,7 @@ export default {
   flex-direction: row;
   filter: grayscale(15%);
   /*绝对布局居中法*/
-  top: 70%;
+  top: 555px;
   left: 50%;
   transition: transform 1s;
 }

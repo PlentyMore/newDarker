@@ -25,20 +25,34 @@
         </div>
       </div>
     </div>
+    <div class="comment-container">
+      <real-comment
+        :oid="bid"
+        :type=3
+        :rpid="rpid"
+      >
+      </real-comment>
+    </div>
   </div>
 </template>
 
 <script>
-  import api from "../../api"
+  import api from "../../api";
+  import realComment from "../comment/RealComment.vue";
   export default {
     name: "bangumiDetail",
     data(){
       return {
         episodes:"",
         page: "",
+        bid: "",
+        rpid: "",
         bangumi: "",
         blurImageStyle:""
       }
+    },
+    components:{
+      'real-comment':realComment
     },
     methods:{
       async initEpisodes(bid){
@@ -74,14 +88,19 @@
       console.log("bangumiDetail created!");
       let bid = this.$route.params.bid;
       let bangumi = this.$route.params.bangumi;
+      let rpid = this.$route.query.rpid;
       console.log("bid:",bid);
       console.log("bangumi:",bangumi);
       if(bid){
+        this.bid = bid;
         this.initBangumi(bid);
         this.initEpisodes(bid);
       }
       else{
         console.log("no bid");
+      }
+      if(rpid){
+        this.rpid = rpid;
       }
     }
   }

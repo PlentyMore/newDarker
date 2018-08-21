@@ -14,6 +14,7 @@ import announce from '@/components/pages/announce'
 import test from '@/components/pages/test'
 import bangumiDetail from '@/components/pages/bangumiDetail'
 import realAnnounce from '@/components/pages/realAnnounce'
+import userProfile from '@/components/pages/userProfile'
 
 Vue.use(Router)
 
@@ -23,11 +24,6 @@ export default new Router({
       path: '/',
       name: 'index',
       component: index
-    },
-    {
-      path:'/announce',
-      name:'announce',
-      component: announce
     },
     {
       path:'/announce/:id',
@@ -100,9 +96,14 @@ export default new Router({
       component: bangumiDetail
     },
     {
-      path: '/rannounce/:id',
-      name: 'rannounce',
+      path: '/announce/:id',
+      name: 'announce',
       component: realAnnounce
+    },
+    {
+      path: '/user/:uid',
+      name: 'user',
+      component: userProfile
     }
   ]
 })
