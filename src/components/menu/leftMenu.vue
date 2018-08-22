@@ -27,7 +27,8 @@ export default {
 
 <style>
 .leftMenuBox {
-  background: rgba(24, 24, 24, 0.671);
+  /*background: rgba(24, 24, 24, 0.671);*/
+  background: rgba(56, 53, 53, 0.671);
   width: 150px;
   display: flex;
   flex-direction: column;
@@ -47,7 +48,8 @@ export default {
   background: rgba(255, 254, 254, 0.651);
 }
 .menuTitle {
-  background: rgba(0, 0, 0, 0.418);
+  /*background: rgba(0, 0, 0, 0.418);*/
+  background: rgba(31, 30, 30, 0.9);
   border-bottom: 2px solid wheat;
   height: 60px;
   width: 150px;

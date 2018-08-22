@@ -70,6 +70,7 @@ export default {
 }
 .msgListBox {
   background: rgba(24, 24, 24, 0.671);
+  /*background: rgba(72, 64, 64, 0.671);*/
   height: 100%;
   width: 900px;
   display: flex;

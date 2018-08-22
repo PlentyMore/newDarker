@@ -23,12 +23,12 @@
                                 <p class="ater">{{item.publisher.nick}}</p>
                                 <p class="atTime">{{new Date(item.createTime).toLocaleString()}}</p>
                             </div>
-                            <p class="atContent"><a :href="getContentUrl(item.content)" style="color:rgb(64, 64, 250)">{{getContent(item.content)}}</a></p>
+                            <p class="atContent"><a :href="getContentUrl(item.content)" style="color:#409eff;font-size: 14px;">{{getContent(item.content)}}</a></p>
                         </div>
                         <p class="atDelete" @click="deleteReplyMessage(item.id)">删除</p>
                     </div>
                     <div class="atAddr">
-                        <p class="atAddrContent"><a :href="getContentUrl(item.title)" style="color:rgb(64, 64, 250)">{{getContent(item.title)}}</a>中@了你</p>
+                        <p class="atAddrContent"><a :href="getContentUrl(item.title)" style="color:#03a9f4;font-size: 12px;">{{getContent(item.title)}}</a>中@了你</p>
                     </div>
                 </div>
               </darker-scroll>
@@ -129,12 +129,13 @@ export default {
 .atNoticeTitle {
   margin: 10px auto;
   color: wheat;
-  background: rgba(255, 255, 255, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  /*background: rgba(255, 255, 255, 0.3);*/
+  background: rgb(53, 50, 52);
+  /*border: 1px solid rgba(255, 255, 255, 0.2);*/
   height: 40px;
   width: 95%;
   line-height: 40px;
-  border-radius: 3px;
+  border-radius: 8px;
   text-align: left;
 }
 .atNoticeInBox {
@@ -143,11 +144,11 @@ export default {
   height: 800px;
   display: flex;
   flex-direction: column;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  /*border: 1px solid rgba(255, 255, 255, 0.2);*/
   border-radius: 3px;
 }
 .atMsgItem {
-  background: rgba(32, 32, 32, 0.377);
+  background: rgba(90, 85, 85, 0.377);
   color: white;
   border-radius: 10px;
   width: 95%;
@@ -196,9 +197,11 @@ export default {
   margin-top: 5px;
 }
 .atAddrContent {
-  background: rgba(153, 123, 102, 0.63);
-  margin: auto auto;
-  width: 95%;
+  /*background: rgba(153, 123, 102, 0.63);*/
+  /*margin: auto auto;*/
+  background: rgb(83, 83, 90);
+  margin: auto auto auto 75px;
+  width: 89%;
   height: 30px;
   line-height: 30px;
   border-radius: 10px;

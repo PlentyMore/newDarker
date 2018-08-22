@@ -96,12 +96,12 @@ export default {
 .systemNoticeTitle {
   margin: 10px auto;
   color: wheat;
-  background: rgba(255, 255, 255, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgb(53, 50, 52);
+  /*border: 1px solid rgba(255, 255, 255, 0.2);*/
   height: 40px;
   width: 95%;
   line-height: 40px;
-  border-radius: 3px;
+  border-radius: 8px;
   text-align: left;
 }
 .systemNoticeInBox {
@@ -110,11 +110,12 @@ export default {
   height: 800px;
   display: flex;
   flex-direction: column;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  /*border: 1px solid rgba(255, 255, 255, 0.2);*/
   border-radius: 3px;
 }
 .systemMsgItem {
-  background: rgba(32, 32, 32, 0.377);
+  /*background: rgba(32, 32, 32, 0.377);*/
+  background: rgba(90, 85, 85, 0.377);
   color: white;
   border-radius: 10px;
   width: 95%;

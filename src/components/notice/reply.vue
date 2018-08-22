@@ -23,12 +23,12 @@
                                 <p class="replyer">{{item.publisher.nick}}</p>
                                 <p class="replyTime">{{new Date(item.createTime).toLocaleString()}}</p>
                             </div>
-                            <div class="replyContentBox"><a :href="getContentUrl(item.content)" class="replyContent" style="color:rgb(64, 64, 250)">{{getContent(item.content)}}</a></div>
+                            <div class="replyContentBox"><a :href="getContentUrl(item.content)" class="replyContent" style="color:#409eff;font-size: 14px;">{{getContent(item.content)}}</a></div>
                         </div>
                         <p class="replyDelete" @click="deleteReplyMessage(item.id)">删除</p>
                     </div>
                     <div class="replyAddr">
-                        <p class="replyAddrContent"><a :href="getContentUrl(item.title)" style="color:rgb(64, 64, 250)">{{getContent(item.title)}}</a>评论中回复了你</p>
+                        <p class="replyAddrContent"><a :href="getContentUrl(item.title)" style="color:#03a9f4;font-size: 12px;">{{getContent(item.title)}}</a>评论中回复了你</p>
                     </div>
                 </div>
             </darker-scroll>
@@ -129,14 +129,14 @@ export default {
   flex-direction: column;
 }
 .replyNoticeTitle {
-  margin: 10px auto;
+  margin: 10px auto 10px 38px;
   color: wheat;
-  background: rgba(255, 255, 255, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgb(53, 50, 52);
+  /*border: 1px solid rgba(255, 255, 255, 0.2);*/
   height: 40px;
-  width: 95%;
+  width: 91%;
   line-height: 40px;
-  border-radius: 3px;
+  border-radius: 5px;
   text-align: left;
 }
 .replyNoticeInBox {
@@ -145,11 +145,12 @@ export default {
   height: 800px;
   display: flex;
   flex-direction: column;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  /*border: 1px solid rgba(255, 255, 255, 0.2);*/
   border-radius: 3px;
 }
 .replyMsgItem {
-  background: rgba(32, 32, 32, 0.377);
+  /*background: rgba(32, 32, 32, 0.377);*/
+  background: rgba(90, 85, 85, 0.377);
   color: white;
   border-radius: 10px;
   width: 95%;
@@ -197,9 +198,10 @@ export default {
   margin-top: 5px;
 }
 .replyAddrContent {
-  background: rgba(153, 123, 102, 0.63);
-  margin: auto auto;
-  width: 95%;
+  /*background: rgba(153, 123, 102, 0.63);*/
+  background: rgb(83, 83, 90);
+  margin: auto auto auto 75px;
+  width: 89%;
   height: 30px;
   font-size: 13px;
   line-height: 30px;
@@ -213,7 +215,7 @@ export default {
   /*超出不换行*/
   text-overflow: ellipsis;
   /*超出省略号显示*/
-  white-space: nowrap;
+  /*white-space: nowrap;*/
 }
 .replyDelete {
   background: rgb(255, 65, 65);
