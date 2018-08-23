@@ -1,7 +1,7 @@
 <template>
   <div class="replyBox">
     <div class="replyInfoBox">
-      <img :src="avatar!='https://darker.online/'?avatar:'../../../static/img/noAvatar.jpg'">
+      <img :src="avatar!=''?avatar:'../../../static/img/noAvatar.jpg'">
       <textarea :placeholder="placeholder" v-model="content"></textarea>
       <div @click="submitReply" class="replyBtn"><p>{{sendBtnText}}</p></div>
     </div>
