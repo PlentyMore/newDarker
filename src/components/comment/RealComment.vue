@@ -139,9 +139,9 @@
       },
       async pageSelect(index) {
         let res = await api.getRepliesOfAnyClassPage({
-          pn: this.page.pageNumber,
+          pn: index,
           oid: this.oid,
-          type: 1,
+          type: this.type,
           sort: this.sort
         });
         let rd = res.data;

@@ -785,7 +785,7 @@ export default {
   border-radius: 5px;
   padding-left: 10px;
   padding-right: 10px;
-  background: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.8);
   border: 0px;
 }
 .mvBarrageBox p {

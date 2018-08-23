@@ -126,15 +126,18 @@ export default {
   display: flex;
   flex-direction: column;
   margin-top: 10px;
+  text-align: left;
 }
 .systemInfo {
   display: flex;
   flex-direction: row;
   margin-top: 10px;
+  display: flex;
+  flex-direction: row;
 }
 .systemTitle {
   margin: auto 10px;
-  color: aquamarine;
+  color: #5ec3a1;
 }
 .systemTime {
   margin: auto 10px;
@@ -143,6 +146,8 @@ export default {
 }
 .systemContent {
   font-size: 13px;
+  width: 98%;
+  margin: auto 10px;
 }
 .wattingBox {
   background: white;
@@ -162,5 +167,9 @@ export default {
 .wattingBox p {
   margin: auto auto;
   font-weight: bold;
+}
+.scroll {
+  margin: 30px 18px;
+  width: 95%;
 }
 </style>

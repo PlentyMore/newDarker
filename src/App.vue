@@ -10,7 +10,7 @@
     <div class="searchBar" :style="searchBoxMove" v-show="showSearch" v-if="true">
       <div class="searchInBar">
         <p class="searchBarItem">搜索：</p>
-        <input v-model="searchText">
+        <input v-model="searchText" class="searchBarKey">
       </div>
     </div>
     <router-view :key="activeDate" v-bind="routerInfo"></router-view>
@@ -167,7 +167,7 @@ export default {
   position: absolute;
   opacity: 1;
   height: 80px;
-  width: 101%;
+  width: 100%;
   z-index: 300;
   display: flex;
   flex-direction: row;
@@ -184,7 +184,7 @@ export default {
   flex-direction: row;
   width: 450px;
 }
-.searchInBar input{
+.searchBarKey{
   outline: none;
   height: 20px;
   background: rgba(255, 255, 255, 0);
@@ -195,6 +195,12 @@ export default {
   font-weight: bold;
   line-height: 20px;
   margin: auto auto;
+}
+.searchBarKey:hover{
+  border: 3px dashed black;
+}
+.searchBarKey:active{
+  border: 3px dashed black;
 }
 .searchBarItem {
   color: black;
