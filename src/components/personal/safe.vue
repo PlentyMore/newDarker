@@ -299,7 +299,7 @@ export default {
   flex-direction: row;
   height: 80px;
   width: 90%;
-  border-top: 2px solid black;
+  border-top: 1px solid #4e967e;
   margin: auto auto;
 }
 .safeInBox div {
@@ -321,24 +321,25 @@ export default {
 }
 .safeInBox p {
   margin: auto auto;
+  color: cornsilk;
 }
 .setBox {
   display: flex;
   flex-direction: column;
   position: absolute;
-  width: 300px;
+  width: 400px;
   height: 200px;
   border-radius: 5px;
   left: 46%;
   top: 300px;
-  background: #252e53;
+  background: #30313a;
 }
 .safeTitle {
   font-size: 18px;
   font-weight: bold;
   line-height: 40px;
   color: wheat;
-  background: #020b36;
+  background: #424450;
   margin-top: 0;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
@@ -364,21 +365,21 @@ export default {
   height: 25px;
   width: 50%;
   line-height: 25px;
-  border-radius: 25px;
-  border: 1px solid white;
+  border-radius: 5px;
+  /*border: 1px solid white;*/
   font-weight: bold;
   font-size: 12px;
-  background: rgb(100, 149, 237);
+  background: rgb(78, 150, 126);
   transition: all 0.1s;
   margin: 10px auto;
   cursor: pointer;
 }
 .safeSubmit:hover {
-  background: rgb(65, 105, 225);
+  background: rgb(78, 175, 142);
 }
 .safeSubmit:active {
-  background: rgb(100, 149, 237);
-  border: 1px solid gray;
+  background: rgb(42, 95, 77);
+  /*border: 1px solid gray;*/
 }
 .safeSubmitTime {
   color: wheat;
@@ -392,7 +393,7 @@ export default {
 }
 .codeTimer {
   color: wheat;
-  font-size: 12px;
+  font-size: 13px;
 }
 [data-correct] {
   border: 2px solid red !important;
@@ -408,16 +409,16 @@ export default {
   margin: -15px auto;
 }
 .mailWrongTip {
-  color: red;
-  font-size: 10px;
+  color: #F44336;
+  font-size: 13px;
 }
 .wrongCodeTip {
-  color: red;
-  font-size: 10px;
+  color: #F44336;
+  font-size: 13px;
 }
 .nothingCodeTip {
   color: black;
-  font-size: 10px;
+  font-size: 13px;
 }
 .newMailBox {
   display: flex;
@@ -460,7 +461,7 @@ export default {
   border-radius: 5px;
   left: 46%;
   top: 300px;
-  background: #252e53;
+  background: #6b6c71;
 }
 .setBox1 input {
   height: 300px !important;

@@ -187,7 +187,7 @@ export default {
   border-radius: 5px;
 }
 .submitMvTitleBox {
-  background: #020b36;
+  background: #424450;
   margin-top: 0;
   height: 40px;
   width: 500px;
@@ -223,6 +223,7 @@ export default {
 .submitMvInBox {
   display: flex;
   flex-direction: column;
+  background-color: #30313a;
 }
 .submitRules {
   display: flex;
@@ -369,7 +370,7 @@ export default {
   height: 260px;
   width: 480px;
   margin: -10px auto;
-  border: 1px solid wheat;
+  /*border: 1px solid wheat;*/
   border-radius: 5px;
 }
 .footerRule {
@@ -381,7 +382,7 @@ export default {
   color: grey;
 }
 .submitMvBtnBox {
-  background: #020b36;
+  background: #424450;
   width: 500px;
   height: 50px;
   display: flex;

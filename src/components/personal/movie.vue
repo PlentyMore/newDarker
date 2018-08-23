@@ -400,21 +400,20 @@ export default {
   width: 20%;
   line-height: 25px;
   border-radius: 5px;
-  border: 1px solid white;
   font-weight: bold;
   font-size: 13px;
-  background: rgb(100, 149, 237);
+  background: #795548;
   transition: all 0.1s;
   margin: 25px 30px;
   cursor: pointer;
   color: white;
 }
 .sortTitle:hover {
-  background: rgb(65, 105, 225);
+  background: #966959;
 }
 .sortTitle:active {
-  background: rgb(100, 149, 237);
-  border: 1px solid gray;
+  background: #775346;
+  /*border: 1px solid #4c352d;*/
 }
 .sortSelectBox {
   display: flex;
@@ -485,8 +484,8 @@ input:focus {
   color: white;
   font-size: 18px !important;
   width: 100% !important;
-  text-align: center !important;
-  margin: 10px 5px !important;
+  text-align: left !important;
+  margin: 10px 15px !important;
 }
 .mvMsg {
   margin-top: 5px;
@@ -502,13 +501,17 @@ input:focus {
 }
 .mvTime {
   margin-top: 20px;
-  font-size: 10px;
-  color: white;
+  font-size: 13px;
+  color: #dad7d7;
+  text-align: left;
+  margin-left: 15px;
 }
 .mvTime2 {
-  margin-top: 0;
-  font-size: 10px;
-  color: white;
+  margin-top: -10px;
+  font-size: 13px;
+  color: #dad7d7;
+  text-align: left;
+  margin-left: 15px;
 }
 .mvOtherBox {
   width: 15%;

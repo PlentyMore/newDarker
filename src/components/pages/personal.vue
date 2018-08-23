@@ -63,7 +63,7 @@ export default {
   margin-left: auto;
 }
 .infoBox {
-  background: rgba(24, 24, 24, 0.671);
+  background: rgb(44, 42, 47);
   height: 100%;
   width: 900px;
   display: flex;

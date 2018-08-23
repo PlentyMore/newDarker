@@ -134,7 +134,7 @@ export default {
 }
 .systemTitle {
   margin: auto 10px;
-  color: aquamarine;
+  color: #5ec3a1;
 }
 .systemTime {
   margin: auto 10px;
