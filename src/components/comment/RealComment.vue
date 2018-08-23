@@ -13,9 +13,15 @@
         :type="type"
         style="border-bottom: 1px solid gray;"
         :mode=0
-        @onAddRootReply="addRootReply"
-      >
+        @onAddRootReply="addRootReply">
       </post-reply>
+    </div>
+    <div v-if="page.pageNumber==1&&this.topReplies" class="stickReplyBox">
+      <root-reply
+        :oid="oid"
+        :type="type"
+        :rootReply="topReplies"
+        :top=true></root-reply>
     </div>
     <div v-if="hotReplies.length!==0">
       <div v-for="(rootReply,index) in hotReplies" style="color:red;" :key="rootReply.rpid">
@@ -43,8 +49,7 @@
           :type="type"
           :subPage="subPage"
           @onRemoveRootReply="removeRootReply"
-          @onUpdateRootReply="updateRootReply"
-        >
+          @onUpdateRootReply="updateRootReply">
         </root-reply>
       </div>
     </div>
@@ -78,6 +83,7 @@
     data() {
       return {
         sort: 1,
+        topReplies: {},
         hotReplies: [],
         parentCommentPlaceholder:
           "请自觉遵守互联网相关的政策法规，严禁发布色情、暴力、反动的言论。",
@@ -105,6 +111,8 @@
         console.log("评论数据：",rd.data.replies);
         console.log("热门数据", this.hotComment);
         if(rd.code === 0){
+          this.topReplies=rd.data.top;
+          console.log('置顶评论',rd.data.top,this.topReplies);
           this.rootReplies = rd.data.replies;
           this.page = rd.data.page;
         }
@@ -155,6 +163,7 @@
       },
       updateRootReply(data){
         console.log("updateRootReply:",data);
+        this.topReplies=data.top;
         this.rootReplies = data.replies;
         this.page = data.page;
       },
@@ -208,10 +217,6 @@
 </script>
 
 <style scoped>
-
-</style>
-
-<style>
   .commentBox {
     display: flex;
     flex-direction: column;
@@ -261,5 +266,10 @@
   .pagination {
     width: 80%;
     margin: auto 0;
+  }
+  .stickReplyBox{
+    border-radius: 5px;
+    margin: 10px auto;
+    width: 950px;
   }
 </style>

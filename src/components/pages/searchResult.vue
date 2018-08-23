@@ -38,7 +38,7 @@ export default {
   },
   methods: {
     changeBgUrl(url) {
-      this.bgUrl = url;
+      this.bgUrl = url===""?'../../static/img/1.jpg':url;
     },
     async searchBangumis(text) {
       let res = await api.getsearchBangumisIdResult(text);
@@ -47,7 +47,7 @@ export default {
       if (rd.code === 0) {
         this.bangumis = rd.data.content;
         this.page = rd.data.page;
-        this.bgUrl = rd.data.content[0].thumb;
+        this.bgUrl = rd.data.content[0].thumb===""?'../../static/img/1.jpg':rd.data.content[0].thumb;
         console.log("bgUrl", this.bgUrl);
         console.log("pageNum:", "ElderDriverBroken♂Man".length);
       } else {
@@ -116,18 +116,18 @@ export default {
         clearInterval(this.showTimer);
         this.showTimer=null;
       }
-    },100);
+    },150);
   }
 };
 </script>
 
 <style>
 .run-animation2 {
-  animation: show .3s linear 0s 1 normal;
+  animation: show .8s linear 0s 1 normal;
 }
 @keyframes show {
   0% { margin: 0px 10px;opacity: 0;}
-  60% {  opacity: 0;}
+  50% {  opacity: 0;}
   100%  {  margin: 30px 10px; opacity: 1;}
 }
 .page-container {

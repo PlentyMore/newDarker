@@ -286,6 +286,12 @@ const cancelUpvoteReply = rpid=>{
 const deleteMyRpely = rpid =>{
   return axios.delete(`${baseURL2}/v2/replies/${rpid}`);
 }
+const stickReply = rpid =>{
+  return axios.post(`${baseURL2}/v2/replies/${rpid}/top`);
+}
+const unstickReply = rpid =>{
+  return axios.delete(`${baseURL2}/v2/replies/${rpid}/top`);
+}
 
 //---message_v2
 const getUnreadMessage = () =>{
@@ -362,5 +368,7 @@ export default {
   deleteMessage,
   checkEmail,
   getMailCode,
-  resetPassword
+  resetPassword,
+  stickReply,
+  unstickReply
 };

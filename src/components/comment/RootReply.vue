@@ -5,11 +5,22 @@
         <img :src="rootReply.user.avatar?rootReply.user.avatar:'../../../static/img/noAvatar.jpg'" class="commentItemAvatar">
       </a>
       <div class="commentContentBox">
-        <p class="replyUsername">
+        <div class="replyUsername">
           <a :href="'#/user/'+rootReply.uid" target="_blank" style="text-decoration: none;color: rgb(127, 162, 238);">
             {{rootReply.user.nick}}
           </a>
-        </p>
+          <img v-if="top" class="stickFlag" src="../../../static/img/stick.png">
+          <img class="adminMenuBtn" src="../../../static/img/replyMenu.png" @click="showAdminBox=!showAdminBox">
+            <transition name="adminBoxTran">
+              <div class="adminBox" v-if="showAdminBox">
+                <div class="adminInBox">
+                  <p :class="['stick',{'greyBtn':role !== 'ROLE_ADMIN'}]" v-if="!top" @click="stickReply(rootReply.rpid)">置顶</p>
+                  <p :class="['stick',{'greyBtn':role !== 'ROLE_ADMIN'}]" class="stick" v-else @click="unStickReply(rootReply.rpid)">取消置顶</p>
+                  <p class="report">举报</p>
+                </div>
+              </div>
+            </transition>
+        </div>
         <p class="replyContent">{{rootReply.content}}</p>
         <div class="commentControlBox">
           <p class="commentFloor">#{{rootReply.floor}}</p>
@@ -19,7 +30,16 @@
             <p>{{rootReply.like}}</p>
           </div>
           <p class="commentReplyBtn" @click="toggleReplyBox">回复</p>
-          <p class="commentDeleteBtn" v-show="canDelReply" @click="delRootReply">删除</p>
+          <p class="commentDeleteBtn" v-show="canDelReply" @click="showDelBox=!showDelBox">删除</p>
+          <transition name="delConfirmTran">
+            <div class="deleteConfirm" v-if="showDelBox">
+              <p class="deleteConfirmTip">确定删除吗？</p>
+              <div class="confirmDeleBtnBox">
+                <p class="cancelDelBtn" @click="showDelBox=!showDelBox">取消</p>
+                <p class="confirmDelBtn" @click="delRootReply">确定</p>
+              </div>
+            </div>
+          </transition>
         </div>
       </div>
     </div>
@@ -29,8 +49,7 @@
                  :oid="oid"
                  :type="type"
                  @onRemoveSubReply="removeSubReply"
-                 @onShowSubReplyBox="showSubReplyBox"
-      >
+                 @onShowSubReplyBox="showSubReplyBox">
       </sub-reply>
     </div>
     <div @click="seeMore" v-show="!noMore" v-if="rootReply.rcount>3 && !page" class="seeMore">共{{rootReply.rcount}}条回复，点击查看更多</div>
@@ -61,185 +80,216 @@
 </template>
 
 <script>
-  import PostReply from "./PostReply.vue";
-  import SubReply from "./SubReply.vue";
-  import api from "../../api.js";
-  import { formatDate } from "../../time.js";
-  export default {
-    name: "RootReply",
-    props:["rootReply","rootIndex","oid","type","rpid","subPage"],
-    components:{
-      'post-reply': PostReply,
-      'sub-reply': SubReply,
+import PostReply from "./PostReply.vue";
+import SubReply from "./SubReply.vue";
+import api from "../../api.js";
+import { formatDate } from "../../time.js";
+export default {
+  name: "RootReply",
+  props: ["rootReply", "rootIndex", "oid", "type", "rpid", "subPage", "top"],
+  components: {
+    "post-reply": PostReply,
+    "sub-reply": SubReply
+  },
+  data() {
+    return {
+      uid: "",
+      role: "",
+      page: "",
+      showReplyBox: false,
+      noMore: false,
+      replyInfo: "",
+      placeholder: "",
+      showDelBox: false,
+      showAdminBox: false
+    };
+  },
+  computed: {
+    getDateDiff() {
+      let minute = 1000 * 60;
+      let hour = minute * 60;
+      let day = hour * 24;
+      let now = new Date().getTime();
+      let diffValue = now - this.rootReply.ctime;
+      if (diffValue < 0) {
+        return;
+      }
+      let dayC = diffValue / day;
+      let hourC = diffValue / hour;
+      let minC = diffValue / minute;
+      if (dayC >= 1) {
+        return formatDate(new Date(this.rootReply.ctime), "yyyy-MM-dd hh:mm");
+      } else if (hourC >= 1) {
+        return "" + parseInt(hourC) + "小时前";
+      } else if (minC >= 1) {
+        return "" + parseInt(minC) + "分钟前";
+      } else return "刚刚";
     },
-    data() {
-      return {
-        uid: "",
-        role: "",
-        page: "",
-        showReplyBox: false,
-        noMore: false,
-        replyInfo:"",
-        placeholder:""
-      };
-    },
-    computed: {
-      getDateDiff() {
-        let minute = 1000 * 60;
-        let hour = minute * 60;
-        let day = hour * 24;
-        let now = new Date().getTime();
-        let diffValue = now - this.rootReply.ctime;
-        if (diffValue < 0) {
-          return;
-        }
-        let dayC = diffValue / day;
-        let hourC = diffValue / hour;
-        let minC = diffValue / minute;
-        if (dayC >= 1) {
-          return formatDate(new Date(this.rootReply.ctime), "yyyy-MM-dd hh:mm");
-        } else if (hourC >= 1) {
-          return "" + parseInt(hourC) + "小时前";
-        } else if (minC >= 1) {
-          return "" + parseInt(minC) + "分钟前";
-        } else return "刚刚";
-      },
-      canDelReply(){
-        if(this.uid === this.rootReply.uid)
+    canDelReply() {
+      if (this.uid === this.rootReply.uid) return true;
+      else if (this.role) {
+        if (this.role === "ROLE_ADMIN" || this.role === "ROLE_MANAGER")
           return true;
-        else if(this.role){
-          if(this.role === 'ROLE_ADMIN' || this.role === 'ROLE_MANAGER')
-            return true;
-        }
-        return false;
       }
-    },
-    methods:{
-      async seeMore() {
+      return false;
+    }
+  },
+  methods: {
+    async seeMore() {
+      this.noMore = true;
+      let res = await api.getRepliesOfAnyClassPage({
+        pn: 1,
+        oid: this.oid,
+        type: this.type,
+        root: this.rootReply.rpid
+      });
+      let rd = res.data;
+      console.log("view more subReplies:", rd);
+      if (rd.code === 0) {
+        // this.rootReply.replies = rd.data.replies;
+        this.rootReply.replies.splice(0);
+        let i = 0;
+        for (i = 0; i < rd.data.replies.length; i++) {
+          this.rootReply.replies.push(rd.data.replies[i]);
+        }
+        this.page = rd.data.page;
         this.noMore = true;
-        let res = await api.getRepliesOfAnyClassPage({
-          pn: 1,
-          oid: this.oid,
-          type: this.type,
-          root: this.rootReply.rpid
-        });
-        let rd = res.data;
-        console.log("view more subReplies:",rd);
-        if(rd.code === 0){
-          // this.rootReply.replies = rd.data.replies;
-          this.rootReply.replies.splice(0);
-          let i = 0;
-          for(i=0;i<rd.data.replies.length;i++){
-            this.rootReply.replies.push(rd.data.replies[i]);
-          }
-          this.page = rd.data.page;
-          this.noMore = true;
-        }
-        else {
-          console.log("查看更多子评论失败");
-        }
-      },
-      async pageSelect(index) {
-        let res = await api.getRepliesOfAnyClassPage({
-          pn: index,
-          oid: this.oid,
-          type: this.type,
-          root: this.rootReply.rpid
-        });
-        let rd = res.data;
-        if(rd.code === 0){
-          this.rootReply.replies.splice(0);
-          let i = 0;
-          for(i=0;i<rd.data.replies.length;i++){
-            this.rootReply.replies.push(rd.data.replies[i]);
-          }
-          // this.rootReply.replies = rd.data.replies;
-          this.page = rd.data.page;
-        }
-        else {
-          console.log("查看更多子评论失败");
-        }
-      },
-      async upvote() {
-        let upvoteRes;
-        if (this.rootReply.like_status === 0) {
-          upvoteRes = await api.upvoteReply(this.rootReply.rpid);
-          this.rootReply.like++;
-          this.rootReply.like_status = 1;
-        } else {
-          upvoteRes = await api.cancelUpvoteReply(this.rootReply.rpid);
-          this.rootReply.like--;
-          this.rootReply.like_status = 0;
-        }
-      },
-      async delRootReply(){
-        let res = await api.deleteMyRpely(this.rootReply.rpid);
-        let rd = res.data;
-        if(rd.code === 0){
-          this.$emit('onRemoveRootReply',this.rootIndex);
-          this.$message({
-            message: "删除成功",
-            type: "success"
-          });
-        }
-        else {
-          console.log("删除根评论失败，index:",this.rootIndex);
-        }
-      },
-      removeSubReply(index){
-        console.log("remove sub reply: ",index);
-        this.rootReply.replies.splice(index,1);
-      },
-      showSubReplyBox(subRpy){
-        this.replyInfo = subRpy;
-        this.showReplyBox = true;
-      },
-      toggleReplyBox(){
-        this.replyInfo = this.rootReply;
-        this.showReplyBox = !this.showReplyBox;
-      },
-      async addSubReply(rpid){
-        let res = await api.getRepliesOfAnyClassPage({
-          rpid: rpid,
-          oid: this.oid,
-          type: this.type
-          // root: this.rootReply.rpid
-        });
-        let rd = res.data;
-        if(rd.code === 0){
-          this.$emit("onUpdateRootReply",rd.data);
-          this.page = rd.data.subpage;
-          this.showReplyBox = false;
-          this.noMore = true;
-        }
-        else {
-          console.log("添加评论后刷新子评论失败");
-        }
+      } else {
+        console.log("查看更多子评论失败");
       }
     },
-    created(){
-      let id = localStorage.getItem("USER_ID");
-      let rol = localStorage.getItem("ROLE");
-      if(id){
-        this.uid = parseInt(id);
-      }
-      if(rol){
-        this.role = rol;
-      }
-      if(this.subPage){
-        if(this.rootReply.rpid === this.subPage.rootId){
-          this.page = this.subPage;
-          this.noMore = true;
+    async pageSelect(index) {
+      let res = await api.getRepliesOfAnyClassPage({
+        pn: index,
+        oid: this.oid,
+        type: this.type,
+        root: this.rootReply.rpid
+      });
+      let rd = res.data;
+      if (rd.code === 0) {
+        this.rootReply.replies.splice(0);
+        let i = 0;
+        for (i = 0; i < rd.data.replies.length; i++) {
+          this.rootReply.replies.push(rd.data.replies[i]);
         }
+        // this.rootReply.replies = rd.data.replies;
+        this.page = rd.data.page;
+      } else {
+        console.log("查看更多子评论失败");
+      }
+    },
+    async upvote() {
+      let upvoteRes;
+      if (this.rootReply.like_status === 0) {
+        upvoteRes = await api.upvoteReply(this.rootReply.rpid);
+        this.rootReply.like++;
+        this.rootReply.like_status = 1;
+      } else {
+        upvoteRes = await api.cancelUpvoteReply(this.rootReply.rpid);
+        this.rootReply.like--;
+        this.rootReply.like_status = 0;
+      }
+    },
+    async delRootReply() {
+      let res = await api.deleteMyRpely(this.rootReply.rpid);
+      let rd = res.data;
+      if (rd.code === 0) {
+        this.$emit("onRemoveRootReply", this.rootIndex);
+        this.$message({
+          message: "删除成功",
+          type: "success"
+        });
+      } else {
+        console.log("删除根评论失败，index:", this.rootIndex);
+      }
+    },
+    removeSubReply(index) {
+      console.log("remove sub reply: ", index);
+      this.rootReply.replies.splice(index, 1);
+    },
+    showSubReplyBox(subRpy) {
+      this.replyInfo = subRpy;
+      this.showReplyBox = true;
+    },
+    toggleReplyBox() {
+      this.replyInfo = this.rootReply;
+      this.showReplyBox = !this.showReplyBox;
+    },
+    async addSubReply(rpid) {
+      let res = await api.getRepliesOfAnyClassPage({
+        rpid: rpid,
+        oid: this.oid,
+        type: this.type
+        // root: this.rootReply.rpid
+      });
+      let rd = res.data;
+      if (rd.code === 0) {
+        this.$emit("onUpdateRootReply", rd.data);
+        this.page = rd.data.subpage;
+        this.showReplyBox = false;
+        this.noMore = true;
+      } else {
+        console.log("添加评论后刷新子评论失败");
+      }
+    },
+    async stickReply(rpid) {
+      console.log("置顶rpid", rpid);
+      let resData = (await api.stickReply(rpid)).data;
+      console.log("置顶", resData);
+      if (resData.code === 0) {
+        this.$message({
+          message: "置顶成功",
+          type: "success"
+        });
+        //初始化列表
+        window.location.reload();
+      } else {
+        this.$message({
+          message: message.msg,
+          type: "error"
+        });
+      }
+    },
+    async unStickReply(rpid) {
+      console.log("取消置顶rpid", rpid);
+      let resData = (await api.unstickReply(rpid)).data;
+      console.log("取消置顶", resData);
+      if (resData.code === 0) {
+        this.$message({
+          message: "取消置顶成功",
+          type: "success"
+        });
+        //初始化列表
+        window.location.reload();
+      } else {
+        this.$message({
+          message: message.msg,
+          type: "error"
+        });
+      }
+    }
+  },
+  created() {
+    let id = localStorage.getItem("USER_ID");
+    let rol = localStorage.getItem("ROLE");
+    if (id) {
+      this.uid = parseInt(id);
+    }
+    if (rol) {
+      this.role = rol;
+    }
+    if (this.subPage) {
+      if (this.rootReply.rpid === this.subPage.rootId) {
+        this.page = this.subPage;
+        this.noMore = true;
       }
     }
   }
+};
 </script>
 
-<style scoped>
 
-</style>
-<style>
+<style scoped>
 .commentItemBox {
   display: flex;
   flex-direction: column;
@@ -268,18 +318,30 @@
 }
 .replyUsername {
   text-align: left;
-  margin-left: 10px;
+  margin: 10px 10px;
   font-weight: bold;
   color: rgb(127, 162, 238);
-  cursor: pointer;
   /*内容自适应宽度*/
-  display: inline-block;
+  display: flex;
+  flex-direction: row;
+}
+.adminMenuBtn {
+  width: 20px;
+  height: 20px;
+  margin: auto auto;
+  margin-right: 0;
+  cursor: pointer;
+}
+.stickFlag {
+  width: 35px;
+  height: 20px;
+  margin-left: 5px;
 }
 .replyContent {
   color: white;
   height: auto;
   text-align: left;
-  margin: -10px 10px;
+  margin: -8px 10px;
   width: 820px;
   word-wrap: break-word;
   word-break: break-all;
@@ -346,5 +408,113 @@
   display: flex;
   flex-direction: row;
   background: salmon;
+}
+.deleteConfirm {
+  position: absolute;
+  right: 21%;
+  display: flex;
+  flex-direction: column;
+  background: white;
+  width: 150px;
+  height: 70px;
+  margin-top: -80px;
+  border-radius: 5px;
+  overflow: hidden;
+}
+.delConfirmTran-leave-active,
+.delConfirmTran-enter-active {
+  transition: all 0.2s ease;
+}
+.delConfirmTran-leave-active,
+.delConfirmTran-enter {
+  height: 0px !important;
+  /*!important 将该样式优先级调至最高*/
+  opacity: 0;
+}
+.delConfirmTran-leave,
+.delConfirmTran-enter-active {
+  height: 70px;
+}
+.deleteConfirmTip {
+  width: 100%;
+  margin: 10px auto;
+  color: red;
+  font-weight: bold;
+  font-size: 13px;
+  text-align: center;
+}
+.confirmDeleBtnBox {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin: -10px auto;
+  margin-bottom: 0;
+}
+.confirmDeleBtnBox p {
+  width: 50px;
+  text-align: center;
+  font-size: 12px;
+  height: 20px;
+  line-height: 20px;
+  cursor: pointer;
+  color: white;
+}
+.cancelDelBtn {
+  background: gray;
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
+}
+.confirmDelBtn {
+  background: rgb(255, 73, 73);
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+}
+.adminBox {
+  width: 70px;
+  background: white;
+  position: absolute;
+  right: 23.5%;
+  height: 70px;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  border-radius: 3px;
+  overflow: hidden;
+}
+.adminInBox {
+  margin: auto auto;
+  width: 80%;
+}
+.adminBoxTran-leave-active,
+.adminBoxTran-enter-active {
+  transition: all 0.2s ease;
+}
+.adminBoxTran-leave-active,
+.adminBoxTran-enter {
+  height: 0px !important;
+  /*!important 将该样式优先级调至最高*/
+  opacity: 0;
+}
+.adminBoxTran-leave,
+.adminBoxTran-enter-active {
+  height: 70px;
+}
+.adminBox p {
+  text-align: center;
+  margin: 10px auto;
+  font-size: 12px;
+  line-height: 20px;
+  border-radius: 3px;
+  color: white;
+  cursor: pointer;
+}
+.stick {
+  background: rgb(79, 199, 255);
+}
+.report {
+  background: rgb(255, 73, 73);
+}
+.greyBtn {
+  background: rgb(168, 168, 168);
 }
 </style>

@@ -12,14 +12,9 @@
         <div class="ctx-text" v-html="notice.content">
         </div>
       </div>
-      <div class="comment-container">
-        <div class="commentList" v-if="hasInfo">
-          <comment oid="noticeId" type=2></comment>
-        </div>
-      </div>
-      <div class="bottom-container">
-        <real-comment :oid="nid" :type=2 :rpid="rpid"></real-comment>
-      </div>
+    </div>
+    <div class="bottom-container">
+      <real-comment :oid="nid" :type=2 :rpid="rpid"></real-comment>
     </div>
   </div>
 </template>
@@ -76,7 +71,7 @@
   }
 </script>
 
-<style scoped>
+<style>
   .announce-prev {
     text-align: center;
   }
@@ -108,8 +103,6 @@
     font-size: 26px;
     line-height: 30px;
   }
-</style>
-<style>
   .content-container .ctx-text img {
     max-width: 760px;
   }

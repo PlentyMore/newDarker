@@ -1,5 +1,7 @@
 <template>
     <div :class="['watchPageBox',{'watchPageBoxB':(showSubmitMvBox||loading)}]">
+        <div class="searchResultBgInBox"></div>
+        <div class="searchResultBgBox"><img :src="videoCover" class='searchResultBgImg'></div>
         <transition name="submitMvBoxTran" v-if="showSubmitMvBox">
             <div class="submitMovieBox">
               <submit-movie
@@ -105,12 +107,13 @@ export default {
   components: {
     VueDPlayer,
     submitMovie,
-    'real-comment': realComment
+    "real-comment": realComment
   },
   data() {
     return {
       dp: "",
       hasInfo: false,
+      videoCover: "../../../static/img/1.jpg",
       videoURL: "",
       videoMd5: "",
       videoSize: 0,
@@ -437,7 +440,8 @@ export default {
         container: document.getElementById("dplayer"),
         autoplay: true,
         video: {
-          url: this.videoURL
+          url: this.videoURL,
+          pic: this.videoCover
         },
         danmaku: {
           api: "http://test.echisan.cn:8888/dplayer/",
@@ -465,6 +469,7 @@ export default {
       if (rd.code === 0) {
         this.videoInfo = rd.data;
         this.hasInfo = true;
+        this.videoCover = rd.data.thumb===""?'../../../static/img/1.jpg':rd.data.thumb;
       }
     },
     goAnchor() {
@@ -485,10 +490,10 @@ export default {
       });
     },
     nextPageGoAnchor() {
-      let anchor = document.getElementById('comment');
+      let anchor = document.getElementById("comment");
       setTimeout(() => {
         console.log("翻滚吧！");
-        let anchor = document.getElementById('comment');
+        let anchor = document.getElementById("comment");
         anchor.scrollIntoView();
       }, 100);
     }
@@ -500,12 +505,36 @@ export default {
     if (epid) {
       console.log("video epid", epid);
       await this.initEpisodeInfo(epid);
+      this.initDp();
     }
   }
 };
 </script>
 
 <style>
+.searchResultBgBox {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  z-index: -2;
+}
+.searchResultBgInBox {
+  background: rgba(0, 0, 0, 0.486);
+  top: 0;
+  left: 0;
+  position: fixed;
+  z-index: -3;
+  width: 100%;
+  height: 100%;
+}
+.searchResultBgImg {
+  height: 100%;
+  width: 100%;
+  filter: blur(20px) grayscale(30%);
+}
 .submitMvBoxTran-leave-active,
 .submitMvBoxTran-enter-active {
   transition: all 0.2s ease;
@@ -740,7 +769,7 @@ export default {
   height: 30px;
 }
 .mvBarrageBox {
-  background: white;
+  background: rgba(0, 0, 0, 0.356);
   height: 30px;
   width: 900px;
   cursor: default;

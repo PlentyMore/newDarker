@@ -94,7 +94,7 @@ export default {
 };
 </script>
 
-<style >
+<style scoped>
 .loginPage,
 .loginBox,
 .loginBox form {

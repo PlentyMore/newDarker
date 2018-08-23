@@ -128,6 +128,9 @@ export default {
   display: flex;
   flex-direction: column;
 }
+.replyNoticeBox a{
+  text-decoration: none;
+}
 .replyNoticeTitle {
   margin: 10px auto 10px 38px;
   color: wheat;
@@ -136,7 +139,7 @@ export default {
   height: 40px;
   width: 91%;
   line-height: 40px;
-  border-radius: 5px;
+  border-radius: 3px;
   text-align: left;
 }
 .replyNoticeInBox {
@@ -186,6 +189,10 @@ export default {
 .replyContentBox{
     text-align: left;
     font-size: 13px;
+    margin-top: 5px;
+}
+.replyContent{
+  margin-left: 0;
 }
 .replyAvatar {
   height: 50px;

@@ -14,7 +14,6 @@
             <div class="textBox" @mouseover="startFn" @mouseout="endFn">
                 <h1 :data-start="start" :data-startB="startB" class="text" data-text="Welcome to Darker!!">Welcome to Darker!!</h1>
             </div>
-
             <div class="sysMsgBox" @click="jmpAnnounce" style="cursor:pointer">
                 <marquee class="sysMsg">{{announceInfo.title}}</marquee>
             </div>
@@ -41,8 +40,7 @@ export default {
       startB: false,
       timer: null,
       carouselTimer: null,
-      bgImgUrl: [
-      ],
+      bgImgUrl: [{thumb:'../../../static/img/1.jpg'}],
       bgImgIndex: 0,
       hotImgNowLoc: "0px",
       announceInfo:{},

@@ -32,7 +32,7 @@
             </div>
             <!-- v-model和value不可并存 -->
             <div><p>年龄：</p><input v-model="userInfo.age"></div>
-            <div class="sign"><p>我的签名：</p><textarea v-model="userInfo.sign">{{userInfo.sign}}</textarea></div>
+            <div class="sign"><p>我的签名：</p><textarea v-model="userInfo.sign"></textarea></div>
         </form>
         <div class="submitUserInfoBtn" @click="updateUserInfo"><p>提交</p></div>
     </div>

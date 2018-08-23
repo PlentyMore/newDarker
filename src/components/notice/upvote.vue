@@ -107,6 +107,9 @@ export default {
   display: flex;
   flex-direction: column;
 }
+.upvoteNoticeBox a{
+  text-decoration: none;
+}
 .upvoteNoticeTitle {
   margin: 10px auto;
   color: wheat;
@@ -114,7 +117,7 @@ export default {
   background: rgb(53, 50, 52);
   /*border: 1px solid rgba(255, 255, 255, 0.2);*/
   height: 40px;
-  width: 95%;
+  width: 91%;
   line-height: 40px;
   border-radius: 3px;
   text-align: left;
