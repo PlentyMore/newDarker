@@ -6,7 +6,7 @@
         </div>
         <div class="avatarBox">
             <p>当前头像</p>
-            <img :src="avatar" @click="avatarSettingShow=true">
+            <img :src="avatar!=''?avatar:'../../../static/img/noAvatar.jpg'" @click="avatarSettingShow=true">
             <my-upload field="image"
                 @crop-success="cropSuccess"
                 @crop-upload-success="cropUploadSuccess"

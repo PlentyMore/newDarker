@@ -159,7 +159,7 @@ export default {
   border: 1px solid white;
 }
 .loginBox input:focus {
-  border: 2px solid rgb(0, 0, 0);
+  border: 1px solid rgb(0, 0, 0);
 }
 .switchBox {
   display: flex;

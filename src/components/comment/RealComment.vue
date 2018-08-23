@@ -61,7 +61,7 @@
         :page-count="11"
         :page-size="page.pageSize"
         layout="total, prev, pager, next, jumper"
-        :total="page.allTotalSize">
+        :total="page.totalSize">
       </el-pagination>
     </div>
   </div>
@@ -139,8 +139,8 @@
       },
       async pageSelect(index) {
         let res = await api.getRepliesOfAnyClassPage({
-          pn: index,
-          oid: this.videoInfo.episodeId,
+          pn: this.page.pageNumber,
+          oid: this.oid,
           type: 1,
           sort: this.sort
         });
