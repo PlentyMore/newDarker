@@ -10,16 +10,18 @@
             {{rootReply.user.nick}}
           </a>
           <img v-if="top" class="stickFlag" src="../../../static/img/stick.png">
-          <img class="adminMenuBtn" src="../../../static/img/replyMenu.png" @click="showAdminBox=!showAdminBox">
-            <transition name="adminBoxTran">
-              <div class="adminBox" v-if="showAdminBox">
-                <div class="adminInBox">
-                  <p :class="['stick',{'greyBtn':role !== 'ROLE_ADMIN'}]" v-if="!top" @click="stickReply(rootReply.rpid)">置顶</p>
-                  <p :class="['stick',{'greyBtn':role !== 'ROLE_ADMIN'}]" class="stick" v-else @click="unStickReply(rootReply.rpid)">取消置顶</p>
-                  <p class="report">举报</p>
+          <div class="adminBoxOutBox" tabindex="1" @blur="showAdminBox=false">
+            <img class="adminMenuBtn" src="../../../static/img/replyMenu.png" @click="showAdminBox=!showAdminBox">
+              <transition name="adminBoxTran">
+                <div class="adminBox" v-if="showAdminBox">
+                  <div class="adminInBox">
+                    <p :class="['stick',{'greyBtn':role !== 'ROLE_ADMIN'}]" v-if="!top" @click="stickReply(rootReply.rpid)">置顶</p>
+                    <p :class="['stick',{'greyBtn':role !== 'ROLE_ADMIN'}]" class="stick" v-else @click="unStickReply(rootReply.rpid)">取消置顶</p>
+                    <p class="report">举报</p>
+                  </div>
                 </div>
-              </div>
-            </transition>
+              </transition>
+          </div>
         </div>
         <p class="replyContent">{{rootReply.content}}</p>
         <div class="commentControlBox">
@@ -30,16 +32,18 @@
             <p>{{rootReply.like}}</p>
           </div>
           <p class="commentReplyBtn" @click="toggleReplyBox">回复</p>
-          <p class="commentDeleteBtn" v-show="canDelReply" @click="showDelBox=!showDelBox">删除</p>
-          <transition name="delConfirmTran">
-            <div class="deleteConfirm" v-if="showDelBox">
-              <p class="deleteConfirmTip">确定删除吗？</p>
-              <div class="confirmDeleBtnBox">
-                <p class="cancelDelBtn" @click="showDelBox=!showDelBox">取消</p>
-                <p class="confirmDelBtn" @click="delRootReply">确定</p>
+          <div class="delConfirmOutBox" tabindex="1" @blur="showDelBox=false">
+            <p class="commentDeleteBtn" v-show="canDelReply" @click="showDelBox=!showDelBox">删除</p>
+            <transition name="delConfirmTran">
+              <div class="deleteConfirm" v-if="showDelBox">
+                <p class="deleteConfirmTip">确定删除吗？</p>
+                <div class="confirmDeleBtnBox">
+                  <p class="cancelDelBtn" @click="showDelBox=!showDelBox">取消</p>
+                  <p class="confirmDelBtn" @click="delRootReply">确定</p>
+                </div>
               </div>
-            </div>
-          </transition>
+            </transition>
+          </div>
         </div>
       </div>
     </div>
@@ -311,6 +315,7 @@ export default {
 .commentContentBox {
   margin: auto auto;
   text-align: left;
+  position: relative;
 }
 .commentControlBox {
   display: flex;
@@ -411,13 +416,13 @@ export default {
 }
 .deleteConfirm {
   position: absolute;
-  right: 21%;
+  right: -5%;
   display: flex;
   flex-direction: column;
   background: white;
   width: 150px;
   height: 70px;
-  margin-top: -80px;
+  margin-top: -90px;
   border-radius: 5px;
   overflow: hidden;
 }
@@ -473,13 +478,14 @@ export default {
   width: 70px;
   background: white;
   position: absolute;
-  right: 23.5%;
   height: 70px;
-  margin-top: 20px;
+  right: -2%;
+  margin-top: 0px;
   display: flex;
   flex-direction: column;
   border-radius: 3px;
   overflow: hidden;
+  outline: none;
 }
 .adminInBox {
   margin: auto auto;
@@ -516,5 +522,15 @@ export default {
 }
 .greyBtn {
   background: rgb(168, 168, 168);
+}
+.adminBoxOutBox{
+  margin: auto auto;
+  margin-right: 0;
+  outline: none;
+}
+.delConfirmOutBox{
+  outline: none;
+  margin: auto auto;
+  margin-right: 0;
 }
 </style>

@@ -9,7 +9,8 @@
           <a :href="'#/user/'+subReply.uid" target="_blank" style="text-decoration: none;color: rgb(127, 162, 238);">
             {{subReply.user.nick}}
           </a>
-          <img src="../../../static/img/replyMenu.png" @click="showAdminBox=!showAdminBox">
+          <div class="adminBoxOutBox" tabindex="1" @blur="showAdminBox=false">
+            <img src="../../../static/img/replyMenu.png" @click="showAdminBox=!showAdminBox">
             <transition name="adminBoxTran">
               <div class="adminBox" v-if="showAdminBox">
                 <div class="adminInBox">
@@ -17,6 +18,7 @@
                 </div>
               </div>
             </transition>
+          </div>
         </div>
         <p class="replyChildContent">{{subReply.content}}</p>
         <div class="commentChildControlBox">
@@ -26,16 +28,18 @@
             <p>{{subReply.like}}</p>
           </div>
           <p class="commentChildReplyBtn" @click="showReplyBox">回复</p>
-          <p class="commentChildDeleteBtn" v-show="canDelReply" @click="showDelBox=!showDelBox">删除</p>
-          <transition name="delConfirmTran">
-            <div class="deleteConfirm" v-if="showDelBox">
-              <p class="deleteConfirmTip">确定删除吗？</p>
-              <div class="confirmDeleBtnBox">
-                <p class="cancelDelBtn" @click="showDelBox=!showDelBox">取消</p>
-                <p class="confirmDelBtn" @click="delSubReply">确定</p>
+          <div class="delConfirmOutBox" tabindex="1" @blur="showDelBox=false">
+            <p class="commentChildDeleteBtn" v-show="canDelReply" @click="showDelBox=!showDelBox">删除</p>
+            <transition name="delConfirmTran">
+              <div class="deleteConfirm" v-if="showDelBox">
+                <p class="deleteConfirmTip">确定删除吗？</p>
+                <div class="confirmDeleBtnBox">
+                  <p class="cancelDelBtn" @click="showDelBox=!showDelBox">取消</p>
+                  <p class="confirmDelBtn" @click="delSubReply">确定</p>
+                </div>
               </div>
-            </div>
-          </transition>
+            </transition>
+          </div>
         </div>
       </div>
     </div>
@@ -170,6 +174,7 @@
   font-size: 13px;
   margin: 10px 10px;
   color: rgb(127, 162, 238);
+  position: relative;
   /*内容自适应宽度*/
   /*display: inline-block;*/
   display: flex;
@@ -196,6 +201,7 @@
   width: 770px;
   height: 20px;
   margin: 12px 10px;
+  position: relative;
 }
 .commentChildTime {
   font-size: 10px;
@@ -239,13 +245,13 @@
 }
 .deleteConfirm{
   position: absolute;
-  right: 21%;
+  right: -8%;
   display:flex;
   flex-direction:column;
   background: white;
   width:150px;
   height: 70px;
-  margin-top: -80px;
+  margin-top: -90px;
   border-radius: 5px;
   overflow: hidden;
 }
@@ -301,13 +307,14 @@
   width: 70px;
   background: white;
   position: absolute;
-  right: 23.5%;
+  right: -4%;
   height: 40px;
-  margin-top: 20px;
+  margin-top: 0px;
   display: flex;
   flex-direction: column;
   border-radius: 3px;
   overflow: hidden;
+  z-index: 10;
 }
 .adminInBox{
   margin: auto auto;
@@ -341,5 +348,15 @@
 }
 .report{
   background: rgb(255, 73, 73);
+}
+.adminBoxOutBox{
+  margin: auto auto;
+  margin-right: 0;
+  outline: none;
+}
+.delConfirmOutBox{
+  outline: none;
+  margin: auto auto;
+  margin-right: 0;
 }
 </style>

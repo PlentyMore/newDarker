@@ -151,6 +151,7 @@ export default {
     videoInfo() {
       if (this.bugTmp > 1) this.initDp();
       this.switchVideo();
+      this.videoCover = this.videoInfo.thumb===""?'../../../static/img/1.jpg':this.videoInfo.thumb;
     },
     async searchMvKey(key) {
       console.log("searching...", this.searchMvKey);
@@ -725,6 +726,7 @@ export default {
   width: 900px;
   height: 25px;
   margin: auto auto;
+  margin-bottom: 5px;
 }
 .mvOtherInfo div {
   display: flex;
@@ -739,8 +741,9 @@ export default {
 }
 .mvOtherInfo p {
   margin: auto auto;
-  color: rgb(63, 63, 63);
+  color: rgb(141, 141, 141);
   font-size: 13px;
+  padding-left: 3px;
 }
 .noMvInfo {
   margin: 150px auto;

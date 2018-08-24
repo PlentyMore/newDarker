@@ -158,10 +158,10 @@ export default {
 }
 .welcome {
   position: absolute;
-  height: 10%;
+  height: 85px;
   width: 50%;
   margin-left: 25%;
-  margin-top: 16%;
+  margin-top: 280px;
   display: flex;
   flex-direction: column;
   z-index: 1000;
@@ -352,7 +352,7 @@ export default {
   height: 10%;
   width: 50%;
   /*绝对布局的居中法*/
-  top: 50%;
+  top: 435px;
   left: 26%;
   display: flex;
   flex-direction: row;

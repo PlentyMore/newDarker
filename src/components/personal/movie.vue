@@ -50,7 +50,7 @@
                 @nextPage="nextPage"
                 class="scroll">
                 <div v-for="(item,index) in postBangumiList" class="movieItem" :key="item.id">
-                    <img :src="item.thumb" class="mvImg">
+                    <img :src="item.thumb?item.thumb:'../../../static/img/1.jpg'" class="mvImg">
                     <div class="mvInfoBox">
                         <p class="mvTitle">{{item.bn}} | 共{{item.et}}集</p>
                         <p class="mvMsg" v-if="item.msg!=''">修改提示: {{item.msg}}</p>
@@ -63,7 +63,7 @@
                             <p class="mvState" :style="stateStyle[item.pbs]">{{item.pbs_name}}</p>
                         </div>
                         <div class="mvToolBox" @mouseover="toolDisplay(index,0)" @mouseout="toolDisplay(index,1)">
-                            <p class="mvToolTitle">操作</p>
+                            <p class="mvToolTitle">操作<img src="../../../static/img/down.png"></p>
                             <transition name="mvTool">
                                 <div v-if="index==showToolIndex" :class="[{'twoSelectMenu':(item.pbs !== 'SUCCESS' && item.pbs !== 'AUDITING')},{'lastItemMenu':(index==totalSize-1&&index!=0)},'mvToolSelect']">
                                     <div>
@@ -347,7 +347,7 @@ export default {
   height: 90px !important;
 }
 .lastItemMenu {
-  margin-top: -180px !important;
+  margin-top: -165px !important;
 }
 .submitMvBoxTran-leave-active,
 .submitMvBoxTran-enter-active {
@@ -540,6 +540,12 @@ input:focus {
 }
 .mvToolTitle {
   color: white;
+  font-size: 13px;
+}
+.mvToolTitle img{
+  width: 12px;
+  height: 12px;
+  margin: auto 2px;
 }
 .mvToolSelect {
   background: white;

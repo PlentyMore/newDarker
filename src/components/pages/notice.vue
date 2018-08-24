@@ -34,7 +34,7 @@ export default {
   data() {
     return {
       menuTitle: "消息",
-      pageIndex: 0,
+      pageIndex: this.$route.query.pageNum,
       test: {
         0: "系统通知",
         1: "回复我的",
@@ -43,10 +43,6 @@ export default {
       }
     };
   },
-  mounted() {
-    this.pageIndex = this.$route.query.pageNum;
-    console.log("notice页：", this.pageIndex);
-  }
 };
 </script>
 

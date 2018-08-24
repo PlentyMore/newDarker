@@ -15,17 +15,27 @@
                 @nextPage="nextPage"
                 style="margin-top:0;"
                 class="scroll">
-                <div class="replyMsgItem" v-for="item in replyNoticeList" :key="item.id">
+                <div class="replyMsgItem" v-for="(item,index) in replyNoticeList" :key="item.id">
                     <div class="replyMsgInfoBox">
-                        <img :src="item.publisher.face" class="replyAvatar">
+                        <img @click="personalPage(item.uid)" :src="item.publisher.face?item.publisher.face:'../../../static/img/noAvatar.jpg'" class="replyAvatar">
                         <div class="replyMsgInfo">
                             <div class="replyMsgTitleBox">
-                                <p class="replyer">{{item.publisher.nick}}</p>
+                                <p @click="personalPage(item.uid)" class="replyer">{{item.publisher.nick}}</p>
                                 <p class="replyTime">{{new Date(item.createTime).toLocaleString()}}</p>
                             </div>
                             <div class="replyContentBox"><a :href="getContentUrl(item.content)" class="replyContent" style="color:#409eff;font-size: 14px;">{{getContent(item.content)}}</a></div>
                         </div>
-                        <p class="replyDelete" @click="deleteReplyMessage(item.id)">删除</p>
+                        <div class="replyDelete" @click="itemIndex=itemIndex==index?-1:index;">删除
+                          <transition name="delConfirmTran">
+                            <div class="deleteConfirm" v-if="index==itemIndex">
+                              <p class="deleteConfirmTip">确定删除吗？</p>
+                              <div class="confirmDeleBtnBox">
+                                <p class="cancelDelBtn" @click="itemIndex=-1">取消</p>
+                                <p class="confirmDelBtn" @click="deleteReplyMessage(item.id)">确定</p>
+                              </div>
+                            </div>
+                          </transition>
+                        </div>
                     </div>
                     <div class="replyAddr">
                         <p class="replyAddrContent"><a :href="getContentUrl(item.title)" style="color:#03a9f4;font-size: 12px;">{{getContent(item.title)}}</a>评论中回复了你</p>
@@ -46,6 +56,7 @@ export default {
   data() {
     return {
       loading: false,
+      itemIndex:-1,
       replyNoticeList: [],
       pageSize: 0,
       pageNum: 1,
@@ -62,12 +73,12 @@ export default {
       console.log(mid);
       let resData = await api.deleteMessage(mid);
       if (resData.data.code === 0) {
-          console.log('删除成功啦',resData);
+        console.log("删除成功啦", resData);
         this.$message({
           message: "删除成功",
           type: "success"
         });
-        this.loading=true;
+        this.loading = true;
         this.initReplyMessage();
       }
     },
@@ -114,10 +125,14 @@ export default {
           1,
         content.lastIndexOf('"', content.length)
       );
+    },
+    personalPage(uid) {
+      console.log(uid);
+      this.$router.push({ name: "user", params: { uid: uid } });
     }
   },
   mounted() {
-    this.loading=true;
+    this.loading = true;
     this.initReplyMessage();
   }
 };
@@ -128,7 +143,7 @@ export default {
   display: flex;
   flex-direction: column;
 }
-.replyNoticeBox a{
+.replyNoticeBox a {
   text-decoration: none;
 }
 .replyNoticeTitle {
@@ -180,18 +195,19 @@ export default {
 }
 .replyer {
   margin: 0 0;
+  cursor: pointer;
 }
 .replyTime {
   margin: 0 10px;
   font-size: 13px;
   color: rgb(196, 196, 196);
 }
-.replyContentBox{
-    text-align: left;
-    font-size: 13px;
-    margin-top: 5px;
+.replyContentBox {
+  text-align: left;
+  font-size: 13px;
+  margin-top: 5px;
 }
-.replyContent{
+.replyContent {
   margin-left: 0;
 }
 .replyAvatar {
@@ -199,6 +215,7 @@ export default {
   width: 50px;
   border-radius: 50px;
   margin: 10px 10px;
+  cursor: pointer;
 }
 .replyAddr {
   height: 30px;
@@ -210,9 +227,11 @@ export default {
   margin: auto auto auto 75px;
   width: 89%;
   height: 30px;
-  font-size: 13px;
+  font-size: 12px;
   line-height: 30px;
   border-radius: 10px;
+  padding-left: 8px;
+  text-align: left;
 }
 .systemContent {
   margin: auto 10px;
@@ -226,12 +245,13 @@ export default {
 }
 .replyDelete {
   background: rgb(255, 65, 65);
-  height: 30px;
-  width: 50px;
-  line-height: 30px;
-  margin-right: 25px;
-  border-radius: 10px;
+  height: 20px;
+  width: 40px;
+  line-height: 20px;
+  border-radius: 3px;
   cursor: pointer;
+  font-size: 12px;
+  margin: auto auto;
 }
 .replyDelete:hover {
   background: rgb(255, 117, 117);

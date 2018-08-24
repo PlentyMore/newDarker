@@ -15,17 +15,27 @@
                 @nextPage="nextPage"
                 style="margin-top:0;"
                 class="scroll">
-                <div class="atMsgItem" v-for="item in atNoticeList" :key="item.id">
+                <div class="atMsgItem" v-for="(item,index) in atNoticeList" :key="item.id">
                     <div class="atMsgInfoBox">
-                        <img :src="item.publisher.face" class="atAvatar">
+                        <img @click="personalPage(item.uid)" :src="item.publisher.face?item.publisher.face:'../../../static/img/noAvatar.jpg'" class="atAvatar">
                         <div class="atMsgInfo">
                             <div class="atMsgTitlBox">
-                                <p class="ater">{{item.publisher.nick}}</p>
+                                <p @click="personalPage(item.uid)" class="ater">{{item.publisher.nick}}</p>
                                 <p class="atTime">{{new Date(item.createTime).toLocaleString()}}</p>
                             </div>
                             <p class="atContent"><a :href="getContentUrl(item.content)" style="color:#409eff;font-size: 14px;">{{getContent(item.content)}}</a></p>
                         </div>
-                        <p class="atDelete" @click="deleteReplyMessage(item.id)">删除</p>
+                        <div class="atDelete" @click="itemIndex=itemIndex==index?-1:index;">删除
+                          <transition name="delConfirmTran">
+                            <div class="deleteConfirm" v-if="index==itemIndex">
+                              <p class="deleteConfirmTip">确定删除吗？</p>
+                              <div class="confirmDeleBtnBox">
+                                <p class="cancelDelBtn" @click="itemIndex=-1">取消</p>
+                                <p class="confirmDelBtn" @click="deleteReplyMessage(item.id)">确定</p>
+                              </div>
+                            </div>
+                          </transition>
+                        </div>
                     </div>
                     <div class="atAddr">
                         <p class="atAddrContent"><a :href="getContentUrl(item.title)" style="color:#03a9f4;font-size: 12px;">{{getContent(item.title)}}</a>中@了你</p>
@@ -46,6 +56,7 @@ export default {
   data() {
     return {
       loading: false,
+      itemIndex:-1,
       atNoticeList: [],
       pageSize: 0,
       pageNum: 1,
@@ -112,6 +123,10 @@ export default {
           1,
         content.lastIndexOf('"', content.length)
       );
+    },
+    personalPage(uid){
+      console.log(uid);
+      this.$router.push({ name: "user", params: { uid: uid } });
     }
   },
   mounted() {
@@ -178,6 +193,7 @@ export default {
 }
 .ater {
   margin: 0 0;
+  cursor: pointer;
 }
 .atTime {
   margin: 0 10px;
@@ -194,6 +210,7 @@ export default {
   width: 50px;
   border-radius: 50px;
   margin: 10px 10px;
+  cursor: pointer;
 }
 .atAddr {
   height: 30px;
@@ -208,16 +225,25 @@ export default {
   height: 30px;
   line-height: 30px;
   border-radius: 10px;
-  font-size: 13px;
+  font-size: 12px;
+  padding-left: 8px;
+  text-align: left;
 }
 .atDelete {
   background: rgb(255, 65, 65);
-  height: 30px;
-  width: 50px;
-  line-height: 30px;
-  margin-right: 25px;
-  border-radius: 10px;
+  height: 20px;
+  width: 40px;
+  line-height: 20px;
+  border-radius: 3px;
   cursor: pointer;
+  font-size: 12px;
+  margin: auto auto;
+}
+.atDelBox{
+  background: seagreen;
+  margin: auto auto;
+  height: 20px;
+  width: 40;
 }
 .atDelete:hover {
   background: rgb(255, 117, 117);
@@ -247,5 +273,66 @@ export default {
 .scroll {
   margin: 30px 18px;
   width: 95%;
+}
+.deleteConfirm {
+  position: absolute;
+  right: 21%;
+  display: flex;
+  flex-direction: column;
+  background: white;
+  width: 150px;
+  height: 70px;
+  margin-top: -20px;
+  right: 100px;
+  border-radius: 5px;
+  overflow: hidden;
+}
+.delConfirmTran-leave-active,
+.delConfirmTran-enter-active {
+  transition: all 0.2s ease;
+}
+.delConfirmTran-leave-active,
+.delConfirmTran-enter {
+  width: 0px !important;
+  /*!important 将该样式优先级调至最高*/
+  opacity: 0;
+}
+.delConfirmTran-leave,
+.delConfirmTran-enter-active {
+  width: 150px;
+}
+.deleteConfirmTip {
+  width: 100%;
+  margin: 10px auto;
+  color: red;
+  font-weight: bold;
+  font-size: 13px;
+  text-align: center;
+}
+.confirmDeleBtnBox {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin: -10px auto;
+  margin-bottom: 0;
+}
+.confirmDeleBtnBox p {
+  width: 50px;
+  text-align: center;
+  font-size: 12px;
+  height: 20px;
+  line-height: 20px;
+  cursor: pointer;
+  color: white;
+}
+.cancelDelBtn {
+  background: gray;
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
+}
+.confirmDelBtn {
+  background: rgb(255, 73, 73);
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
 }
 </style>

@@ -5,10 +5,10 @@
             <transition name="msgMenu">
                 <div v-if="show" class="msgMenuBox">
                     <div class="msgItemBox">
-                        <p class="msgItem" @click="jmpNotice(0)">系统通知 <el-badge :value="unreadNoticeNum.system" v-if="unreadNoticeNum.system>0" :style="{'margin-top':auto}"></el-badge></p>
-                        <p class="msgItem" @click="jmpNotice(1)">回复我的 <el-badge :value="unreadNoticeNum.reply" v-if="unreadNoticeNum.reply>0" :style="{'margin-top':auto}"></el-badge></p>
-                        <p class="msgItem" @click="jmpNotice(2)">@我的 <el-badge :value="unreadNoticeNum.at" v-if="unreadNoticeNum.at>0" :style="{'margin-top':auto}"></el-badge></p>
-                        <p class="msgItem" @click="jmpNotice(3)">收到的赞 <el-badge :value="unreadNoticeNum.like" v-if="unreadNoticeNum.like>0" :style="{'margin-top':auto}"></el-badge></p>
+                        <p class="msgItem" @click="jmpNotice(0)">系统通知 <el-badge :value="unreadNoticeNum.system" v-if="unreadNoticeNum.system>0" :style="{'margin-top':'auto'}"></el-badge></p>
+                        <p class="msgItem" @click="jmpNotice(1)">回复我的 <el-badge :value="unreadNoticeNum.reply" v-if="unreadNoticeNum.reply>0" :style="{'margin-top':'auto'}"></el-badge></p>
+                        <p class="msgItem" @click="jmpNotice(2)">@我的 <el-badge :value="unreadNoticeNum.at" v-if="unreadNoticeNum.at>0" :style="{'margin-top':'auto'}"></el-badge></p>
+                        <p class="msgItem" @click="jmpNotice(3)">收到的赞 <el-badge :value="unreadNoticeNum.like" v-if="unreadNoticeNum.like>0" :style="{'margin-top':'auto'}"></el-badge></p>
                     </div>
                 </div>
             </transition>
@@ -100,7 +100,7 @@ export default {
 .unreadNum{
   position: absolute;;
   top:12px;
-  right: 15.5%;
+  right: 270px;
 }
 .unreadNum p{
   margin: 0 0;
