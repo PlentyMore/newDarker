@@ -52,9 +52,6 @@
   export default {
     name: "SubReply",
     props:["oid","type","subReply","subIndex"],
-    components:{
-      // "reply-box": ReplyBox
-    },
     data() {
       return {
         uid: "",
@@ -84,12 +81,29 @@
           return "" + parseInt(minC) + "分钟前";
         } else return "刚刚";
       },
-      canDelReply(){
-        if(this.uid === this.subReply.uid)
-          return true;
-        else if(this.role){
-          if(this.role === 'ROLE_ADMIN' || this.role === 'ROLE_MANAGER')
+      canDelReply() {
+        if (!this.uid)
+          return false;  //没有登陆，不能删除评论
+        if (this.type === 4) {  //用户资料下的评论
+            if (this.uid === this.oid) {  //在自己的资料下面，可以删除全部评论
+              return true;
+            }
+            else if (this.role) {  //管理员可以删除全部评论
+              if (this.role === "ROLE_ADMIN" || this.role === "ROLE_MANAGER")
+                return true;
+            }
+            else if (this.uid === this.subReply.uid) {  //用户可以删除自己发的评论
+              return true;
+            }
+        }
+        else {  //其他类型的评论
+          if (this.uid === this.subReply.uid) {  //用户可以删除自己发的评论
             return true;
+          }
+          else if (this.role) {  //管理员
+            if (this.role === "ROLE_ADMIN" || this.role === "ROLE_MANAGER")
+              return true;
+          }
         }
         return false;
       }

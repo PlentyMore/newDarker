@@ -17,13 +17,19 @@
       </post-reply>
     </div>
     <div v-if="page.pageNumber==1&&this.topReplies" class="stickReplyBox">
-      <root-reply
+      <root-reply ref="topReply"
         :oid="oid"
         :type="type"
         :rootReply="topReplies"
-        :top=true></root-reply>
+        :subPage="subPage"
+        :top=true
+        @onRefreshComment="refreshComment"
+        @onRemoveTopReply="removeTopReply"
+        @onUpdateTopReply="updateTopReply"
+      >
+      </root-reply>
     </div>
-    <div v-if="hotReplies.length!==0">
+    <div v-if="hotReplies && hotReplies.length!==0">
       <div v-for="(rootReply,index) in hotReplies" style="color:red;" :key="rootReply.rpid">
         <root-reply
           :oid="oid"
@@ -31,11 +37,13 @@
           :rootReply="rootReply"
           :rootIndex="index"
           :subPage="subPage"
+          @onRefreshComment="refreshComment"
           @onRemoveRootReply="removeRootReply"
+          @onUpdateRootReply="updateRootReply"
         ></root-reply>
       </div>
     </div>
-    <div v-if="hotReplies.length!=0" class="hotLine">
+    <div v-if="hotReplies && hotReplies.length!==0" class="hotLine">
       <p style="color:white">------------------以上为热门评论，点击</p>
       <p @click="sortByHot" style="color: rgb(24, 109, 189);font-weight:bold;cursor:pointer;">查看更多</p>
       <p style="color:white">------------------</p>
@@ -48,6 +56,7 @@
           :oid="oid"
           :type="type"
           :subPage="subPage"
+          @onRefreshComment="refreshComment"
           @onRemoveRootReply="removeRootReply"
           @onUpdateRootReply="updateRootReply">
         </root-reply>
@@ -83,12 +92,10 @@
     data() {
       return {
         sort: 1,
-        topReplies: {},
+        topReplies: "",
         hotReplies: [],
-        parentCommentPlaceholder:
-          "请自觉遵守互联网相关的政策法规，严禁发布色情、暴力、反动的言论。",
         rootReplies:[],
-        page:"",
+        page: "",
         subPage: ""
       };
     },
@@ -96,8 +103,16 @@
       async refreshComment(){
         console.log("refresh comment");
         this.sort = 1;
+        this.$nextTick(()=>{
+          //获取置顶评论的RootReply组件，直接修改它的数据
+          let top = this.$refs.topReply;
+          if(top){
+            top.page = "";
+            top.noMore = false;
+          }
+          console.log("topReply:",top);
+        });
         this.initComment();
-        this.refreshVal++;
       },
       async initComment() {
         let res = await api.getRepliesOfAnyClassPage({
@@ -108,12 +123,11 @@
         });
         let rd = res.data;
         console.log("初始化评论：",rd);
-        console.log("评论数据：",rd.data.replies);
-        console.log("热门数据", this.hotComment);
         if(rd.code === 0){
-          this.topReplies=rd.data.top;
+          this.topReplies = rd.data.top;
           console.log('置顶评论',rd.data.top,this.topReplies);
           this.rootReplies = rd.data.replies;
+          this.hotReplies = rd.data.hot;
           this.page = rd.data.page;
         }
         else {
@@ -131,7 +145,7 @@
         if(rd.code === 0){
           this.rootReplies = rd.data.replies;
           this.page = rd.data.page;
-          this.hotComment = [];
+          this.hotReplies = [];
         }
         else {
           console.log("按点赞数排序获取消息失败");
@@ -147,6 +161,8 @@
         let rd = res.data;
         if (rd.code === 0) {
           this.rootReplies = rd.data.replies;
+          this.hotReplies = rd.data.hot;
+          this.topReplies = rd.data.top;
           this.page = rd.data.page;
         }
         else {
@@ -163,9 +179,24 @@
       },
       updateRootReply(data){
         console.log("updateRootReply:",data);
-        this.topReplies=data.top;
+        this.topReplies = data.top;
         this.rootReplies = data.replies;
         this.page = data.page;
+      },
+      removeTopReply(){
+        this.topReplies = "";
+      },
+      updateTopReply(data){
+        console.log("updateTopReply:",data);
+        let rootId = data.subpage.rootId;
+        let i = data.replies?data.replies.length:0;
+        while (i--){
+          if(rootId === data.replies[i].rpid){
+            console.log("found topReply:",data.replies[i]);
+            this.topReplies = data.replies[i];
+            break;
+          }
+        }
       },
       goAnchor(selector) {
         let anchor = document.getElementById(selector);
@@ -189,7 +220,6 @@
     async mounted(){
       console.log("mounted.....rpid:",this.rpid);
       if(this.rpid){
-        console.log("ready to send request.");
         let res = await api.getRepliesOfAnyClassPage({
           rpid: this.rpid,
           oid: this.oid,
@@ -207,7 +237,6 @@
         else {
           console.log("position err...");
         }
-        console.log("finished init data...");
         this.$nextTick( () => {
           this.goAnchor(this.rpid);
         });

@@ -20,7 +20,8 @@
       "type",
       "mode",
       "parentRpid",
-      "replyInfo"
+      "replyInfo",
+      "top"
     ],
     data() {
       return {
@@ -102,7 +103,14 @@
           });
           let rd = postRes.data;
           if(rd.code === 0){
-            this.$emit("onAddSubReply",rd.data.rpid);
+            if(this.top){
+              console.log("emit onAddTopSubReply");
+              this.$emit("onAddTopSubReply",rd.data.rpid);
+            }
+            else {
+              this.$emit("onAddSubReply",rd.data.rpid);
+            }
+
             this.content = "";
             this.sendingFlag = false;
             this.sendBtnText = "发表评论";

@@ -15,8 +15,9 @@
               <transition name="adminBoxTran">
                 <div class="adminBox" v-if="showAdminBox">
                   <div class="adminInBox">
-                    <p :class="['stick',{'greyBtn':role !== 'ROLE_ADMIN'}]" v-if="!top" @click="stickReply(rootReply.rpid)">置顶</p>
-                    <p :class="['stick',{'greyBtn':role !== 'ROLE_ADMIN'}]" class="stick" v-else @click="unStickReply(rootReply.rpid)">取消置顶</p>
+                    <p :class="['stick',{'greyBtn':canSetTop}]" v-if="!top" @click="stickReply(rootReply.rpid)">置顶</p>
+                    <p :class="['stick',{'greyBtn':canSetTop}]" class="stick" v-else @click="unStickReply(rootReply.rpid)">取消置顶</p>
+                    <p class="commentDeleteBtn" v-show="canDelReply" @click="showDelBox=!showDelBox">删除</p>
                     <p class="report">举报</p>
                   </div>
                 </div>
@@ -33,7 +34,7 @@
           </div>
           <p class="commentReplyBtn" @click="toggleReplyBox">回复</p>
           <div class="delConfirmOutBox" tabindex="1" @blur="showDelBox=false">
-            <p class="commentDeleteBtn" v-show="canDelReply" @click="showDelBox=!showDelBox">删除</p>
+            <!--<p class="commentDeleteBtn" v-show="canDelReply" @click="showDelBox=!showDelBox">删除</p>-->
             <transition name="delConfirmTran">
               <div class="deleteConfirm" v-if="showDelBox">
                 <p class="deleteConfirmTip">确定删除吗？</p>
@@ -78,6 +79,8 @@
       :replyInfo="replyInfo"
       :parentRpid="rootReply.rpid"
       :mode=1
+      :top="top"
+      @onAddTopSubReply="addTopSubReply"
       @onAddSubReply="addSubReply">
     </post-reply>
   </div>
@@ -130,10 +133,46 @@ export default {
       } else return "刚刚";
     },
     canDelReply() {
-      if (this.uid === this.rootReply.uid) return true;
-      else if (this.role) {
-        if (this.role === "ROLE_ADMIN" || this.role === "ROLE_MANAGER")
+      if(!this.uid)
+        return false;  //没有登陆，不能删除评论
+      if (this.type === 4){  //用户资料下的评论
+          if (this.uid === this.oid){  //在自己的资料下面，可以删除全部评论，oid为要查看的用户资料的uid
+            return true;
+          }
+          else if (this.role) {  //管理员可以删除全部评论
+            if (this.role === "ROLE_ADMIN" || this.role === "ROLE_MANAGER")
+              return true;
+          }
+          else if (this.uid === this.rootReply.uid) {  //用户可以删除自己发的评论
+            return true;
+          }
+      }
+      else {  //其他类型的评论
+        if (this.uid === this.rootReply.uid) {  //用户可以删除自己发的评论
           return true;
+        }
+        else if (this.role) {  //管理员
+          if (this.role === "ROLE_ADMIN" || this.role === "ROLE_MANAGER")
+            return true;
+        }
+      }
+      return false;
+    },
+    canSetTop(){
+      if (!this.uid)  //没有登陆
+        return false;
+      if(this.type === 4){  //用户资料下的评论
+        if(this.uid === this.oid){  //自己的资料下面的评论，可以进行置顶
+          return true;
+        }
+        else {
+          if (this.role === "ROLE_ADMIN" || this.role === "ROLE_MANAGER")
+            return true;  //管理员为所欲为
+        }
+      }
+      else {  //其他类型的评论
+        if (this.role === "ROLE_ADMIN" || this.role === "ROLE_MANAGER")
+          return true;  //其他类型的评论一般只有管理员可以置顶
       }
       return false;
     }
@@ -198,7 +237,14 @@ export default {
       let res = await api.deleteMyRpely(this.rootReply.rpid);
       let rd = res.data;
       if (rd.code === 0) {
-        this.$emit("onRemoveRootReply", this.rootIndex);
+        if(this.top){
+          this.$emit("onRemoveTopReply");
+          this.page = "";
+          this.noMore = false;
+        }
+        else {
+          this.$emit("onRemoveRootReply", this.rootIndex);
+        }
         this.$message({
           message: "删除成功",
           type: "success"
@@ -236,17 +282,34 @@ export default {
         console.log("添加评论后刷新子评论失败");
       }
     },
+    async addTopSubReply(rpid){
+      let res = await api.getRepliesOfAnyClassPage({
+        rpid: rpid,
+        oid: this.oid,
+        type: this.type
+        // root: this.rootReply.rpid
+      });
+      let rd = res.data;
+      if (rd.code === 0) {
+        this.$emit("onUpdateTopReply", rd.data);
+        this.page = rd.data.subpage;
+        this.showReplyBox = false;
+        this.noMore = true;
+      } else {
+        console.log("添加评论后刷新置顶子评论失败");
+      }
+    },
     async stickReply(rpid) {
       console.log("置顶rpid", rpid);
       let resData = (await api.stickReply(rpid)).data;
       console.log("置顶", resData);
       if (resData.code === 0) {
+        //初始化列表
+        this.$emit("onRefreshComment");
         this.$message({
           message: "置顶成功",
           type: "success"
         });
-        //初始化列表
-        window.location.reload();
       } else {
         this.$message({
           message: message.msg,
@@ -259,12 +322,12 @@ export default {
       let resData = (await api.unstickReply(rpid)).data;
       console.log("取消置顶", resData);
       if (resData.code === 0) {
+        //初始化列表
+        this.$emit("onRefreshComment");
         this.$message({
           message: "取消置顶成功",
           type: "success"
         });
-        //初始化列表
-        window.location.reload();
       } else {
         this.$message({
           message: message.msg,
