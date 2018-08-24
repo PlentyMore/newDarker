@@ -48,6 +48,7 @@ export default {
   height: 60px;
   display: flex;
   flex-direction: column;
+  position: relative;
 }
 .msgTitle {
   cursor: pointer;
@@ -69,7 +70,7 @@ export default {
 .msgMenuBox {
   background: white;
   position: absolute;
-  right: 265px;
+  right: -90%;
   top: 60px;
   overflow: hidden;
   height: 160px;
@@ -100,7 +101,6 @@ export default {
 .unreadNum{
   position: absolute;;
   top:12px;
-  right: 270px;
 }
 .unreadNum p{
   margin: 0 0;
@@ -115,7 +115,7 @@ export default {
 }
 .animation-run{
   background: rgba(255, 166, 0, 0.5);
-  
+
   animation: shining 2s infinite;
 }
 @keyframes shining {

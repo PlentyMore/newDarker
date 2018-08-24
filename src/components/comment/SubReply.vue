@@ -15,6 +15,7 @@
               <div class="adminBox" v-if="showAdminBox">
                 <div class="adminInBox">
                   <p class="report">举报</p>
+                  <p class="report" v-show="canDelReply" @click="showDelDialog">删除</p>
                 </div>
               </div>
             </transition>
@@ -29,7 +30,6 @@
           </div>
           <p class="commentChildReplyBtn" @click="showReplyBox">回复</p>
           <div class="delConfirmOutBox" tabindex="1" @blur="showDelBox=false">
-            <p class="commentChildDeleteBtn" v-show="canDelReply" @click="showDelBox=!showDelBox">删除</p>
             <transition name="delConfirmTran">
               <div class="deleteConfirm" v-if="showDelBox">
                 <p class="deleteConfirmTip">确定删除吗？</p>
@@ -109,6 +109,10 @@
       }
     },
     methods:{
+      showDelDialog(){
+        this.showAdminBox = false;
+        this.showDelBox = !this.showDelBox;
+      },
       async delSubReply(){
         let res = await api.deleteMyRpely(this.subReply.rpid);
         let rd = res.data;
@@ -322,7 +326,6 @@
   background: white;
   position: absolute;
   right: -4%;
-  height: 40px;
   margin-top: 0px;
   display: flex;
   flex-direction: column;

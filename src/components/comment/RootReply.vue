@@ -15,10 +15,10 @@
               <transition name="adminBoxTran">
                 <div class="adminBox" v-if="showAdminBox">
                   <div class="adminInBox">
-                    <p :class="['stick',{'greyBtn':canSetTop}]" v-if="!top" @click="stickReply(rootReply.rpid)">置顶</p>
-                    <p :class="['stick',{'greyBtn':canSetTop}]" class="stick" v-else @click="unStickReply(rootReply.rpid)">取消置顶</p>
-                    <p class="commentDeleteBtn" v-show="canDelReply" @click="showDelBox=!showDelBox">删除</p>
+                    <p :class="['stick','greyBtn']" v-if="!top && canSetTop" @click="stickReply(rootReply.rpid)">置顶</p>
+                    <p :class="['stick','greyBtn']" class="stick" v-if="top && canSetTop" @click="unStickReply(rootReply.rpid)">取消置顶</p>
                     <p class="report">举报</p>
+                    <p class="report" v-show="canDelReply" @click="showDelDialog">删除</p>
                   </div>
                 </div>
               </transition>
@@ -34,7 +34,6 @@
           </div>
           <p class="commentReplyBtn" @click="toggleReplyBox">回复</p>
           <div class="delConfirmOutBox" tabindex="1" @blur="showDelBox=false">
-            <!--<p class="commentDeleteBtn" v-show="canDelReply" @click="showDelBox=!showDelBox">删除</p>-->
             <transition name="delConfirmTran">
               <div class="deleteConfirm" v-if="showDelBox">
                 <p class="deleteConfirmTip">确定删除吗？</p>
@@ -178,6 +177,10 @@ export default {
     }
   },
   methods: {
+    showDelDialog(){
+      this.showAdminBox = false;
+      this.showDelBox = !this.showDelBox;
+    },
     async seeMore() {
       this.noMore = true;
       let res = await api.getRepliesOfAnyClassPage({
@@ -541,13 +544,13 @@ export default {
   width: 70px;
   background: white;
   position: absolute;
-  height: 70px;
+  height: 110%;
   right: -2%;
   margin-top: 0px;
   display: flex;
   flex-direction: column;
   border-radius: 3px;
-  overflow: hidden;
+  /*overflow: hidden;*/
   outline: none;
 }
 .adminInBox {
