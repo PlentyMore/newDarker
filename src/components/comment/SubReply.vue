@@ -6,7 +6,7 @@
       </a>
       <div class="commentChildContentBox">
         <div class="replyChildUsername">
-          <a :href="'#/user/'+subReply.uid" target="_blank" style="text-decoration: none;color: rgb(127, 162, 238);">
+          <a :href="'#/user/'+subReply.uid" target="_blank" style="text-decoration: none;color: #607D8B;">
             {{subReply.user.nick}}
           </a>
           <div class="adminBoxOutBox" tabindex="1" @blur="showAdminBox=false">
@@ -186,7 +186,7 @@
 .replyChildUsername {
   text-align: left;
   font-weight: bold;
-  font-size: 13px;
+  /*font-size: 13px;*/
   margin: 10px 10px;
   color: rgb(127, 162, 238);
   position: relative;
@@ -203,10 +203,10 @@
   cursor: pointer;
 }
 .replyChildContent {
-  color: white;
+  color: #c5c8c6;
   height: auto;
   text-align: left;
-  font-size: 13px;
+  /*font-size: 13px;*/
   margin: -8px 10px;
   width: 770px;
   word-wrap: break-word;
@@ -219,29 +219,31 @@
   position: relative;
 }
 .commentChildTime {
-  font-size: 10px;
-  margin: auto 0px;
+  font-size: 13px;
+  margin: auto 0;
   color: gray;
 }
 .commentChildUpvote {
   display: flex;
   flex-direction: row;
-  margin: auto 5px;
+  margin: auto 10px;
   cursor: pointer;
 }
 .commentChildUpvote img {
-  width: 15px;
-  height: 15px;
+  width: 17px;
+  height: 17px;
   margin: auto auto;
 }
 .commentChildUpvote p {
-  font-size: 10px;
+  font-size: 13px;
   margin: auto auto;
   color: gray;
+  padding-left: 3px;
 }
 .commentChildReplyBtn {
   margin: auto 10px;
-  color: rgb(24, 109, 189);
+  color: rgb(87, 117, 146);
+  font-size: 13px;
 }
 .commentChildDeleteBtn {
   margin: auto auto;
@@ -250,7 +252,7 @@
 }
 .commentChildDeleteBtn,
 .commentChildReplyBtn {
-  font-size: 11px;
+  font-size: 13px;
   cursor: pointer;
   font-weight: bold;
 }

@@ -6,7 +6,7 @@
       </a>
       <div class="commentContentBox">
         <div class="replyUsername">
-          <a :href="'#/user/'+rootReply.uid" target="_blank" style="text-decoration: none;color: rgb(127, 162, 238);">
+          <a :href="'#/user/'+rootReply.uid" target="_blank" style="text-decoration: none;color: #607D8B">
             {{rootReply.user.nick}}
           </a>
           <img v-if="top" class="stickFlag" src="../../../static/img/stick.png">
@@ -56,7 +56,12 @@
                  @onShowSubReplyBox="showSubReplyBox">
       </sub-reply>
     </div>
-    <div @click="seeMore" v-show="!noMore" v-if="rootReply.rcount>3 && !page" class="seeMore">共{{rootReply.rcount}}条回复，点击查看更多</div>
+    <div v-if="rootReply.rcount>3 && !page" style="text-align: left;margin-bottom: 10px;">
+      <span style="color: #c5c8c6;font-size: 13px;">共{{rootReply.rcount}}条回复，</span>
+      <span @click="seeMore" v-show="!noMore"  class="seeMore">点击查看更多</span>
+      <!--<div @click="seeMore" v-show="!noMore" v-if="rootReply.rcount>3 && !page" class="seeMore">点击查看更多</div>-->
+    </div>
+
     <div v-if="noMore">
       <el-pagination
         v-show="noMore"
@@ -365,7 +370,7 @@ export default {
   flex-direction: column;
   width: 900px;
   margin: 10px auto;
-  border-bottom: 1px solid gray;
+  border-bottom: 1px solid #504141;
 }
 .commentItemInBox {
   display: flex;
@@ -375,13 +380,14 @@ export default {
   height: 50px;
   width: 50px;
   border-radius: 50px;
-  margin: 12px auto;
   cursor: pointer;
+  margin: 12px 10px 12px auto;
 }
 .commentContentBox {
   margin: auto auto;
   text-align: left;
   position: relative;
+
 }
 .commentControlBox {
   display: flex;
@@ -409,7 +415,7 @@ export default {
   margin-left: 5px;
 }
 .replyContent {
-  color: white;
+  color: #c5c8c6;
   height: auto;
   text-align: left;
   margin: -8px 10px;
@@ -439,18 +445,19 @@ export default {
   cursor: pointer;
 }
 .commentUpvote img {
-  width: 20px;
-  height: 20px;
+  width: 17px;
+  height: 17px;
   margin: auto auto;
 }
 .commentUpvote p {
   font-size: 12px;
   margin: auto auto;
   color: gray;
+  padding-left: 3px;
 }
 .commentReplyBtn {
   margin: auto 10px;
-  color: rgb(24, 109, 189);
+  color: rgb(87, 117, 146);
 }
 .commentDeleteBtn {
   margin: auto auto;
@@ -468,12 +475,13 @@ export default {
   margin-bottom: 10px;
 }
 .seeMore {
-  color: rgb(127, 162, 238);
+  color: rgb(67, 160, 183);
   font-size: 13px;
-  font-weight: bold;
-  margin-bottom: 10px;
+  /*font-weight: bold;*/
+  /*margin-bottom: 10px;*/
   text-align: left;
-  margin-left: 50px;
+  /*margin-left: 50px;*/
+  cursor: pointer;
 }
 .childRepliesPageBox {
   display: flex;
