@@ -20,7 +20,7 @@
                         <div class="upvoteLogoBox">
                             <img src="../../../static/img/upvote.png" class="upvoteLogo">
                         </div>
-                        <p class="upvoter"><a href="#" style="color:aquamarine;">{{item.publisher.nick}}</a></p>
+                        <p class="upvoter" @click="personalPage(item.uid)" style="color:aquamarine;">{{item.publisher.nick}}</p>
                         <p class="upvoteContent"><a :href="getContentUrl(item.title)" style="color:#03a9f4;font-size: 14px;">{{getContent(item.title)}}</a></p>
                         <p class="upvoteTime">{{new Date(item.createTime).toLocaleString()}}</p>
                     </div>
@@ -93,10 +93,14 @@ export default {
           1,
         content.lastIndexOf('"', content.length)
       );
+    },
+    personalPage(uid) {
+      console.log(uid);
+      this.$router.push({ name: "user", params: { uid: uid } });
     }
   },
   mounted() {
-    this.loading=true;
+    this.loading = true;
     this.initReplyMessage();
   }
 };
@@ -107,7 +111,7 @@ export default {
   display: flex;
   flex-direction: column;
 }
-.upvoteNoticeBox a{
+.upvoteNoticeBox a {
   text-decoration: none;
 }
 .upvoteNoticeTitle {
@@ -166,6 +170,7 @@ export default {
   margin: auto 10px;
   text-align: left;
   width: 100px;
+  cursor: pointer;
 }
 .upvoteContent {
   width: 450px;
