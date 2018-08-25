@@ -2,7 +2,7 @@
   <div class="replyBox">
     <div class="replyInfoBox">
       <img :src="avatar!=''?avatar:'../../../static/img/noAvatar.jpg'">
-      <div class="replyLoginTip">
+      <div class="replyLoginTip" v-if="!isLogin">
         <div class="replyLoginTipInBox">
           <p class="loginTipText loginTipText1">请先 </p>
           <p class="replyLoginBtn" @click="loginBoxShow=true">登陆</p>
