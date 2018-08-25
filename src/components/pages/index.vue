@@ -177,8 +177,8 @@ export default {
   display: flex;
   flex-direction: column;
   z-index: 1000;
-  border-left: 10px solid black;
-  border-right: 10px solid black;
+  /*border-left: 10px solid black;*/
+  /*border-right: 10px solid black;*/
 }
 .textBox {
   position: absolute;
@@ -188,14 +188,14 @@ export default {
 }
 .text {
   /*background: rgb(228, 166, 8);*/
-  background: rgb(161, 225, 255);
+  background: rgb(42, 83, 103);
   opacity: 0.8;
   position: absolute;
   height: 100%;
   width: 100%;
   font-size: 70px;
   top: -45px;
-  color: #00a7e0;
+  color: rgb(0, 0, 0);
   clip: rect(0px, 900px, 80px, 0px);
 }
 [data-start="true"] {
@@ -346,7 +346,7 @@ export default {
   position: absolute;
   top: -13px;
     /*background: rgb(228, 166, 8);*/
-  background: rgb(161, 225, 255);
+  background: rgb(3, 4, 4);
   opacity: 0.9;
   height: 30px;
   width: 100%;
@@ -354,13 +354,13 @@ export default {
 }
 .sysMsg {
   line-height: 30px;
-  color: #00a7e0;
+  color: #c19e33;
   width: 90%;
   font-weight: bold;
 }
 .hotImgBox {
   background: #00a7e0;
-  border: 3px dashed black;
+  border-top: 3px solid #7a7676;
   border-radius: 10px;
   position: absolute;
   height: 10%;

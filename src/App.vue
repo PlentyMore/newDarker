@@ -34,7 +34,7 @@ export default {
       searchText: "",
       shake:false,
       searchBoxMove: {
-        transform: "translate(-50%,-500%) rotate(-3deg) rotateY(0deg)"
+        transform: "translate(-50%,-500%) rotate(0deg) rotateY(0deg)"
       },
       activeDate: ""
     };
@@ -55,7 +55,7 @@ export default {
       this.searchText = newText;
       if (newText == "") {
         this.searchBoxMove = {
-          transform: "translate(-50%,-500%) rotate(-3deg) rotateY(0deg)"
+          transform: "translate(-50%,-500%) rotate(0deg) rotateY(0deg)"
         };
         this.$router.push({ name: "index" });
       } else {
@@ -63,7 +63,7 @@ export default {
           searchText: this.searchText
         };
         this.searchBoxMove = {
-          transform: "translate(-50%,-600%) rotate(0) rotateY(-360deg)"
+          transform: "translate(-50%,-600%) rotate(0deg) rotateY(-360deg)"
         };
         this.$router.push({ name: "searchResult" });
       }
@@ -163,20 +163,19 @@ export default {
 }
 */
 .searchBar {
-  background: rgba(0, 168, 224, 0.8);
+  background: rgba(149, 153, 154, 0.8);
   position: absolute;
   opacity: 1;
-  height: 80px;
+  height: 40px;
   width: 550px;
   border-radius: 80px;
-  border: 2px solid white;
+  border: 1px solid #c3b8b8;
   z-index: 300;
   display: flex;
   flex-direction: row;
   filter: grayscale(15%);
   /*绝对布局居中法*/
-  top: 550px;
-  top: 555px;
+  top: 345px;
   left: 50%;
   transition: transform 1s;
 }
@@ -190,8 +189,8 @@ export default {
   outline: none;
   height: 20px;
   background: rgba(255, 255, 255, 0);
-  border: 3px dashed black;
-  padding:10px;
+  border: 1px dashed black;
+  /*padding:10px;*/
   font-size: 20px;
   font-family: 华文琥珀;
   font-weight: bold;
@@ -199,17 +198,17 @@ export default {
   margin: auto auto;
 }
 .searchBarKey:hover{
-  border: 3px dashed black;
+  border: 1px dashed black;
 }
 .searchBarKey:active{
-  border: 3px dashed black;
+  border: 1px dashed black;
 }
 .searchBarItem {
   color: black;
   margin: auto auto;
   margin-right: 10px;
   line-height: 23px;
-  font-size: 45px;
+  font-size: 25px;
   font-family: 华文琥珀;
   font-weight: bold;
   text-align: center;
