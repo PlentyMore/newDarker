@@ -20,7 +20,7 @@
             <user-menu
                 :is-login.sync="isLogin"
                 @jmpPersonal="personalPage"
-                style="margin:auto auto;"></user-menu>
+                style="margin:auto 100px;"></user-menu>
         </div>
     </div>
 </template>

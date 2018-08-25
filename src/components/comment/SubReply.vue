@@ -15,7 +15,7 @@
               <div class="adminBox" v-if="showAdminBox">
                 <div class="adminInBox">
                   <p class="report">举报</p>
-                  <p class="report" v-show="canDelReply" @click="showDelDialog">删除</p>
+                  <p class="report" v-if="canDelReply" @click="showDelDialog">删除</p>
                 </div>
               </div>
             </transition>
@@ -157,9 +157,6 @@
 </script>
 
 <style scoped>
-
-</style>
-<style>
 .commentChildItemBox {
   display: flex;
   flex-direction: column;
@@ -359,6 +356,7 @@
   border-radius: 3px;
   color: white;
   cursor: pointer;
+  display: block;
 }
 .stick{
   background: rgb(79, 199, 255);

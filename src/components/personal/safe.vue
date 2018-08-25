@@ -17,9 +17,11 @@
                 <p :style="finishStyle" class="finishLogo">{{flag}}</p>
                 <p>绑定邮箱</p>
             </div>
-            <p v-if="mail!=''" style="cursor:pointer;" @click="forceChangeMail(2)">{{mail}}{{mailVerifiedText}}</p>
+            <p v-if="mail!=''" style="cursor:pointer;">{{mail}}{{mailVerifiedText}}</p>
             <p v-else style="cursor:pointer;">未绑定</p>
             <p class="safeBtn" @click="showSetting(2)" style="cursor:pointer;">{{mailBtnText}}</p>
+            <p class="safeBtn" v-if="codeInterval==null" style="padding-left=5px;padding-right:0px;text-align:center;width:10px">/</p>
+            <p class="safeBtn" v-if="codeInterval==null" @click="forceChangeMail(2)" style="cursor:pointer;">更换邮箱</p>
         </div>
         <div v-if="safeMode==1" class="setBox1">
             <p class="safeTitle">修改密码</p>

@@ -18,7 +18,7 @@
                     <p :class="['stick','greyBtn']" v-if="!top && canSetTop" @click="stickReply(rootReply.rpid)">置顶</p>
                     <p :class="['stick','greyBtn']" class="stick" v-if="top && canSetTop" @click="unStickReply(rootReply.rpid)">取消置顶</p>
                     <p class="report">举报</p>
-                    <p class="report" v-show="canDelReply" @click="showDelDialog">删除</p>
+                    <p class="report" v-if="canDelReply" @click="showDelDialog">删除</p>
                   </div>
                 </div>
               </transition>
@@ -544,7 +544,6 @@ export default {
   width: 70px;
   background: white;
   position: absolute;
-  height: 110%;
   right: -2%;
   margin-top: 0px;
   display: flex;
@@ -552,10 +551,12 @@ export default {
   border-radius: 3px;
   /*overflow: hidden;*/
   outline: none;
+  z-index: 30;
 }
 .adminInBox {
   margin: auto auto;
   width: 80%;
+  overflow: hidden;
 }
 .adminBoxTran-leave-active,
 .adminBoxTran-enter-active {
@@ -579,6 +580,7 @@ export default {
   border-radius: 3px;
   color: white;
   cursor: pointer;
+  display: block;
 }
 .stick {
   background: rgb(79, 199, 255);
