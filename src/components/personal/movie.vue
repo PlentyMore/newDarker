@@ -20,8 +20,8 @@
         </div>
         <div class="sortBox">
             <p class="sortTitle" @click="submitMv">提交番剧信息</p>
-            <transition name="submitMvBoxTran" v-if="showSubmitMvBox">
-                <div class="submitMovieBox">
+            <transition name="submitMvBoxTran">
+                <div class="submitMovieBox" v-if="showSubmitMvBox">
                     <submit-movie
                         :show="showSubmitMvBox"
                         :pb="pb"
@@ -349,17 +349,11 @@ export default {
 .lastItemMenu {
   margin-top: -165px !important;
 }
-.submitMvBoxTran-leave-active,
-.submitMvBoxTran-enter-active {
-  transition: all 0.2s ease;
+.submitMvBoxTran-enter-active, .submitMvBoxTran-leave-active {
+  transition: opacity .5s;
 }
-.submitMvBoxTran-leave-active,
-.submitMvBoxTran-enter {
-  opacity: 0 !important;
-}
-.submitMvBoxTran-leave,
-.submitMvBoxTran-enter-active {
-  opacity: 1;
+.submitMvBoxTran-enter, .submitMvBoxTran-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
 }
 .movieBox {
   display: flex;

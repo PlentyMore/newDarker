@@ -2,8 +2,15 @@
   <div class="replyBox">
     <div class="replyInfoBox">
       <img :src="avatar!=''?avatar:'../../../static/img/noAvatar.jpg'">
+      <div class="replyLoginTip">
+        <div class="replyLoginTipInBox">
+          <p class="loginTipText loginTipText1">请先 </p>
+          <p class="replyLoginBtn" @click="loginBoxShow=true">登陆</p>
+          <p class="loginTipText">后发表评论 (・ω・)</p>
+        </div>
+      </div>
       <textarea :placeholder="placeholder" v-model="content" :disabled='!isLogin'></textarea>
-      <div @click="submitReply" class="replyBtn"><p>{{sendBtnText}}</p></div>
+      <div @click="submitReply" class="replyBtn" :style="isLogin?'':'background:grey'"><p>{{sendBtnText}}</p></div>
     </div>
     <el-popover
       v-model="show_emoji_box"
@@ -17,25 +24,32 @@
           <p class="emojiTitle">☺表情</p>
       </div>
     </el-popover>
+    <transition name="loginNowBoxTran">
+      <login-box class="loginNowBox" v-if="loginBoxShow" @closeLoginBox="loginBoxShow=false"></login-box>
+    </transition>
   </div>
 </template>
 
 <script>
 import api from "../../api.js";
 import emojiBox from "./EmojiBox.vue";
+import loginBox from "../login/login.vue";
 export default {
   name: "PostReply",
   props: ["oid", "type", "mode", "parentRpid", "replyInfo", "top"],
   components: {
-    emojiBox
+    emojiBox,
+    loginBox
   },
   data() {
     return {
-      avatar: localStorage.getItem("face"),
+      avatar: localStorage.getItem("face")?localStorage.getItem("face"):'',
+      isLogin: localStorage.getItem("USER_ID") ? true : false,
       content: "",
       sendBtnText: "发表评论",
       sendingFlag: false,
-      show_emoji_box: false
+      show_emoji_box: false,
+      loginBoxShow:false
     };
   },
   computed: {
@@ -158,6 +172,7 @@ export default {
   margin-top: 10px;
   display: flex;
   flex-direction: row;
+  position: relative;
 }
 .replyInfoBox img {
   height: 50px;
@@ -183,7 +198,7 @@ export default {
 .replyInfoBox textarea:focus {
   border: 1px solid rgb(100, 149, 237);
 }
-.replyInfoBox div {
+.replyBtn {
   margin: auto auto;
   background: rgb(0, 164, 240);
   border-radius: 10px;
@@ -194,7 +209,7 @@ export default {
   transition: background 0.2s;
   cursor: pointer;
 }
-.replyInfoBox p {
+.replyBtn p {
   margin: auto auto;
   width: 40px;
   height: 40px;
@@ -202,10 +217,10 @@ export default {
   font-weight: bold;
   text-align: center;
 }
-.replyInfoBox div:hover {
+.replyBtn:hover {
   background: rgb(0, 134, 196);
 }
-.replyInfoBox div:active {
+.replyBtn:active {
   background: rgb(0, 174, 255);
 }
 .emojiBox {
@@ -239,5 +254,63 @@ export default {
   font-size: 12px !important;
   line-height: 20px;
   margin: auto auto;
+}
+.replyLoginTip{
+  position: absolute;
+  background: rgba(128, 128, 128, 0.671);
+  width: 720px;
+  height: 80px;
+  left: 75px;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: row;
+  text-align: center;
+  font-size: 12px;
+}
+.replyLoginTipInBox{
+  display: flex;
+  flex-direction: row;
+  margin: auto auto;
+}
+.loginTipText{
+  line-height: 20px;
+  height: 20px;
+  margin: auto 0;
+  color: rgb(61, 61, 61);
+}
+.loginTipText1{
+  margin-right: 5px;
+}
+.replyLoginBtn{
+  background: rgb(0, 164, 240);
+  margin: auto 0;
+  line-height: 20px;
+  height: 20px;
+  color: white;
+  width: 30px;
+  padding: 2px 5px 2px 5px;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all .2s;
+  margin-right: 5px;
+}
+.replyLoginBtn:hover {
+  background: rgb(0, 134, 196);
+}
+.replyLoginBtn:active {
+  background: rgb(0, 174, 255);
+}
+.loginNowBox{
+  position: fixed;
+  z-index: 1000;
+  top: 60px;
+  left: 0;
+  opacity: 1;
+}
+.loginNowBoxTran-enter-active, .loginNowBoxTran-leave-active {
+  transition: opacity .5s;
+}
+.loginNowBoxTran-enter, .loginNowBoxTran-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
 }
 </style>

@@ -2,8 +2,8 @@
     <div :class="['watchPageBox',{'watchPageBoxB':(showSubmitMvBox||loading)}]">
         <div class="searchResultBgInBox"></div>
         <div class="searchResultBgBox"><img :src="videoCover" class='searchResultBgImg'></div>
-        <transition name="submitMvBoxTran" v-if="showSubmitMvBox">
-            <div class="submitMovieBox">
+        <transition name="submitMvBoxTran">
+            <div class="submitMovieBox" v-if="showSubmitMvBox">
               <submit-movie
                 :show="showSubmitMvBox"
                 @closeBox="closeSubmitMvBox"
@@ -72,7 +72,7 @@
                   </div>
                   <div class="matchBtnBox">
                     <p @click="confirmMvSearch">确定</p>
-                    <p @click="showMatchBox=!showMatchBox">取消</p>
+                    <p @click="cancelMvSearch">取消</p>
                   </div>
                 </div>
               </div>
@@ -427,6 +427,16 @@ export default {
         });
       }, 800);
     },
+    cancelMvSearch(){
+      this.showMatchBox = false;
+      this.searchMvKey = "";
+      this.searchMvResult = [];
+      this.noSearchMvResult = false;
+      this.searchWaitingShow = false;
+      this.searchResultChoose = {};
+      this.searchResultEpisodeNum = 0;
+      this.loading = false;
+    },
     async sendMvInfo() {
       console.log("发送视频信息");
       let res = (await api.sendVideoMatchInfo({
@@ -536,17 +546,11 @@ export default {
   width: 100%;
   filter: blur(20px) grayscale(30%);
 }
-.submitMvBoxTran-leave-active,
-.submitMvBoxTran-enter-active {
-  transition: all 0.2s ease;
+.submitMvBoxTran-enter-active, .submitMvBoxTran-leave-active {
+  transition: opacity .5s;
 }
-.submitMvBoxTran-leave-active,
-.submitMvBoxTran-enter {
-  opacity: 0 !important;
-}
-.submitMvBoxTran-leave,
-.submitMvBoxTran-enter-active {
-  opacity: 1;
+.submitMvBoxTran-enter, .submitMvBoxTran-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
 }
 .submitMovieBox {
   background: rgba(0, 0, 0, 0.37);
