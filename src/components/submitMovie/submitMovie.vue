@@ -252,7 +252,20 @@ export default {
   width: 100px;
 }
 .mvTitleInputInBox input {
-  margin-left: 10px;
+  margin: auto 10px;
+  height: 15px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-radius: 3px;
+  outline: none;
+  border: 1px solid white;
+  transition: all .2s;
+}
+.mvTitleInputInBox input:hover{
+  border: 1px solid grey;
+}
+.mvTitleInputInBox input:focus{
+  border: 1px solid black;
 }
 .zeroEpisodeBox {
   display: flex;
@@ -319,7 +332,20 @@ export default {
   line-height: 15px;
 }
 .totalEpisodeInBox input {
-  margin-left: 10px;
+  margin: auto 10px;
+  height: 15px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-radius: 3px;
+  outline: none;
+  border: 1px solid white;
+  transition: all .2s;
+}
+.totalEpisodeInBox input:hover{
+  border: 1px solid grey;
+}
+.totalEpisodeInBox input:focus{
+  border: 1px solid black;
 }
 .coverUploadBox {
   margin-top: 20px;

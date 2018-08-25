@@ -250,7 +250,7 @@ export default {
         maximum: 1000,
         user: localStorage.getItem("loginUserName"),
         bottom: "15%",
-        unlimited: true
+        unlimited: true,
       };
       this.dp.switchVideo({ url: this.videoURL }, danmaku);
     },
@@ -449,7 +449,7 @@ export default {
     initDp() {
       const dp = new VueDPlayer({
         container: document.getElementById("dplayer"),
-        autoplay: true,
+        autoplay: false,
         video: {
           url: this.videoURL,
           pic: this.videoCover
@@ -760,6 +760,7 @@ export default {
 .videoSize {
   height: 506px;
   width: 900px;
+  z-index: 1;
 }
 /*拖动框大小*/
 .el-upload-dragger {
