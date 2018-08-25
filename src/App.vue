@@ -7,7 +7,7 @@
         @jmpPersonal="jmpPersonal"
         @jmpNotice="jmpNotice"></menu-button-box>
     </div>
-    <div class="searchBar" :style="searchBoxMove" v-show="showSearch" v-if="true">
+    <div class='searchBar' :style="searchBoxMove" @mouseover="shake=true" @mouseout="shake=false" v-show="showSearch" v-if="true">
       <div class="searchInBar">
         <p class="searchBarItem">搜索：</p>
         <input v-model="searchText" class="searchBarKey">
@@ -32,8 +32,9 @@ export default {
       showMenu: false,
       showMain: false,
       searchText: "",
+      shake:false,
       searchBoxMove: {
-        transform: "translate(-50%,-500%) rotate(-3deg)"
+        transform: "translate(-50%,-500%) rotate(-3deg) rotateY(0deg)"
       },
       activeDate: ""
     };
@@ -54,7 +55,7 @@ export default {
       this.searchText = newText;
       if (newText == "") {
         this.searchBoxMove = {
-          transform: "translate(-50%,-500%) rotate(-3deg)"
+          transform: "translate(-50%,-500%) rotate(-3deg) rotateY(0deg)"
         };
         this.$router.push({ name: "index" });
       } else {
@@ -62,7 +63,7 @@ export default {
           searchText: this.searchText
         };
         this.searchBoxMove = {
-          transform: "translate(-50%,-600%)"
+          transform: "translate(-50%,-600%) rotate(0) rotateY(-360deg)"
         };
         this.$router.push({ name: "searchResult" });
       }
@@ -162,12 +163,13 @@ export default {
 }
 */
 .searchBar {
-  background-image: url("../static/img/text.png");
-  background-size:contain;
+  background: rgba(0, 168, 224, 0.8);
   position: absolute;
   opacity: 1;
   height: 80px;
-  width: 100%;
+  width: 550px;
+  border-radius: 80px;
+  border: 2px solid white;
   z-index: 300;
   display: flex;
   flex-direction: row;
@@ -211,5 +213,33 @@ export default {
   font-family: 华文琥珀;
   font-weight: bold;
   text-align: center;
+}
+.searchRun-animation{
+  animation: searchBarShake .5s linear 0s 1 normal;
+}
+@keyframes searchBarShake {
+  0%{transform: translate(-50%,-500%) rotate(-3deg);}
+  12.5%{transform: translate(-50%,-500%) rotate(0deg);}
+  25%{transform: translate(-50%,-500%) rotate(3deg);}
+  37.5%{transform: translate(-50%,-500%) rotate(0deg);}
+  50%{transform: translate(-50%,-500%) rotate(-3deg);}
+  62.5%{transform: translate(-50%,-500%) rotate(0deg);}
+  75%{transform: translate(-50%,-500%) rotate(3deg);}
+  87.5%{transform: translate(-50%,-500%) rotate(0deg);}
+  100%{transform: translate(-50%,-500%) rotate(-3deg);}
+}
+.searchRun-animation2{
+  animation: searchBarShake2 .5s linear 0s 1 normal;
+}
+@keyframes searchBarShake2 {
+  0%{transform: translate(-50%,-600%) rotate(0deg);}
+  12.5%{transform: translate(-50%,-600%) rotate(-3deg);}
+  25%{transform: translate(-50%,-600%) rotate(0deg);}
+  37.5%{transform: translate(-50%,-600%) rotate(3deg);}
+  50%{transform: translate(-50%,-600%) rotate(0deg);}
+  62.5%{transform: translate(-50%,-600%) rotate(-3deg);}
+  75%{transform: translate(-50%,-600%) rotate(0deg);}
+  87.5%{transform: translate(-50%,-600%) rotate(3deg);}
+  100%{transform: translate(-50%,-600%) rotate(0deg);}
 }
 </style>

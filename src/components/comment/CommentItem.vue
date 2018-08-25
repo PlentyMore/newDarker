@@ -218,7 +218,7 @@ export default {
   flex-direction: column;
   width: 900px;
   margin: 10px auto;
-  border-bottom: 1px solid gray;
+  border-bottom: 1px solid #464343;
 }
 .commentItemInBox {
   display: flex;
@@ -249,7 +249,7 @@ export default {
   display: inline-block;
 }
 .replyContent {
-  color: white;
+  color: #c5c8c6;
   height: auto;
   text-align: left;
   margin: -10px 10px;

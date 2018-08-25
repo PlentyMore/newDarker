@@ -1,5 +1,5 @@
 <template>
-  <div class="replyBox">
+  <div class="replyBox" :style="mode>0?'width:820px;':''">
     <div class="replyInfoBox">
       <img :src="avatar!=''?avatar:'../../../static/img/noAvatar.jpg'">
       <div class="replyLoginTip" v-if="!isLogin">
@@ -9,7 +9,7 @@
           <p class="loginTipText">后发表评论 (・ω・)</p>
         </div>
       </div>
-      <textarea :placeholder="placeholder" v-model="content" :disabled='!isLogin'></textarea>
+      <textarea :placeholder="placeholder" v-model="content" :disabled='!isLogin'  :style="mode>0?'width:630px;':''"></textarea>
       <div @click="submitReply" class="replyBtn" :style="isLogin?'':'background:grey'"><p>{{sendBtnText}}</p></div>
     </div>
     <el-popover
@@ -181,7 +181,7 @@ export default {
   margin: auto auto;
 }
 .replyInfoBox textarea {
-  height: 60px;
+  height: 50px;
   width: 700px;
   margin: auto auto;
   resize: none;
@@ -189,21 +189,22 @@ export default {
   padding: 10px 10px 10px 10px;
   border: 1px solid gray;
   transition: border 0.2s;
-  background: rgba(255, 255, 255, 0.397);
+  background: rgba(27, 27, 33, 0.719);
   outline: none;
+  color: #c5c8c6;
 }
 .replyInfoBox textarea:hover {
-  border: 1px solid white;
+  border: 1px solid #583b3b;
 }
 .replyInfoBox textarea:focus {
-  border: 1px solid rgb(100, 149, 237);
+  border: 1px solid #3e1c1c;
 }
 .replyBtn {
   margin: auto auto;
   background: rgb(0, 164, 240);
   border-radius: 10px;
-  height: 80px;
-  width: 80px;
+  height: 75px;
+  width: 75px;
   display: flex;
   flex-direction: column;
   transition: background 0.2s;
@@ -212,7 +213,7 @@ export default {
 .replyBtn p {
   margin: auto auto;
   width: 40px;
-  height: 40px;
+  /*height: 40px;*/
   color: white;
   font-weight: bold;
   text-align: center;
@@ -225,10 +226,10 @@ export default {
 }
 .emojiBox {
   background: rgba(255, 255, 255, 0.219);
-  color: black;
+  color: lightgray;
   font-size: 14px;
   font-weight: bold;
-  height: 20px;
+  height: 23px;
   width: 60px;
   line-height: 20px;
   border: 1px solid black;
@@ -242,17 +243,17 @@ export default {
 }
 .emojiBox:hover {
   color: rgb(255, 255, 255);
-  border: 1px solid white;
+  border: 1px solid #583b3b;
 }
 .emojiBox:active {
   background: rgba(27, 27, 27, 0.219);
   color: rgb(255, 255, 255);
-  border: 1px solid white;
+  border: 1px solid #3e1c1c;
 }
 .emojiTitle {
   text-align: center;
   font-size: 12px !important;
-  line-height: 20px;
+  line-height: 24px;
   margin: auto auto;
 }
 .replyLoginTip{

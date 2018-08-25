@@ -45,7 +45,7 @@ export default {
         opacity: 1
       };
       this.titleStyle= {
-        color: "orange",
+        color: "#00a7e0",
         opacity: 1
       }
     },
@@ -95,13 +95,13 @@ export default {
   line-height: 30px;
   font-family: 华文琥珀;
   margin-top: 17px;
-  color: rgb(158, 144, 119);
+  color: rgb(119, 146, 158);
   opacity: 0.7;
   transition: color 0.5s;
 }
 .borderLine {
   margin-top: 10px;
   height: 0px;
-  border-bottom: 3px solid orange;
+  border-bottom: 3px solid #00a7e0;
 }
 </style>

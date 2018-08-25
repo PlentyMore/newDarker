@@ -6,6 +6,15 @@
         <div class="footerImgBox">
           <div class="footerImg2"></div>
         </div>
+        <div class="cloudBox">
+          <div class="cloud1"></div>
+        </div>
+        <div class="cloudBox">
+          <div class="cloud2"></div>
+        </div>
+        <div class="cloudBox">
+          <div class="cloud3"></div>
+        </div>
         <div class="righterImgBox" v-if="false">
           <img src="../../../static/img/righter.png" class="righterImg">
         </div>
@@ -494,5 +503,56 @@ export default {
 /*.notify-link {*/
   /*margin-left: 35px;*/
   /*font-size: 14px;*/
+}
+.cloudBox{
+  position: absolute;
+  z-index: 3;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.cloud1{
+  margin: auto auto;
+  margin-right: -180;
+  margin-bottom: 180px;
+  width: 180px;
+  height: 90px;
+  background-image: url("../../../static/img/cloud1.png");
+  background-size: cover;
+  animation: cloudMv 20s infinite linear;
+}
+@keyframes cloudMv {
+  0%{margin-right: -180px;}
+  99%{margin-right: 1600px;opacity: 0;}
+  100%{opacity: 0;}
+}
+.cloud2{
+  margin: auto auto;
+  margin-right: -180px;
+  margin-bottom: 650px;
+  width: 180px;
+  height: 86.4px;
+  background-image: url("../../../static/img/cloud2.png");
+  background-size: cover;
+  animation: cloudMv 25s infinite 7s linear;
+}
+.cloud3{
+  margin: auto auto;
+  margin-right: -100px;
+  margin-bottom: 550px;
+  width: 100px;
+  height: 70px;
+  background-image: url("../../../static/img/cloud3.png");
+  background-size: cover;
+  animation: cloudMv2 30s infinite 15s linear;
+}
+@keyframes cloudMv2 {
+  0%{margin-right: -100px;}
+  99%{margin-right: 1600px;opacity: 0;}
+  100%{opacity: 0;}
 }
 </style>

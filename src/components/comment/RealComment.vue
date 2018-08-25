@@ -43,11 +43,14 @@
         ></root-reply>
       </div>
     </div>
-    <div v-if="hotReplies && hotReplies.length!==0" class="hotLine">
-      <p style="color:white">------------------以上为热门评论，点击</p>
-      <p @click="sortByHot" style="color: rgb(24, 109, 189);font-weight:bold;cursor:pointer;">查看更多</p>
-      <p style="color:white">------------------</p>
+    <div v-if="hotReplies && hotReplies.length!==0" class="hot-line">
+      <span>以上为热门评论，<a class="more-hot"  @click="sortByHot">查看更多</a></span>
     </div>
+    <!--<div v-if="hotReplies && hotReplies.length!==0" class="hotLine">-->
+      <!--<p style="color:white">-&#45;&#45;&#45;&#45;&#45;&#45;以上为热门评论，点击</p>-->
+      <!--<p @click="sortByHot" style="color: rgb(24, 109, 189);font-weight:bold;cursor:pointer;">查看更多</p>-->
+      <!--<p style="color:white">&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;</p>-->
+    <!--</div>-->
     <div>
       <div v-for="(rootReply,index) in rootReplies" style="color:red;" :key="rootReply.rpid">
         <root-reply
@@ -273,7 +276,7 @@
     width: 900px;
     margin: auto auto;
     height: 50px;
-    border-bottom: 2px solid rgb(65, 163, 134);
+    border-bottom: 1px solid rgb(65, 163, 134);
   }
   .commentAll {
     color: antiquewhite;
@@ -287,18 +290,62 @@
     line-height: 30px;
     cursor: pointer;
   }
-  .hotLine {
-    display: flex;
-    flex-direction: row;
-    margin: auto auto;
+  /*.hotLine {*/
+    /*display: flex;*/
+    /*flex-direction: row;*/
+    /*margin: auto auto;*/
+  /*}*/
+  .hot-line{
+    text-align: center;
+    border-bottom: 1px solid #e0e3e84f;
+    position: relative;
+    margin: 40px auto;
+    font-size: 14px;
+    width: 900px;
+    cursor: pointer;
+  }
+  .hot-line span{
+    position: absolute;
+    top: -10px;
+    margin-left: -115px;
+    padding: 0 20px;
+    color: #e4e4e6;
+  }
+  .more-hot{
+    color: rgb(67, 160, 183);
+    /*font-weight:bold;*/
+    cursor:pointer;
   }
   .pagination {
-    width: 80%;
-    margin: auto 0;
+    /*width: 80%;*/
+    /*margin: auto 0;*/
+    width: 900px;
+    margin: 10px auto;
   }
   .stickReplyBox{
     border-radius: 5px;
     margin: 10px auto;
     width: 950px;
+  }
+</style>
+<style>
+  .el-pagination{
+    text-align: left;
+  }
+  .el-pagination button:disabled{
+    background-color: #06060c;
+  }
+  .el-pagination .btn-prev{
+    background-color: #06060c;
+  }
+  .el-pagination .btn-next{
+    background-color: #06060c;
+  }
+  .el-pager li{
+    background-color: #06060c;
+  }
+  .el-pagination__editor.el-input .el-input__inner{
+    background-color: #06060c;
+    border-color: #795548;
   }
 </style>
