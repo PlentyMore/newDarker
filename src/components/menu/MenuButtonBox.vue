@@ -171,6 +171,7 @@ export default {
   background-color: rgba(169, 169, 169, 0.7);
 }
 .headerBtnBox {
+  width: 920px;
   margin: 0 auto;
 }
 .headerBtnInBox {

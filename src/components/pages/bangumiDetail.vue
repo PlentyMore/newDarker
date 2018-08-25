@@ -213,6 +213,7 @@ export default {
   background: #352c2c;
   border-radius: 8%;
   text-align: center;
+  text-decoration: none;
 }
 .comment-container {
   z-index: 100;
