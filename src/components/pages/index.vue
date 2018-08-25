@@ -1,9 +1,12 @@
 <template>
     <div>
         <div class="footerImgBox">
-          <img src="../../../static/img/footer6.png" class="footerImg">
+          <div class="footerImg"></div>
         </div>
-        <div class="righterImgBox">
+        <div class="footerImgBox">
+          <div class="footerImg2"></div>
+        </div>
+        <div class="righterImgBox" v-if="false">
           <img src="../../../static/img/righter.png" class="righterImg">
         </div>
         <div class="carouselBox">
@@ -175,14 +178,15 @@ export default {
   top: 20%;
 }
 .text {
-  background: rgb(228, 166, 8);
+  /*background: rgb(228, 166, 8);*/
+  background: rgb(161, 225, 255);
   opacity: 0.8;
   position: absolute;
   height: 100%;
   width: 100%;
   font-size: 70px;
   top: -45px;
-  color: red;
+  color: #00a7e0;
   clip: rect(0px, 900px, 80px, 0px);
 }
 [data-start="true"] {
@@ -239,7 +243,7 @@ export default {
   30% {
     opacity: 1;
     left: 4px;
-    color: red;
+    color: #00a7e0;
   }
   35% {
     opacity: 1;
@@ -248,7 +252,7 @@ export default {
   }
   37% {
     opacity: 0;
-    color: red;
+    color: #00a7e0;
   }
   39% {
     opacity: 1;
@@ -332,7 +336,8 @@ export default {
 .sysMsgBox {
   position: absolute;
   top: -13px;
-  background: rgb(228, 166, 8);
+    /*background: rgb(228, 166, 8);*/
+  background: rgb(161, 225, 255);
   opacity: 0.9;
   height: 30px;
   width: 100%;
@@ -340,12 +345,12 @@ export default {
 }
 .sysMsg {
   line-height: 30px;
-  color: #ff3f1a;
+  color: #00a7e0;
   width: 90%;
   font-weight: bold;
 }
 .hotImgBox {
-  background: rgba(228, 166, 8, 0.8);
+  background: #00a7e0;
   border: 3px dashed black;
   border-radius: 10px;
   position: absolute;
@@ -427,6 +432,22 @@ export default {
   margin: auto auto;
   margin-bottom: 0;
   width: 100%;
+  height: 65px;
+  background-image: url("../../../static/img/wave3.png");
+  background-position: 0 0;
+  animation: footerMv 10s infinite linear;
+}
+@keyframes footerMv {
+  0%{background-position: 0 0;}
+  100%{background-position: 130% 0;}
+}
+.footerImg2{
+  margin: auto auto;
+  margin-bottom: 0;
+  width: 100%;
+  height: 70px;
+  background-image: url("../../../static/img/wave4.png");
+  animation: footerMv 20s infinite .2s linear;
 }
 .righterImgBox{
   position: absolute;

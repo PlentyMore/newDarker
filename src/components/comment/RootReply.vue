@@ -474,6 +474,7 @@ export default {
   margin-bottom: 10px;
   text-align: left;
   margin-left: 50px;
+  cursor: pointer;
 }
 .childRepliesPageBox {
   display: flex;
