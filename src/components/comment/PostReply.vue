@@ -2,134 +2,154 @@
   <div class="replyBox">
     <div class="replyInfoBox">
       <img :src="avatar!=''?avatar:'../../../static/img/noAvatar.jpg'">
-      <textarea :placeholder="placeholder" v-model="content"></textarea>
+      <textarea :placeholder="placeholder" v-model="content" :disabled='!isLogin'></textarea>
       <div @click="submitReply" class="replyBtn"><p>{{sendBtnText}}</p></div>
     </div>
-    <div class="emojiBox">
-      ☺表情
-    </div>
+    <el-popover
+      v-model="show_emoji_box"
+      width="400"
+      placement="bottom-start"
+      trigger="click">
+      <div>
+          <emoji-box v-on:selectedEmoji="selectedEmoji"></emoji-box>
+      </div>
+      <div ref="mybox" slot="reference" tabindex="1" class="emojiBox">
+          <p class="emojiTitle">☺表情</p>
+      </div>
+    </el-popover>
   </div>
 </template>
 
 <script>
-  import api from "../../api.js";
-  export default {
-    name: "PostReply",
-    props: [
-      "oid",
-      "type",
-      "mode",
-      "parentRpid",
-      "replyInfo",
-      "top"
-    ],
-    data() {
-      return {
-        avatar: localStorage.getItem("face"),
-        content: "",
-        sendBtnText: "发表评论",
-        sendingFlag: false
-      };
-    },
-    computed:{
-      placeholder(){
-        if(this.replyInfo){
-          return "回复 @"+this.replyInfo.user.nick;
-        }
-        else {
-          return "请自觉遵守互联网相关的政策法规，严禁发布色情、暴力、反动的言论。"
-        }
+import api from "../../api.js";
+import emojiBox from "./EmojiBox.vue";
+export default {
+  name: "PostReply",
+  props: ["oid", "type", "mode", "parentRpid", "replyInfo", "top"],
+  components: {
+    emojiBox
+  },
+  data() {
+    return {
+      avatar: localStorage.getItem("face"),
+      content: "",
+      sendBtnText: "发表评论",
+      sendingFlag: false,
+      show_emoji_box: false
+    };
+  },
+  computed: {
+    placeholder() {
+      if (this.replyInfo) {
+        return "回复 @" + this.replyInfo.user.nick;
+      } else {
+        return "请自觉遵守互联网相关的政策法规，严禁发布色情、暴力、反动的言论。";
       }
-    },
-    watch:{
-      replyInfo(){
-        console.log("clean content");
-        if(this.mode === 1){
+    }
+  },
+  watch: {
+    replyInfo() {
+      console.log("clean content");
+      if (this.mode === 1) {
+        this.content = "";
+      }
+    }
+  },
+  methods: {
+    async submitReply() {
+      if (!this.isLogin) {
+        this.$message({
+          message: "请先登录。",
+          type: "error"
+        });
+        return;
+      }
+      if (this.content == "") {
+        this.$message({
+          message: "不可以发送空评论哦！",
+          type: "error"
+        });
+        return;
+      }
+      if (!this.sendingFlag) {
+        this.sendBtnText = "发表中...";
+        this.sendingFlag = true;
+      } else {
+        return;
+      }
+      let postRes;
+      //发送父级评论
+      if (this.mode === 0) {
+        postRes = await api.postVideoReply({
+          oid: this.oid,
+          type: this.type,
+          content: this.content
+        });
+        let rd = postRes.data;
+        if (rd.code === 0) {
+          this.$emit("onAddRootReply", rd.data.rpid);
           this.content = "";
+          this.sendingFlag = false;
+          this.sendBtnText = "发表评论";
+        } else {
+          console.log("发送评论失败");
+        }
+        //不可直接修改props数据，会出错
+        //（调用父组件的refresh函数时，会更改父组件data，同时会重新渲染父组件，然后父组件会重新传值到props，导致冲突）
+      } else {
+        //发送子级评论
+        let tmp = {
+          oid: this.oid,
+          type: this.type,
+          content: this.placeholder + "：" + this.content,
+          root: this.replyInfo.rpid,
+          parent: this.parentRpid
+        };
+        console.log("send subReply:", tmp);
+        postRes = await api.postVideoReply({
+          oid: this.oid,
+          type: this.type,
+          content: this.placeholder + "：" + this.content,
+          root: this.parentRpid,
+          tuid: this.replyInfo.user.uid
+        });
+        let rd = postRes.data;
+        if (rd.code === 0) {
+          if (this.top) {
+            console.log("emit onAddTopSubReply");
+            this.$emit("onAddTopSubReply", rd.data.rpid);
+          } else {
+            this.$emit("onAddSubReply", rd.data.rpid);
+          }
+
+          this.content = "";
+          this.sendingFlag = false;
+          this.sendBtnText = "发表评论";
+        } else {
+          console.log("发送子评论失败");
         }
       }
     },
-    methods:{
-      async submitReply() {
-        if (this.content === "") {
-          this.$message({
-            message: "不可以发送空评论哦！",
-            type: "error"
-          });
-          return;
-        }
-        if (!this.sendingFlag) {
-          this.sendBtnText = "发表中...";
-          this.sendingFlag = true;
-        } else {
-          return;
-        }
-        let postRes;
-        //发送父级评论
-        if (this.mode === 0) {
-          postRes = await api.postVideoReply({
-            oid: this.oid,
-            type: this.type,
-            content: this.content
-          });
-          let rd = postRes.data;
-          if(rd.code === 0){
-            this.$emit("onAddRootReply",rd.data.rpid);
-            this.content = "";
-            this.sendingFlag = false;
-            this.sendBtnText = "发表评论";
-          }
-          else {
-            console.log("发送评论失败");
-          }
-          //不可直接修改props数据，会出错
-          //（调用父组件的refresh函数时，会更改父组件data，同时会重新渲染父组件，然后父组件会重新传值到props，导致冲突）
-        } else {
-          //发送子级评论
-          let tmp = {
-            oid: this.oid,
-            type: this.type,
-            content: this.placeholder +"："+ this.content,
-            root: this.replyInfo.rpid,
-            parent: this.parentRpid
-          };
-          console.log("send subReply:",tmp);
-          postRes = await api.postVideoReply({
-            oid: this.oid,
-            type: this.type,
-            content: this.placeholder +"："+ this.content,
-            root: this.parentRpid,
-            tuid: this.replyInfo.user.uid
-          });
-          let rd = postRes.data;
-          if(rd.code === 0){
-            if(this.top){
-              console.log("emit onAddTopSubReply");
-              this.$emit("onAddTopSubReply",rd.data.rpid);
-            }
-            else {
-              this.$emit("onAddSubReply",rd.data.rpid);
-            }
-
-            this.content = "";
-            this.sendingFlag = false;
-            this.sendBtnText = "发表评论";
-          }
-          else {
-            console.log("发送子评论失败");
-          }
-        }
-
+    selectedEmoji(emoji) {
+      this.show_emoji_box = false;
+      if (!this.isLogin) {
+        this.$message({
+          message: "请先登录。",
+          type: "error"
+        });
+        return;
       }
-    },
-
+      this.content = this.content + emoji;
+    }
   }
+};
 </script>
 
 <style scoped>
-
-</style>
-<style>
+.emojiBox {
+  position: absolute;
+  z-index: 40;
+}
 .replyBox {
   width: 900px;
   margin: auto auto;
@@ -155,6 +175,7 @@
   border: 1px solid gray;
   transition: border 0.2s;
   background: rgba(255, 255, 255, 0.397);
+  outline: none;
 }
 .replyInfoBox textarea:hover {
   border: 1px solid white;
@@ -179,7 +200,7 @@
   height: 40px;
   color: white;
   font-weight: bold;
-  text-align:center;
+  text-align: center;
 }
 .replyInfoBox div:hover {
   background: rgb(0, 134, 196);
@@ -202,10 +223,21 @@
   cursor: pointer;
   transition: all 0.3s;
   margin-bottom: 10px;
+  position: relative;
 }
 .emojiBox:hover {
+  color: rgb(255, 255, 255);
+  border: 1px solid white;
+}
+.emojiBox:active {
   background: rgba(27, 27, 27, 0.219);
   color: rgb(255, 255, 255);
   border: 1px solid white;
+}
+.emojiTitle {
+  text-align: center;
+  font-size: 12px !important;
+  line-height: 20px;
+  margin: auto auto;
 }
 </style>
