@@ -232,9 +232,9 @@ export default {
   height: 23px;
   width: 60px;
   line-height: 20px;
-  border: 1px solid black;
+  border: 1px solid transparent;
   border-radius: 3px;
-  margin-top: 3px;
+  margin-top: 10px;
   margin-left: 73px;
   cursor: pointer;
   transition: all 0.3s;

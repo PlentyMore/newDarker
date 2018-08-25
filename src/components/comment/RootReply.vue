@@ -378,8 +378,8 @@ export default {
   flex-direction: row;
 }
 .commentItemAvatar {
-  height: 50px;
-  width: 50px;
+  height: 45px;
+  width: 45px;
   border-radius: 50px;
   cursor: pointer;
   margin: 12px 10px 12px auto;

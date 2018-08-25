@@ -18,11 +18,11 @@
           </div>
           <div class="mvOtherInfo">
             <div>
-              <img src="../../../static/img/saw.png">
+              <img src="../../../static/img/saw.png" title="访问量">
               <p>{{videoInfo.viewCount}}</p>
             </div>
             <div>
-              <img src="../../../static/img/barrage.png">
+              <img src="../../../static/img/barrage.png" title="弹幕数">
               <p>{{videoInfo.danmakuCount}}</p>
             </div>
           </div>

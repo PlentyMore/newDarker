@@ -333,19 +333,19 @@
     text-align: left;
   }
   .el-pagination button:disabled{
-    background-color: #06060c;
+    background-color: #06060c00;
   }
   .el-pagination .btn-prev{
-    background-color: #06060c;
+    background-color: #06060c00;
   }
   .el-pagination .btn-next{
-    background-color: #06060c;
+    background-color: #06060c00;
   }
   .el-pager li{
-    background-color: #06060c;
+    background-color: #06060c00;
   }
   .el-pagination__editor.el-input .el-input__inner{
-    background-color: #06060c;
+    background-color: #06060c00;
     border-color: #795548;
   }
 </style>
