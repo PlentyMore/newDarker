@@ -13,7 +13,7 @@
                 <input type="password" name="psw2" min="6" max="20" placeholder="确认密码" @blur="checkPsw2" v-model="psw2" :data-correct="correctPsw2"/>
                 <p class="wrongTips" v-if="correctPsw2">两次输入密码不相同或为空，请重新输入</p>
                 <a type="submit" @click="register">注册</a>
-                <div class="pswToolBox"><a href="#/forget" class="pswToolBtn">已有账号？马上登录</a></div>
+                <div class="pswToolBox"><a href="#/login" class="pswToolBtn">已有账号？马上登录</a></div>
             </form>
         </div>
     </div>

@@ -1,5 +1,5 @@
 <template>
-    <div @mouseover="show=true" @mousemove="show = true" @mouseout="show = false" class="userMenuBox">
+    <div @mouseover="show=true" @mouseout="show = false" class="userMenuBox">
         <img :src="avatar" class="avatar">
         <transition name="menu" v-if="!login">
             <div v-if="show" class="withoutLogin">

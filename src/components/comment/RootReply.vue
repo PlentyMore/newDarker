@@ -6,7 +6,7 @@
       </a>
       <div class="commentContentBox">
         <div class="replyUsername">
-          <a :href="'#/user/'+rootReply.uid" target="_blank" style="text-decoration: none;color: #607D8B">
+          <a :href="'#/user/'+rootReply.uid" target="_blank" style="text-decoration: none;color: #D1EEEE">
             {{rootReply.user.nick}}
           </a>
           <img v-if="top" class="stickFlag" src="../../../static/img/stick.png">
@@ -24,7 +24,7 @@
               </transition>
           </div>
         </div>
-        <p class="replyContent">{{rootReply.content}}</p>
+        <p class="replyContent" v-html="replyContent"></p>
         <div class="commentControlBox">
           <p class="commentFloor">#{{rootReply.floor}}</p>
           <p class="commentTime">{{getDateDiff}}</p>
@@ -56,7 +56,7 @@
                  @onShowSubReplyBox="showSubReplyBox">
       </sub-reply>
     </div>
-    <div v-if="rootReply.rcount>3 && !page" style="text-align: left;margin-left:50px;margin-bottom: 10px;">
+    <div v-if="rootReply.rcount>3 && !page" style="text-align: left;margin-bottom: 10px;">
       <span style="color: #c5c8c6;font-size: 13px;">共{{rootReply.rcount}}条回复，</span>
       <span @click="seeMore" v-show="!noMore"  class="seeMore">点击查看更多</span>
       <!--<div @click="seeMore" v-show="!noMore" v-if="rootReply.rcount>3 && !page" class="seeMore">点击查看更多</div>-->
@@ -138,52 +138,66 @@ export default {
       } else return "刚刚";
     },
     canDelReply() {
-      if(!this.uid)
-        return false;  //没有登陆，不能删除评论
-      if (this.type === 4){  //用户资料下的评论
-          if (this.uid === this.oid){  //在自己的资料下面，可以删除全部评论，oid为要查看的用户资料的uid
+      if (!this.uid) return false; //没有登陆，不能删除评论
+      if (this.type === 4) {
+        //用户资料下的评论
+        if (this.uid === this.oid) {
+          //在自己的资料下面，可以删除全部评论，oid为要查看的用户资料的uid
+          return true;
+        } else if (this.role) {
+          //管理员可以删除全部评论
+          if (this.role === "ROLE_ADMIN" || this.role === "ROLE_MANAGER")
             return true;
-          }
-          else if (this.role) {  //管理员可以删除全部评论
-            if (this.role === "ROLE_ADMIN" || this.role === "ROLE_MANAGER")
-              return true;
-          }
-          else if (this.uid === this.rootReply.uid) {  //用户可以删除自己发的评论
-            return true;
-          }
-      }
-      else {  //其他类型的评论
-        if (this.uid === this.rootReply.uid) {  //用户可以删除自己发的评论
+        } else if (this.uid === this.rootReply.uid) {
+          //用户可以删除自己发的评论
           return true;
         }
-        else if (this.role) {  //管理员
+      } else {
+        //其他类型的评论
+        if (this.uid === this.rootReply.uid) {
+          //用户可以删除自己发的评论
+          return true;
+        } else if (this.role) {
+          //管理员
           if (this.role === "ROLE_ADMIN" || this.role === "ROLE_MANAGER")
             return true;
         }
       }
       return false;
     },
-    canSetTop(){
-      if (!this.uid)  //没有登陆
+    canSetTop() {
+      if (!this.uid)
+        //没有登陆
         return false;
-      if(this.type === 4){  //用户资料下的评论
-        if(this.uid === this.oid){  //自己的资料下面的评论，可以进行置顶
+      if (this.type === 4) {
+        //用户资料下的评论
+        if (this.uid === this.oid) {
+          //自己的资料下面的评论，可以进行置顶
           return true;
-        }
-        else {
+        } else {
           if (this.role === "ROLE_ADMIN" || this.role === "ROLE_MANAGER")
-            return true;  //管理员为所欲为
+            return true; //管理员为所欲为
         }
-      }
-      else {  //其他类型的评论
+      } else {
+        //其他类型的评论
         if (this.role === "ROLE_ADMIN" || this.role === "ROLE_MANAGER")
-          return true;  //其他类型的评论一般只有管理员可以置顶
+          return true; //其他类型的评论一般只有管理员可以置顶
       }
       return false;
+    },
+    replyContent() {
+      //替换所有的换行符
+      let string = this.rootReply.content;
+      string = string.replace(/\r\n/g, "<br>");
+      string = string.replace(/\n/g, "<br>");
+      //替换所有的空格（中文空格、英文空格都会被替换）
+      string = string.replace(/\s/g, "&nbsp;");
+      //   console.log("replaced content:",string);
+      return string;
     }
   },
   methods: {
-    showDelDialog(){
+    showDelDialog() {
       this.showAdminBox = false;
       this.showDelBox = !this.showDelBox;
     },
@@ -246,12 +260,11 @@ export default {
       let res = await api.deleteMyRpely(this.rootReply.rpid);
       let rd = res.data;
       if (rd.code === 0) {
-        if(this.top){
+        if (this.top) {
           this.$emit("onRemoveTopReply");
           this.page = "";
           this.noMore = false;
-        }
-        else {
+        } else {
           this.$emit("onRemoveRootReply", this.rootIndex);
         }
         this.$message({
@@ -291,7 +304,7 @@ export default {
         console.log("添加评论后刷新子评论失败");
       }
     },
-    async addTopSubReply(rpid){
+    async addTopSubReply(rpid) {
       let res = await api.getRepliesOfAnyClassPage({
         rpid: rpid,
         oid: this.oid,
@@ -388,7 +401,6 @@ export default {
   margin: auto auto;
   text-align: left;
   position: relative;
-
 }
 .commentControlBox {
   display: flex;
@@ -600,12 +612,12 @@ export default {
 .greyBtn {
   background: rgb(168, 168, 168);
 }
-.adminBoxOutBox{
+.adminBoxOutBox {
   margin: auto auto;
   margin-right: 0;
   outline: none;
 }
-.delConfirmOutBox{
+.delConfirmOutBox {
   outline: none;
   margin: auto auto;
   margin-right: 0;

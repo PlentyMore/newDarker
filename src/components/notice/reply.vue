@@ -17,10 +17,10 @@
                 class="scroll">
                 <div class="replyMsgItem" v-for="(item,index) in replyNoticeList" :key="item.id">
                     <div class="replyMsgInfoBox">
-                        <img @click="personalPage(item.uid)" :src="item.publisher.face?item.publisher.face:'../../../static/img/noAvatar.jpg'" class="replyAvatar">
+                        <img @click="personalPage(item.publisher.uid)" :src="item.publisher.face?item.publisher.face:'../../../static/img/noAvatar.jpg'" class="replyAvatar">
                         <div class="replyMsgInfo">
                             <div class="replyMsgTitleBox">
-                                <p @click="personalPage(item.uid)" class="replyer">{{item.publisher.nick}}</p>
+                                <p @click="personalPage(item.publisher.uid)" class="replyer">{{item.publisher.nick}}</p>
                                 <p class="replyTime">{{new Date(item.createTime).toLocaleString()}}</p>
                             </div>
                             <div class="replyContentBox"><a :href="getContentUrl(item.content)" class="replyContent" style="color:#409eff;font-size: 14px;">{{getContent(item.content)}}</a></div>
