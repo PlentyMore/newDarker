@@ -302,13 +302,13 @@
     margin: 40px auto;
     font-size: 14px;
     width: 900px;
-    cursor: pointer;
   }
   .hot-line span{
     position: absolute;
     top: -10px;
     margin-left: -115px;
     padding: 0 20px;
+    background: #06060c;
     color: #e4e4e6;
   }
   .more-hot{

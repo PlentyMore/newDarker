@@ -252,7 +252,7 @@ export default {
   30% {
     opacity: 1;
     left: 4px;
-    color: #00a7e0;
+    color: black;
   }
   35% {
     opacity: 1;
@@ -261,7 +261,7 @@ export default {
   }
   37% {
     opacity: 0;
-    color: #00a7e0;
+    color:black;
   }
   39% {
     opacity: 1;
@@ -361,13 +361,13 @@ export default {
 .hotImgBox {
   background: #00a7e0;
   border-top: 3px solid #7a7676;
-  border-radius: 10px;
+  border-radius: 0px;
   position: absolute;
   height: 10%;
   width: 50%;
   /*绝对布局的居中法*/
   top: 435px;
-  left: 26%;
+  left: 25.4%;
   display: flex;
   flex-direction: row;
   z-index: 1000;

@@ -189,7 +189,7 @@ export default {
   padding: 10px 10px 10px 10px;
   border: 1px solid gray;
   transition: border 0.2s;
-  background: rgba(27, 27, 33, 0.719);
+  background: rgb(27, 27, 33);
   outline: none;
   color: #c5c8c6;
 }

@@ -39,10 +39,10 @@ export default {
       unreadNotice: {
         at: 0,
         like: 0,
-        reply: 1,
+        reply: 0,
         system: 0,
-        total: 1
-      }
+        total: 0
+      },
     };
   },
   components: {
@@ -65,7 +65,14 @@ export default {
     },
     noticePage: function(pageNum) {
       console.log("MenuButtonBox", pageNum);
-      this.countUnreadMsg();
+      this.unreadNotice= {
+        at: 0,
+        like: 0,
+        reply: 0,
+        system: 0,
+        total: 0
+      }
+      //this.countUnreadMsg();
       this.$emit("jmpNotice", pageNum);
     },
     checkLocalStorage() {

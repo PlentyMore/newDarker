@@ -20,7 +20,7 @@
                         <div class="upvoteLogoBox">
                             <img src="../../../static/img/upvote.png" class="upvoteLogo">
                         </div>
-                        <p class="upvoter" @click="personalPage(item.uid)" style="color:aquamarine;">{{item.publisher.nick}}</p>
+                        <p class="upvoter" @click="personalPage(item.publisher.uid)" style="color:aquamarine;">{{item.publisher.nick}}</p>
                         <p class="upvoteContent"><a :href="getContentUrl(item.title)" style="color:#03a9f4;font-size: 14px;">{{getContent(item.title)}}</a></p>
                         <p class="upvoteTime">{{new Date(item.createTime).toLocaleString()}}</p>
                     </div>

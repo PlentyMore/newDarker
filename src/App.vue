@@ -163,11 +163,11 @@ export default {
 }
 */
 .searchBar {
-  background: rgba(149, 153, 154, 0.8);
+  background: rgba(86, 100, 104, 0.8);
   position: absolute;
   opacity: 1;
-  height: 40px;
-  width: 550px;
+  height: 50px;
+  width: 450px;
   border-radius: 80px;
   border: 1px solid #c3b8b8;
   z-index: 300;
@@ -175,7 +175,7 @@ export default {
   flex-direction: row;
   filter: grayscale(15%);
   /*绝对布局居中法*/
-  top: 345px;
+  top: 380px;
   left: 50%;
   transition: transform 1s;
 }

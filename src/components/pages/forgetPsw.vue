@@ -169,7 +169,7 @@ export default {
             if (this.time == 0) {
               clearInterval(this.timer);
               this.timer = null;
-              this.$router.push({ name: "register" });
+              this.$router.push({ name: "login" });
             }
           }, 1000);
         } else if (resData.code === 5005) {

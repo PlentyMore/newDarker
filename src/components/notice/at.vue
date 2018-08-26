@@ -17,10 +17,10 @@
                 class="scroll">
                 <div class="atMsgItem" v-for="(item,index) in atNoticeList" :key="item.id">
                     <div class="atMsgInfoBox">
-                        <img @click="personalPage(item.uid)" :src="item.publisher.face?item.publisher.face:'../../../static/img/noAvatar.jpg'" class="atAvatar">
+                        <img @click="personalPage(item.publisher.uid)" :src="item.publisher.face?item.publisher.face:'../../../static/img/noAvatar.jpg'" class="atAvatar">
                         <div class="atMsgInfo">
                             <div class="atMsgTitlBox">
-                                <p @click="personalPage(item.uid)" class="ater">{{item.publisher.nick}}</p>
+                                <p @click="personalPage(item.publisher.uid)" class="ater">{{item.publisher.nick}}</p>
                                 <p class="atTime">{{new Date(item.createTime).toLocaleString()}}</p>
                             </div>
                             <p class="atContent"><a :href="getContentUrl(item.content)" style="color:#409eff;font-size: 14px;">{{getContent(item.content)}}</a></p>

@@ -21,7 +21,7 @@
             </transition>
           </div>
         </div>
-        <p class="replyChildContent">{{subReply.content}}</p>
+        <p class="replyChildContent" v-html="replyContent"></p>
         <div class="commentChildControlBox">
           <p class="commentChildTime">{{getDateDiff}}</p>
           <div class="commentChildUpvote" @click="upvote">
@@ -47,113 +47,124 @@
 </template>
 
 <script>
-  import api from "../../api.js";
-  import { formatDate } from "../../time.js";
-  export default {
-    name: "SubReply",
-    props:["oid","type","subReply","subIndex"],
-    data() {
-      return {
-        uid: "",
-        role: "",
-        showDelBox: false,
-        showAdminBox:false,
-      };
+import api from "../../api.js";
+import { formatDate } from "../../time.js";
+export default {
+  name: "SubReply",
+  props: ["oid", "type", "subReply", "subIndex"],
+  data() {
+    return {
+      uid: "",
+      role: "",
+      showDelBox: false,
+      showAdminBox: false
+    };
+  },
+  computed: {
+    getDateDiff() {
+      let minute = 1000 * 60;
+      let hour = minute * 60;
+      let day = hour * 24;
+      let now = new Date().getTime();
+      let diffValue = now - this.subReply.ctime;
+      if (diffValue < 0) {
+        return;
+      }
+      let dayC = diffValue / day;
+      let hourC = diffValue / hour;
+      let minC = diffValue / minute;
+      if (dayC >= 1) {
+        return formatDate(new Date(this.subReply.ctime), "yyyy-MM-dd hh:mm");
+      } else if (hourC >= 1) {
+        return "" + parseInt(hourC) + "小时前";
+      } else if (minC >= 1) {
+        return "" + parseInt(minC) + "分钟前";
+      } else return "刚刚";
     },
-    computed: {
-      getDateDiff() {
-        let minute = 1000 * 60;
-        let hour = minute * 60;
-        let day = hour * 24;
-        let now = new Date().getTime();
-        let diffValue = now - this.subReply.ctime;
-        if (diffValue < 0) {
-          return;
-        }
-        let dayC = diffValue / day;
-        let hourC = diffValue / hour;
-        let minC = diffValue / minute;
-        if (dayC >= 1) {
-          return formatDate(new Date(this.subReply.ctime), "yyyy-MM-dd hh:mm");
-        } else if (hourC >= 1) {
-          return "" + parseInt(hourC) + "小时前";
-        } else if (minC >= 1) {
-          return "" + parseInt(minC) + "分钟前";
-        } else return "刚刚";
-      },
-      canDelReply() {
-        if (!this.uid)
-          return false;  //没有登陆，不能删除评论
-        if (this.type === 4) {  //用户资料下的评论
-            if (this.uid === this.oid) {  //在自己的资料下面，可以删除全部评论
-              return true;
-            }
-            else if (this.role) {  //管理员可以删除全部评论
-              if (this.role === "ROLE_ADMIN" || this.role === "ROLE_MANAGER")
-                return true;
-            }
-            else if (this.uid === this.subReply.uid) {  //用户可以删除自己发的评论
-              return true;
-            }
-        }
-        else {  //其他类型的评论
-          if (this.uid === this.subReply.uid) {  //用户可以删除自己发的评论
+    canDelReply() {
+      if (!this.uid) return false; //没有登陆，不能删除评论
+      if (this.type === 4) {
+        //用户资料下的评论
+        if (this.uid === this.oid) {
+          //在自己的资料下面，可以删除全部评论
+          return true;
+        } else if (this.role) {
+          //管理员可以删除全部评论
+          if (this.role === "ROLE_ADMIN" || this.role === "ROLE_MANAGER")
             return true;
-          }
-          else if (this.role) {  //管理员
-            if (this.role === "ROLE_ADMIN" || this.role === "ROLE_MANAGER")
-              return true;
-          }
+        } else if (this.uid === this.subReply.uid) {
+          //用户可以删除自己发的评论
+          return true;
         }
-        return false;
+      } else {
+        //其他类型的评论
+        if (this.uid === this.subReply.uid) {
+          //用户可以删除自己发的评论
+          return true;
+        } else if (this.role) {
+          //管理员
+          if (this.role === "ROLE_ADMIN" || this.role === "ROLE_MANAGER")
+            return true;
+        }
+      }
+      return false;
+    },
+    replyContent() {
+      //替换所有的换行符
+      let string = this.subReply.content;
+      string = string.replace(/\r\n/g, "<br>");
+      string = string.replace(/\n/g, "<br>");
+      //替换所有的空格（中文空格、英文空格都会被替换）
+      string = string.replace(/\s/g, "&nbsp;");
+      //   console.log("replaced content:",string);
+      return string;
+    }
+  },
+  methods: {
+    showDelDialog() {
+      this.showAdminBox = false;
+      this.showDelBox = !this.showDelBox;
+    },
+    async delSubReply() {
+      let res = await api.deleteMyRpely(this.subReply.rpid);
+      let rd = res.data;
+      if (rd.code === 0) {
+        this.$emit("onRemoveSubReply", this.subIndex);
+        this.$message({
+          message: "删除成功",
+          type: "success"
+        });
+      } else {
+        console.log("删除子评论失败，index:", this.subIndex);
       }
     },
-    methods:{
-      showDelDialog(){
-        this.showAdminBox = false;
-        this.showDelBox = !this.showDelBox;
-      },
-      async delSubReply(){
-        let res = await api.deleteMyRpely(this.subReply.rpid);
-        let rd = res.data;
-        if(rd.code === 0){
-          this.$emit("onRemoveSubReply",this.subIndex);
-          this.$message({
-            message: "删除成功",
-            type: "success"
-          });
-        }
-        else {
-          console.log("删除子评论失败，index:",this.subIndex);
-        }
-      },
-      async upvote() {
-        let upvoteRes;
-        if (this.subReply.like_status === 0) {
-          upvoteRes = await api.upvoteReply(this.subReply.rpid);
-          this.subReply.like++;
-          this.subReply.like_status = 1;
-        } else {
-          upvoteRes = await api.cancelUpvoteReply(this.subReply.rpid);
-          this.subReply.like--;
-          this.subReply.like_status = 0;
-        }
-      },
-      showReplyBox(){
-        this.$emit("onShowSubReplyBox",this.subReply);
-      },
+    async upvote() {
+      let upvoteRes;
+      if (this.subReply.like_status === 0) {
+        upvoteRes = await api.upvoteReply(this.subReply.rpid);
+        this.subReply.like++;
+        this.subReply.like_status = 1;
+      } else {
+        upvoteRes = await api.cancelUpvoteReply(this.subReply.rpid);
+        this.subReply.like--;
+        this.subReply.like_status = 0;
+      }
     },
-    created(){
-      let id = localStorage.getItem("USER_ID");
-      let rol = localStorage.getItem("ROLE");
-      if(id){
-        this.uid = parseInt(id);
-      }
-      if(rol){
-        this.role = rol;
-      }
+    showReplyBox() {
+      this.$emit("onShowSubReplyBox", this.subReply);
+    }
+  },
+  created() {
+    let id = localStorage.getItem("USER_ID");
+    let rol = localStorage.getItem("ROLE");
+    if (id) {
+      this.uid = parseInt(id);
+    }
+    if (rol) {
+      this.role = rol;
     }
   }
+};
 </script>
 
 <style scoped>
@@ -195,7 +206,7 @@
   display: flex;
   flex-direction: row;
 }
-.replyChildUsername img{
+.replyChildUsername img {
   width: 15px;
   height: 15px;
   margin: auto auto;
@@ -260,13 +271,13 @@
   margin: auto auto;
   margin-bottom: 10px;
 }
-.deleteConfirm{
+.deleteConfirm {
   position: absolute;
   right: -8%;
-  display:flex;
-  flex-direction:column;
+  display: flex;
+  flex-direction: column;
   background: white;
-  width:150px;
+  width: 150px;
   height: 70px;
   margin-top: -90px;
   border-radius: 5px;
@@ -286,41 +297,41 @@
 .delConfirmTran-enter-active {
   height: 70px;
 }
-.deleteConfirmTip{
-  width:100%;
+.deleteConfirmTip {
+  width: 100%;
   margin: 10px auto;
   color: red;
   font-weight: bold;
   font-size: 13px;
   text-align: center;
 }
-.confirmDeleBtnBox{
+.confirmDeleBtnBox {
   display: flex;
-  flex-direction:row;
+  flex-direction: row;
   justify-content: center;
   margin: -10px auto;
   margin-bottom: 0;
 }
-.confirmDeleBtnBox p{
-  width:50px;
-  text-align:center;
+.confirmDeleBtnBox p {
+  width: 50px;
+  text-align: center;
   font-size: 12px;
   height: 20px;
   line-height: 20px;
   cursor: pointer;
   color: white;
 }
-.cancelDelBtn{
+.cancelDelBtn {
   background: gray;
   border-top-left-radius: 3px;
   border-bottom-left-radius: 3px;
 }
-.confirmDelBtn{
+.confirmDelBtn {
   background: rgb(255, 73, 73);
   border-top-right-radius: 3px;
   border-bottom-right-radius: 3px;
 }
-.adminBox{
+.adminBox {
   width: 70px;
   background: white;
   position: absolute;
@@ -332,7 +343,7 @@
   overflow: hidden;
   z-index: 10;
 }
-.adminInBox{
+.adminInBox {
   margin: auto auto;
   width: 80%;
 }
@@ -350,7 +361,7 @@
 .adminBoxTran-enter-active {
   height: 40px;
 }
-.adminBox p{
+.adminBox p {
   text-align: center;
   margin: 10px auto;
   font-size: 12px;
@@ -360,18 +371,18 @@
   cursor: pointer;
   display: block;
 }
-.stick{
+.stick {
   background: rgb(79, 199, 255);
 }
-.report{
+.report {
   background: rgb(255, 73, 73);
 }
-.adminBoxOutBox{
+.adminBoxOutBox {
   margin: auto auto;
   margin-right: 0;
   outline: none;
 }
-.delConfirmOutBox{
+.delConfirmOutBox {
   outline: none;
   margin: auto auto;
   margin-right: 0;

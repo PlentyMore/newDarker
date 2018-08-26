@@ -533,7 +533,7 @@ export default {
   z-index: -2;
 }
 .searchResultBgInBox {
-  background: rgba(0, 0, 0, 0.493);;
+  background: rgba(0, 0, 0, .5);
   top: 0;
   left: 0;
   position: fixed;
