@@ -45,6 +45,7 @@ export default {};
 .contactUsBox {
   display: flex;
   flex-direction: column;
+  height: 755px;
 }
 .contactUsInBox {
   margin: 0 auto;
