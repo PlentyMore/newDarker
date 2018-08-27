@@ -48,9 +48,8 @@ export default {
 .personalBox {
   display: flex;
   flex-direction: row;
-  position: absolute;
   width: 100%;
-  height: 93%;
+  height: 750px;
   overflow: hidden;
 }
 .personalInBox {

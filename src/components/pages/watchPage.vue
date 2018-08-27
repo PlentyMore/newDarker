@@ -1,7 +1,9 @@
 <template>
-    <div :class="['watchPageBox',{'watchPageBoxB':(showSubmitMvBox||loading)}]">
+    <div :class="['watchPageBox',{'watchPageBoxB':(showSubmitMvBox||loading)}]" :style="hasInfo?'':{height: '758px'}">
+      <div class="searchResultBg2">
         <div class="searchResultBgInBox"></div>
         <div class="searchResultBgBox"><img :src="videoCover" class='searchResultBgImg'></div>
+      </div>
         <transition name="submitMvBoxTran">
             <div class="submitMovieBox" v-if="showSubmitMvBox">
               <submit-movie
@@ -103,11 +105,13 @@ import SparkMD5 from "spark-md5";
 import hashMe from "../../assets/hashme.js";
 import submitMovie from "../submitMovie/submitMovie.vue";
 import realComment from "../comment/RealComment.vue";
+import footer1 from "../footer/footer.vue";
 export default {
   components: {
     VueDPlayer,
     submitMovie,
-    "real-comment": realComment
+    "real-comment": realComment,
+    footer1
   },
   data() {
     return {
@@ -509,13 +513,13 @@ export default {
       }, 100);
     }
   },
-  async mounted() {
+  mounted() {
     this.initDp();
     console.log("watchPage:specificRpid", this.specificRpid);
     let epid = this.$route.params.epid;
     if (epid) {
       console.log("video epid", epid);
-      await this.initEpisodeInfo(epid);
+      this.initEpisodeInfo(epid);
       this.initDp();
     }
   }
@@ -523,6 +527,10 @@ export default {
 </script>
 
 <style>
+.searchResultBg2{
+  position: relative;
+  z-index: -1;
+}
 .searchResultBgBox {
   position: fixed;
   top: 0;

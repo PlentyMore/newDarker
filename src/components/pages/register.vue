@@ -144,7 +144,7 @@ export default {
 }
 .registerPage {
   width: 100%;
-  height: 800px;
+  height: 755px;
 }
 .registerBox {
   background: rgba(97, 97, 97, 0.596);

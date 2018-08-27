@@ -216,9 +216,7 @@ export default {
   text-decoration: none;
 }
 .comment-container {
-  z-index: 100;
-  position: absolute;
-  top: 650px;
+  margin-top: 120px;
   width: 100%;
 }
 </style>

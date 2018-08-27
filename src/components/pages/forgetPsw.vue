@@ -1,7 +1,7 @@
 <template>
     <div class="forgetBox">
         <div class="nowPath">
-            <p class="nowPathItem1">登陆</p>
+            <p class="nowPathItem1" @click="backToLogin">登陆</p>
             <p class="nowPathTo">〉</p>
             <p class="nowPathItem2">忘记密码</p>
         </div>
@@ -201,6 +201,9 @@ export default {
       clearInterval(this.timer);
       this.timer = null;
       this.$router.push({ name: "index" });
+    },
+    backToLogin(){
+      this.$router.push({ name: "login" });
     }
   }
 };
@@ -222,6 +225,7 @@ export default {
 .forgetBox {
   display: flex;
   flex-direction: column;
+  height: 755px;
 }
 .nowPath {
   display: flex;

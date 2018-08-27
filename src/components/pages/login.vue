@@ -112,7 +112,7 @@ export default {
 .loginPage {
   margin:-60px 0;
   width: 100%;
-  height: 870px;
+  height: 815px;
   background-image: url('');
   background-size: contain;
 }

@@ -349,8 +349,9 @@ export default {
 .lastItemMenu {
   margin-top: -165px !important;
 }
-.submitMvBoxTran-enter-active, .submitMvBoxTran-leave-active {
-  transition: opacity .5s;
+.submitMvBoxTran-enter-active,
+.submitMvBoxTran-leave-active {
+  transition: opacity 0.5s;
 }
 .submitMvBoxTran-enter, .submitMvBoxTran-leave-to /* .fade-leave-active below version 2.1.8 */ {
   opacity: 0;
@@ -536,7 +537,7 @@ input:focus {
   color: white;
   font-size: 13px;
 }
-.mvToolTitle img{
+.mvToolTitle img {
   width: 12px;
   height: 12px;
   margin: auto 2px;

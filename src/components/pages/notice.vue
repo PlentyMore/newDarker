@@ -50,9 +50,8 @@ export default {
 .noticeBox {
   display: flex;
   flex-direction: row;
-  position: absolute;
   width: 100%;
-  height: 93%;
+  height: 800px;
   overflow: hidden;
 }
 .noticeInBox {

@@ -14,10 +14,11 @@ import test from '@/components/pages/test'
 import bangumiDetail from '@/components/pages/bangumiDetail'
 import realAnnounce from '@/components/pages/realAnnounce'
 import userProfile from '@/components/pages/userProfile'
+import contactUs from '@/components/pages/contactUs'
 
 Vue.use(Router)
 
-export default new Router({
+const router= new Router({
   routes: [
     {
       path: '/',
@@ -98,6 +99,12 @@ export default new Router({
       path: '/user/:uid',
       name: 'user',
       component: userProfile
+    },
+    {
+      path: '/contactUs',
+      name: 'contactUs',
+      component: contactUs
     }
   ]
-})
+});
+export default router;

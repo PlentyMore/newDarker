@@ -18,22 +18,27 @@
     <div class="searchCom" :style="searchBoxMove" @mouseover="showInputKey=true" @mouseout="showInputKey=!searchText==''" v-show="showSearch">
       <div class="searchIconLeft"></div>
       <transition name="searchInputTran">
-        <input class="searchKeyInput" v-if="showInputKey" v-model="searchText">
+        <input placeholder=" 请输入关键词" class="searchKeyInput" v-if="showInputKey" v-model="searchText">
       </transition>
       <div class="searchIconRight"></div>
     </div>
-    <router-view :key="activeDate" v-bind="routerInfo"></router-view>
+    <transition name="routerTran">
+      <router-view :key="activeDate" v-bind="routerInfo" style="margin-bottom:30px;" @toIndex="toIndex"></router-view>
+    </transition>
+    <footer1 style="margin-bottom:0;"></footer1>
   </div>
 </template>
 
 <script>
 import MenuItemButton from "./components/menu/MenuItemButton.vue";
 import MenuButtonBox from "./components/menu/MenuButtonBox.vue";
+import footer1 from "./components/footer/footer.vue";
 export default {
   name: "App",
   components: {
     MenuItemButton,
-    MenuButtonBox
+    MenuButtonBox,
+    footer1
   },
   data() {
     return {
@@ -41,12 +46,13 @@ export default {
       showMenu: false,
       showMain: false,
       searchText: "",
-      shake:false,
-      showInputKey:false,
+      shake: false,
+      showInputKey: false,
       searchBoxMove: {
         transform: "translate(-50%,0%) rotateZ(0deg)"
       },
-      activeDate: ""
+      activeDate: "",
+      toIndexFlag:true,
     };
   },
   computed: {
@@ -55,6 +61,10 @@ export default {
       if (this.$route.path == "/searchResult" || this.$route.path == "/")
         return true;
       else return false;
+    },
+    showFooter() {
+      if (this.$route.path == "/") return false;
+      else return true;
     }
   },
   watch: {
@@ -64,11 +74,14 @@ export default {
     searchText: async function(newText) {
       this.searchText = newText;
       if (newText == "") {
-        this.showInputKey=false;
+        this.showInputKey = false;
         this.searchBoxMove = {
           transform: "translate(-50%,0%) rotateZ(0deg)"
         };
-        this.$router.push({ name: "index" });
+        if(this.toIndexFlag){
+          this.$router.push({ name: "index" });
+        }
+        else this.toIndexFlag=true;
       } else {
         this.routerInfo = {
           searchText: this.searchText
@@ -81,6 +94,12 @@ export default {
     }
   },
   methods: {
+    toIndex(){
+      console.log('跳转到了首页');
+      if(this.$route.path !== "/") this.toIndexFlag=false;
+      this.searchText='';
+      //setTimeout(()=>{this.toIndexFlag=true;},1);
+    },
     //组件中无法使用this.$router对象，只能在App.vue将跳转函数传递给组件
     jmpIndex: function() {
       this.activeDate = new Date().getTime();
@@ -98,7 +117,7 @@ export default {
       console.log("App", pageNum);
       console.log(window.location.host);
       this.activeDate = new Date().getTime();
-      this.routerInfo={
+      this.routerInfo = {
         noticeIndex: pageNum
       };
       //window.location.assign('#/notice/'+pageNum);
@@ -129,7 +148,14 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
 }
-.searchCom{
+.routerTran-enter-active,
+.routerTran-leave-active {
+  transition: opacity 0.3s;
+}
+.routerTran-enter, .routerTran-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
+.searchCom {
   position: absolute;
   top: 200px;
   left: 50%;
@@ -139,32 +165,32 @@ export default {
   height: 50px;
   transition: 1s all;
 }
-.searchIconLeft{
+.searchIconLeft {
   background-image: url("../static/img/searchLeft.png");
   background-size: cover;
   height: 50px;
   width: 25px;
   border-top-left-radius: 5px;
   border-bottom-left-radius: 5px;
-  opacity: .8;
+  opacity: 0.8;
   border-top: 2px solid black;
   border-bottom: 2px solid black;
   border-left: 2px solid black;
 }
-.searchIconRight{
+.searchIconRight {
   background-image: url("../static/img/searchRight.png");
   background-size: cover;
   height: 50px;
   width: 25px;
   border-top-right-radius: 5px;
   border-bottom-right-radius: 5px;
-  opacity: .8;
+  opacity: 0.8;
   border-top: 2px solid black;
   border-bottom: 2px solid black;
   border-right: 2px solid black;
   margin-left: -0.1px;
 }
-.searchKeyInput{
+.searchKeyInput {
   height: 50px;
   width: 200px;
   background: rgba(255, 255, 255, 0.534);
@@ -230,13 +256,13 @@ export default {
   left: 50%;
   transition: transform 1s;
 }
-.searchInBar{
+.searchInBar {
   margin: auto auto;
   display: flex;
   flex-direction: row;
   width: 450px;
 }
-.searchBarKey{
+.searchBarKey {
   outline: none;
   height: 20px;
   background: rgba(255, 255, 255, 0);
@@ -248,10 +274,10 @@ export default {
   line-height: 20px;
   margin: auto auto;
 }
-.searchBarKey:hover{
+.searchBarKey:hover {
   border: 1px dashed black;
 }
-.searchBarKey:active{
+.searchBarKey:active {
   border: 1px dashed black;
 }
 .searchBarItem {
@@ -264,32 +290,68 @@ export default {
   font-weight: bold;
   text-align: center;
 }
-.searchRun-animation{
-  animation: searchBarShake .5s linear 0s 1 normal;
+.searchRun-animation {
+  animation: searchBarShake 0.5s linear 0s 1 normal;
 }
 @keyframes searchBarShake {
-  0%{transform: translate(-50%,-500%) rotate(-3deg);}
-  12.5%{transform: translate(-50%,-500%) rotate(0deg);}
-  25%{transform: translate(-50%,-500%) rotate(3deg);}
-  37.5%{transform: translate(-50%,-500%) rotate(0deg);}
-  50%{transform: translate(-50%,-500%) rotate(-3deg);}
-  62.5%{transform: translate(-50%,-500%) rotate(0deg);}
-  75%{transform: translate(-50%,-500%) rotate(3deg);}
-  87.5%{transform: translate(-50%,-500%) rotate(0deg);}
-  100%{transform: translate(-50%,-500%) rotate(-3deg);}
+  0% {
+    transform: translate(-50%, -500%) rotate(-3deg);
+  }
+  12.5% {
+    transform: translate(-50%, -500%) rotate(0deg);
+  }
+  25% {
+    transform: translate(-50%, -500%) rotate(3deg);
+  }
+  37.5% {
+    transform: translate(-50%, -500%) rotate(0deg);
+  }
+  50% {
+    transform: translate(-50%, -500%) rotate(-3deg);
+  }
+  62.5% {
+    transform: translate(-50%, -500%) rotate(0deg);
+  }
+  75% {
+    transform: translate(-50%, -500%) rotate(3deg);
+  }
+  87.5% {
+    transform: translate(-50%, -500%) rotate(0deg);
+  }
+  100% {
+    transform: translate(-50%, -500%) rotate(-3deg);
+  }
 }
-.searchRun-animation2{
-  animation: searchBarShake2 .5s linear 0s 1 normal;
+.searchRun-animation2 {
+  animation: searchBarShake2 0.5s linear 0s 1 normal;
 }
 @keyframes searchBarShake2 {
-  0%{transform: translate(-50%,-600%) rotate(0deg);}
-  12.5%{transform: translate(-50%,-600%) rotate(-3deg);}
-  25%{transform: translate(-50%,-600%) rotate(0deg);}
-  37.5%{transform: translate(-50%,-600%) rotate(3deg);}
-  50%{transform: translate(-50%,-600%) rotate(0deg);}
-  62.5%{transform: translate(-50%,-600%) rotate(-3deg);}
-  75%{transform: translate(-50%,-600%) rotate(0deg);}
-  87.5%{transform: translate(-50%,-600%) rotate(3deg);}
-  100%{transform: translate(-50%,-600%) rotate(0deg);}
+  0% {
+    transform: translate(-50%, -600%) rotate(0deg);
+  }
+  12.5% {
+    transform: translate(-50%, -600%) rotate(-3deg);
+  }
+  25% {
+    transform: translate(-50%, -600%) rotate(0deg);
+  }
+  37.5% {
+    transform: translate(-50%, -600%) rotate(3deg);
+  }
+  50% {
+    transform: translate(-50%, -600%) rotate(0deg);
+  }
+  62.5% {
+    transform: translate(-50%, -600%) rotate(-3deg);
+  }
+  75% {
+    transform: translate(-50%, -600%) rotate(0deg);
+  }
+  87.5% {
+    transform: translate(-50%, -600%) rotate(3deg);
+  }
+  100% {
+    transform: translate(-50%, -600%) rotate(0deg);
+  }
 }
 </style>

@@ -40,6 +40,25 @@
                 <img v-for="(url,index) in bgImgUrl" :src="url.thumb" :style="[{width:imgWidth}]" @click="jmpToBangumi(url)" class="hotImgItemBox" @mouseover="userChangeHotImgNow(index)" :key="url.bangumiId">
             </div>
         </div>
+      <div class="indexFooter">
+        <div class="inderFooter2">
+          <div class="footerAbout">
+            <a class="footerItem">关于我们</a>
+            <a class="footerItem" href="#/contactUs" @mouseover="infoText='联系我们'" @mouseout="infoText='用爱发电'">{{infoText}}</a>
+            <a class="footerItem" href="https://github.com/DMCollection"><img style="width:20px;height:15px;" src="../../../static/img/logo.png"><p>加入我们</p></a>
+          </div>
+          <div class="authorInfo">
+            <p>Crafted with</p>
+            <p style="color:red;font-size:18px;">❤</p>
+            <p>by Darkers ©2018 Darker.</p>
+          </div>
+          <div class="indexFooterInBox">
+            <a href="https://cn.vuejs.org/" class="footerItem"><img src="https://cn.vuejs.org//images/logo.png"><p>Vue.js</p></a>
+            <a href="http://dplayer.js.org/#/" class="footerItem"><img src="https://camo.githubusercontent.com/69d9f15725387a031fbfe904a38b79e2c60034ca/68747470733a2f2f692e696d6775722e636f6d2f4c6e50765a764f2e706e67"><p>Dplayer</p></a>
+            <a href="http://element-cn.eleme.io/#/zh-CN" class="footerItem"><img class="elementIcon" src="https://camo.githubusercontent.com/462f24153b8e8739c8ea71f7102585c4cb0e1575/68747470733a2f2f63646e2e7261776769742e636f6d2f456c656d6546452f656c656d656e742f6465762f656c656d656e745f6c6f676f2e737667"></a>
+          </div>
+        </div>
+      </div>
     </div>
 </template>
 
@@ -58,6 +77,7 @@ export default {
       announceInfo:{},
       imgWidth:'',
       widthNum:0,
+      infoText:'用爱发电'
       // notice: "",
       // showNotice: false,
       // lastNoticeId: "",
@@ -128,17 +148,74 @@ export default {
       this.hotImgNowLoc = (this.widthNum * this.bgImgIndex).toString() + "%";
     }, 5000);
     await this.initAnnounce();
+    this.$emit('toIndex');
   }
 };
 </script>
 
 <style>
+.indexFooter{
+  position: absolute;
+  bottom: 0;
+  z-index: 1000;
+  display: flex;
+  flex-direction: row;
+  left: 0.5%;
+  width: 99%;
+}
+.inderFooter2{
+  display: flex;
+  flex-direction: row;
+  margin: auto auto;
+}
+.footerAbout{
+  display: flex;
+  flex-direction: row;
+}
+.authorInfo{
+  display: flex;
+  flex-direction: row;
+  height: 20px;
+}
+.authorInfo p{
+  height: 20px;
+  margin: auto 3px;
+  line-height: 20px;
+}
+.indexFooterInBox{
+  display: flex;
+  flex-direction: row;
+  margin: auto auto;
+}
+.footerItem{
+  margin: auto 10px;
+  text-align: center;
+  display: flex;
+  flex-direction: row;
+  height: 20px;
+  text-decoration: none;
+  color: black;
+}
+.footerItem img{
+  height: 20px;
+  width: 20px;
+  margin: auto auto;
+}
+.elementIcon{
+  height: 20px;
+  width: 80px !important;
+}
+.footerItem p{
+  line-height: 20px;
+  height: 20px;
+  margin: auto 5px;
+}
 .carouselBox {
   left: 0;
   top: 0;
   width: 100%;
   height: 100%;
-  overflow-x: hidden;
+  overflow: hidden;
   position: absolute;
   z-index: 1;
 }
@@ -456,6 +533,13 @@ export default {
   height: 70px;
   background-image: url("../../../static/img/wave4.png");
   animation: footerMv 20s infinite .2s linear;
+  display: flex;
+  flex-direction: column;
+}
+.footerImg2 p{
+  margin:auto auto;
+  margin-bottom: 0;
+  cursor: pointer;
 }
 .righterImgBox{
   position: absolute;
