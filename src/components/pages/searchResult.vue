@@ -31,25 +31,42 @@ export default {
       page: "",
       result: [],
       bgUrl: "",
-      index:0,
-      showId:[],
-      showTimer:null
+      index: 0,
+      showId: [],
+      showTimer: null
     };
   },
   methods: {
     changeBgUrl(url) {
-      this.bgUrl = url===""?'../../static/img/1.jpg':url;
+      this.bgUrl = url === "" ? "../../static/img/1.jpg" : url;
     },
     async searchBangumis(text) {
+      clearInterval(this.showTimer);
+      this.showTimer=null;
+      if(!this.searchText){
+        console.log('给我跳转！！！！');
+        this.$router.push({name:'index'});
+      }
       let res = await api.getsearchBangumisIdResult(text);
       let rd = res.data;
       console.log("searchBangumiRes:", rd);
       if (rd.code === 0) {
         this.bangumis = rd.data.content;
         this.page = rd.data.page;
-        this.bgUrl = rd.data.content[0].thumb===""?'../../static/img/1.jpg':rd.data.content[0].thumb;
+        this.bgUrl =
+          rd.data.content[0].thumb === ""
+            ? "../../static/img/1.jpg"
+            : rd.data.content[0].thumb;
         console.log("bgUrl", this.bgUrl);
         console.log("pageNum:", "ElderDriverBroken♂Man".length);
+        this.showTimer = setInterval(() => {
+          this.showId.push(this.bangumis[this.index].bangumiId);
+          this.index++;
+          if (this.index == this.bangumis.length) {
+            clearInterval(this.showTimer);
+            this.showTimer = null;
+          }
+        }, 150);
       } else {
         this.bangumis = "";
         this.page.totalSize = 0;
@@ -57,7 +74,7 @@ export default {
       }
     },
     async handleCurrentChange(val) {
-      let res = await API.searchBangumisByName(
+      let res = await api.searchBangumisByName(
         this.searchText,
         val,
         this.page.pageSize
@@ -73,7 +90,7 @@ export default {
     },
     async handleSizeChange(val) {
       console.log("pageSize:", val);
-      let res = await API.searchBangumisByName(this.searchText, 1, val);
+      let res = await api.searchBangumisByName(this.searchText, 1, val);
       let rd = res.data;
       if (rd.code === 0) {
         this.bangumis = rd.data.content;
@@ -92,7 +109,7 @@ export default {
       console.log("href:", routeData.href);
       window.open(routeData.href, "_blank");
     },
-    showIndex(index){
+    showIndex(index) {
       return index;
     },
     test() {
@@ -109,26 +126,26 @@ export default {
   created() {
     console.log(this.searchText);
     this.searchBangumis(this.searchText);
-    this.showTimer=setInterval(()=>{
-      this.showId.push(this.bangumis[this.index].bangumiId);
-      this.index++;
-      if(this.index==this.bangumis.length){
-        clearInterval(this.showTimer);
-        this.showTimer=null;
-      }
-    },150);
   }
 };
 </script>
 
 <style>
 .run-animation2 {
-  animation: show .8s linear 0s 1 normal;
+  animation: show 0.8s linear 0s 1 normal;
 }
 @keyframes show {
-  0% { margin: 0px 10px;opacity: 0;}
-  50% {  opacity: 0;}
-  100%  {  margin: 30px 10px; opacity: 1;}
+  0% {
+    margin: 0px 10px;
+    opacity: 0;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    margin: 30px 10px;
+    opacity: 1;
+  }
 }
 .page-container {
   display: block !important;

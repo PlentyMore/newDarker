@@ -7,11 +7,20 @@
         @jmpPersonal="jmpPersonal"
         @jmpNotice="jmpNotice"></menu-button-box>
     </div>
+    <!--
     <div class='searchBar' :style="searchBoxMove" @mouseover="shake=true" @mouseout="shake=false" v-show="showSearch" v-if="true">
       <div class="searchInBar">
         <p class="searchBarItem">搜索：</p>
         <input v-model="searchText" class="searchBarKey">
       </div>
+    </div>
+    -->
+    <div class="searchCom" :style="searchBoxMove" @mouseover="showInputKey=true" @mouseout="showInputKey=!searchText==''" v-show="showSearch">
+      <div class="searchIconLeft"></div>
+      <transition name="searchInputTran">
+        <input class="searchKeyInput" v-if="showInputKey" v-model="searchText">
+      </transition>
+      <div class="searchIconRight"></div>
     </div>
     <router-view :key="activeDate" v-bind="routerInfo"></router-view>
   </div>
@@ -33,8 +42,9 @@ export default {
       showMain: false,
       searchText: "",
       shake:false,
+      showInputKey:false,
       searchBoxMove: {
-        transform: "translate(-50%,-500%) rotate(0deg) rotateY(0deg)"
+        transform: "translate(-50%,0%) rotateZ(0deg)"
       },
       activeDate: ""
     };
@@ -54,8 +64,9 @@ export default {
     searchText: async function(newText) {
       this.searchText = newText;
       if (newText == "") {
+        this.showInputKey=false;
         this.searchBoxMove = {
-          transform: "translate(-50%,-500%) rotate(0deg) rotateY(0deg)"
+          transform: "translate(-50%,0%) rotateZ(0deg)"
         };
         this.$router.push({ name: "index" });
       } else {
@@ -63,7 +74,7 @@ export default {
           searchText: this.searchText
         };
         this.searchBoxMove = {
-          transform: "translate(-50%,-600%) rotate(0deg) rotateY(-360deg)"
+          transform: "translate(-50%,-150%) rotateZ(-360deg)"
         };
         this.$router.push({ name: "searchResult" });
       }
@@ -118,6 +129,69 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
 }
+.searchCom{
+  position: absolute;
+  top: 200px;
+  left: 50%;
+  z-index: 400;
+  display: flex;
+  flex-direction: row;
+  height: 50px;
+  transition: 1s all;
+}
+.searchIconLeft{
+  background-image: url("../static/img/searchLeft.png");
+  background-size: cover;
+  height: 50px;
+  width: 25px;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+  opacity: .8;
+  border-top: 2px solid black;
+  border-bottom: 2px solid black;
+  border-left: 2px solid black;
+}
+.searchIconRight{
+  background-image: url("../static/img/searchRight.png");
+  background-size: cover;
+  height: 50px;
+  width: 25px;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  opacity: .8;
+  border-top: 2px solid black;
+  border-bottom: 2px solid black;
+  border-right: 2px solid black;
+  margin-left: -0.1px;
+}
+.searchKeyInput{
+  height: 50px;
+  width: 200px;
+  background: rgba(255, 255, 255, 0.534);
+  outline: none;
+  font-size: 30px;
+  border: 0px;
+  padding-left: 5px;
+  padding-right: 5px;
+  font-weight: bold;
+}
+.searchInputTran-leave-active,
+.searchInputTran-enter-active {
+  transition: all 0.2s ease;
+}
+.searchInputTran-leave-active,
+.searchInputTran-enter {
+  width: 0px !important;
+  padding-left: 0px;
+  padding-right: 0px;
+  /*!important 将该样式优先级调至最高*/
+}
+.searchInputTran-leave,
+.searchInputTran-enter-active {
+  width: 200px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
 .topBox {
   position: absolute;
   width: 100%;
@@ -139,29 +213,6 @@ export default {
   flex-direction: row;
   margin: 0 auto;
 }
-/*
-/*滚动条 start
-::-webkit-scrollbar {
-  width: 12px;
-  height: 4px;
-  background-color: #f5f5f5;
-}
-/*定义滚动条轨道 内阴影+圆角
-::-webkit-scrollbar-track {
-  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-  background: #fff;
-}
-/*定义滑块 内阴影+圆角
-::-webkit-scrollbar-thumb {
-  border-radius: 5px;
-  -webkit-box-shadow: inset 0px 0 6px rgba(0, 0, 0, 0.3);
-  background-color: rgba(255, 255, 240, 0.7);
-  transition: background-color 1s;
-}
-::-webkit-scrollbar-thumb:hover {
-  background-color: rgba(255, 228, 225, 1);
-}
-*/
 .searchBar {
   background: rgba(86, 100, 104, 0.8);
   position: absolute;

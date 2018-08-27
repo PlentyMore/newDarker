@@ -190,10 +190,14 @@ export default {
   border: 1px solid gray;
   transition: border 0.2s;
 <<<<<<< HEAD
+<<<<<<< HEAD
   background: rgba(27, 27, 33, 0.719);
 =======
   background: rgb(27, 27, 33);
 >>>>>>> 1b9fcde01724bf00117f54a9a4d46e49b36b7a3b
+=======
+  background: rgb(27, 27, 33);
+>>>>>>> 25f8d4678dab7ca3da980afbd926b06f8b6931a9
   outline: none;
   color: #c5c8c6;
 }
