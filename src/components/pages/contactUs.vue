@@ -88,19 +88,19 @@ export default {};
   flex-direction: column;
   margin: auto auto;
 }
-.blockTitle{
-    background: rgba(5, 20, 34);
-    color: rgb(169, 199, 199);
-    margin: 0px auto;
-    line-height: 30px;
-    width: 100%;
-    font-weight: bold;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.164);
+.blockTitle {
+  background: rgba(5, 20, 34);
+  color: rgb(169, 199, 199);
+  margin: 0px auto;
+  line-height: 30px;
+  width: 100%;
+  font-weight: bold;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.164);
 }
-.contactUsWay{
-    color: white;
-    font-size: 13px;
+.contactUsWay {
+  color: white;
+  font-size: 13px;
 }
 </style>

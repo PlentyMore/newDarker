@@ -38,7 +38,7 @@ export default {
       showId: [],
       showTimer: null,
       resultStyle:{
-        'min-height':'485px'
+        'min-height':'900px'
       }
     };
   },
