@@ -81,15 +81,15 @@ export default {
       this.bgImgIndex = index;
       this.hotImgNowLoc = (this.widthNum * this.bgImgIndex).toString() + "%";
       clearInterval(this.carouselTimer);
+      this.carouselTimer=null;
       let carousel = document.getElementById("carousel");
       carousel.classList.remove("run-animation");
       carousel.offsetLeft;
       carousel.classList.add("run-animation");
-      var that = this;
-      this.carouselTimer = setInterval(function() {
-        that.bgImgIndex++;
-        if (that.bgImgIndex == that.bgImgUrl.length) that.bgImgIndex = 0;
-        that.hotImgNowLoc = (that.widthNum * that.bgImgIndex).toString() + "%";
+      this.carouselTimer = setInterval(()=>{
+        this.bgImgIndex++;
+        if (this.bgImgIndex == this.bgImgUrl.length) this.bgImgIndex = 0;
+        this.hotImgNowLoc = (this.widthNum * this.bgImgIndex).toString() + "%";
       }, 5000);
     },
     jmpToBangumi(item){
@@ -122,11 +122,10 @@ export default {
   async created() {
     await this.initCommend();
     //在这里获取首页推荐的数据
-    var that = this;
-    this.carouselTimer = setInterval(function() {
-      that.bgImgIndex++;
-      if (that.bgImgIndex == that.bgImgUrl.length) that.bgImgIndex = 0;
-      that.hotImgNowLoc = (that.widthNum * that.bgImgIndex).toString() + "%";
+    this.carouselTimer = setInterval(()=> {
+      this.bgImgIndex++;
+      if (this.bgImgIndex == this.bgImgUrl.length) this.bgImgIndex = 0;
+      this.hotImgNowLoc = (this.widthNum * this.bgImgIndex).toString() + "%";
     }, 5000);
     await this.initAnnounce();
   }
