@@ -177,7 +177,7 @@ export default {
 }
 .searchInputTran-leave-active,
 .searchInputTran-enter-active {
-  transition: all 0.2s ease;
+  transition: all 0.5s ease;
 }
 .searchInputTran-leave-active,
 .searchInputTran-enter {

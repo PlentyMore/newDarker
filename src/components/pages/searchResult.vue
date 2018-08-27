@@ -43,6 +43,7 @@ export default {
     async searchBangumis(text) {
       clearInterval(this.showTimer);
       this.showTimer=null;
+      this.index=0;
       if(!this.searchText){
         console.log('给我跳转！！！！');
         this.$router.push({name:'index'});
@@ -119,6 +120,9 @@ export default {
   },
   watch: {
     searchText(newInfo) {
+      clearInterval(this.showTimer);
+      this.showTimer=null;
+      this.index=0;
       console.log(newInfo);
       this.searchBangumis(newInfo);
     }

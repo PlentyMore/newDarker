@@ -20,7 +20,7 @@
                         <p class='systemTitle'>{{item.title}}</p>
                         <p class='systemTime'>{{new Date(item.createTime).toLocaleString()}}</p>
                     </div>
-                    <p class="systemContent">{{item.content}}</p>
+                    <p class="systemContent" v-html="item.content"></p>
                 </div>
             </darker-scroll>
         </div>
