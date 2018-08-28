@@ -347,7 +347,7 @@ export default {
   height: 90px !important;
 }
 .lastItemMenu {
-  margin-top: -165px !important;
+  margin-top: -150px !important;
 }
 .submitMvBoxTran-enter-active,
 .submitMvBoxTran-leave-active {
@@ -435,7 +435,7 @@ export default {
 .scroll {
   margin: auto 18px;
 }
-input {
+.searchMvBox input {
   height: 22px;
   width: 60%;
   border-radius: 4px;
@@ -445,11 +445,11 @@ input {
   transition: all 0.2s;
   margin: auto 0;
 }
-input:hover {
+.searchMvBox input:hover {
   border: 1px solid white;
   box-shadow: 0 0 1px white;
 }
-input:focus {
+.searchMvBox input:focus {
   border: 1px solid rgb(100, 149, 237);
   box-shadow: 0 0 1px rgb(100, 149, 237);
 }
@@ -609,7 +609,7 @@ input:focus {
   position: absolute;
   left: 0;
   top: 0px;
-  z-index: 300;
+  z-index: 1000;
   display: flex;
   flex-direction: column;
 }

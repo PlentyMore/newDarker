@@ -98,6 +98,7 @@
   .profile-wrapper {
     display: inline-flex;
     animation: ShowVideo 0.4s;
+    margin:100px auto;
   }
   .u-avatar {
     position: relative;
@@ -126,5 +127,8 @@
     line-height: 20px;
     font-size: 16px;
     vertical-align: middle;
+  }
+  .comment-container{
+    margin: 68px auto;
   }
 </style>

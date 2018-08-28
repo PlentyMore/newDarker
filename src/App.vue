@@ -16,13 +16,14 @@
     </div>
     -->
     <div class="searchCom" :style="searchBoxMove" @mouseover="showInputKey=true" @mouseout="showInputKey=!searchText==''" v-show="showSearch">
+      <!--<div class="searchComBg" v-show="!showInputKey"></div>-->
       <div class="searchIconLeft"></div>
-      <transition name="searchInputTran">
+      <transition name="searchInputTran" v-show="showInputKey">
         <input placeholder=" 请输入关键词" class="searchKeyInput" v-if="showInputKey" v-model="searchText">
       </transition>
       <div class="searchIconRight"></div>
     </div>
-    <transition name="routerTran">
+    <transition name="routerTran" v-show="showInputKey">
       <router-view :key="activeDate" v-bind="routerInfo" style="margin-bottom:30px;" @toIndex="toIndex"></router-view>
     </transition>
     <footer1 style="margin-bottom:0;"></footer1>
@@ -159,11 +160,19 @@ export default {
   position: absolute;
   top: 200px;
   left: 50%;
-  z-index: 400;
+  z-index: 1000;
   display: flex;
   flex-direction: row;
   height: 50px;
   transition: 1s all;
+}
+.searchComBg{
+  background-image: url("../static/img/search.png");
+  background-size: cover;
+  width: 50px;
+  border-radius: 5px;
+  opacity: 0.8;
+  border: 2px solid black;
 }
 .searchIconLeft {
   background-image: url("../static/img/searchLeft.png");
@@ -188,7 +197,6 @@ export default {
   border-top: 2px solid black;
   border-bottom: 2px solid black;
   border-right: 2px solid black;
-  margin-left: -0.1px;
 }
 .searchKeyInput {
   height: 50px;

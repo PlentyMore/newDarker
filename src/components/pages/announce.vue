@@ -111,6 +111,7 @@ export default {
   color: wheat;
   display: flex;
   flex-direction: column;
+  margin: auto auto;
 }
 .announceBoxB {
   overflow: hidden;
@@ -119,7 +120,7 @@ export default {
 .announceInBox {
   display: flex;
   flex-direction: column;
-  margin-top: 60px;
+  margin: 60px auto !important;
 }
 .anTitleBox {
   text-align: left;
@@ -146,9 +147,6 @@ export default {
   width: 30%;
   margin: auto 35%;
 }
-.anDateBox,
-.anReadBox {
-}
 .anDateBox {
   margin-left: 0;
 }
@@ -162,6 +160,7 @@ export default {
 }
 .anContentBox {
   width: 100%;
+  margin:auto auto;
 }
 .anContentInBox {
   display: flex;
@@ -196,5 +195,8 @@ export default {
 .wattingBox p {
   margin: auto auto;
   font-weight: bold;
+}
+.commentList{
+  margin: 10px auto;
 }
 </style>

@@ -15,6 +15,7 @@ import bangumiDetail from '@/components/pages/bangumiDetail'
 import realAnnounce from '@/components/pages/realAnnounce'
 import userProfile from '@/components/pages/userProfile'
 import contactUs from '@/components/pages/contactUs'
+import aboutUs from '@/components/pages/aboutUs'
 
 Vue.use(Router)
 
@@ -104,7 +105,13 @@ const router= new Router({
       path: '/contactUs',
       name: 'contactUs',
       component: contactUs
+    },
+    {
+      path: '/aboutUs',
+      name: 'aboutUs',
+      component: aboutUs
     }
   ]
 });
+
 export default router;

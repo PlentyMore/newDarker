@@ -43,9 +43,9 @@
       <div class="indexFooter">
         <div class="inderFooter2">
           <div class="footerAbout">
-            <a class="footerItem">关于我们</a>
+            <a class="footerItem" href="#/aboutUs">关于我们</a>
             <a class="footerItem" href="#/contactUs" @mouseover="infoText='联系我们'" @mouseout="infoText='用爱发电'">{{infoText}}</a>
-            <a class="footerItem" href="https://github.com/DMCollection"><img style="width:20px;height:15px;" src="../../../static/img/logo.png"><p>加入我们</p></a>
+            <a class="footerItem" href="https://t.me/joinchat/D6RlYg6geGuiS3WP_ag5zg"><img style="width:20px;height:15px;" src="../../../static/img/logo.png"><p>加入我们</p></a>
           </div>
           <div class="authorInfo">
             <p>Crafted with</p>
@@ -53,9 +53,7 @@
             <p>by Darkers ©2018 Darker.</p>
           </div>
           <div class="indexFooterInBox">
-            <a href="https://cn.vuejs.org/" class="footerItem"><img src="https://cn.vuejs.org//images/logo.png"><p>Vue.js</p></a>
-            <a href="http://dplayer.js.org/#/" class="footerItem"><img src="https://camo.githubusercontent.com/69d9f15725387a031fbfe904a38b79e2c60034ca/68747470733a2f2f692e696d6775722e636f6d2f4c6e50765a764f2e706e67"><p>Dplayer</p></a>
-            <a href="http://element-cn.eleme.io/#/zh-CN" class="footerItem"><img class="elementIcon" src="https://camo.githubusercontent.com/462f24153b8e8739c8ea71f7102585c4cb0e1575/68747470733a2f2f63646e2e7261776769742e636f6d2f456c656d6546452f656c656d656e742f6465762f656c656d656e745f6c6f676f2e737667"></a>
+            <a href="https://www.digitalocean.com/" class="footerItem"><img class="elementIcon" src="https://www.v2ex.com/static/img/do_logo.png"></a>
           </div>
         </div>
       </div>
@@ -203,7 +201,7 @@ export default {
 }
 .elementIcon{
   height: 20px;
-  width: 80px !important;
+  width: 120px !important;
 }
 .footerItem p{
   line-height: 20px;
@@ -518,7 +516,7 @@ export default {
   margin-bottom: 0;
   width: 100%;
   height: 65px;
-  background-image: url("../../../static/img/wave3.png");
+  background-image: url("../../../static/img/wave1.png");
   background-position: 0 0;
   animation: footerMv 10s infinite linear;
 }
@@ -531,7 +529,7 @@ export default {
   margin-bottom: 0;
   width: 100%;
   height: 70px;
-  background-image: url("../../../static/img/wave4.png");
+  background-image: url("../../../static/img/wave2.png");
   animation: footerMv 20s infinite .2s linear;
   display: flex;
   flex-direction: column;

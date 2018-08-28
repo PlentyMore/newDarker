@@ -149,6 +149,9 @@ export default {
   width: 98%;
   margin: auto 10px;
 }
+.systemContent a{
+  color: rgb(147, 147, 255);
+}
 .wattingBox {
   background: white;
   position: absolute;

@@ -196,7 +196,7 @@ export default {
   cursor: pointer;
 }
 .logoImg {
-  height: 40px;
+  height: 30px;
   margin: auto 20px;
   filter: invert(0%);
 }
@@ -232,10 +232,10 @@ export default {
 }
 .logoTitle {
   width: 140px;
-  font-size: 35px;
+  font-size: 25px;
   font-family: Stencil Std;
   line-height: 50px;
-  margin: 10px -10px;
+  margin: 10px -25px;
   color: black;
 }
 .msgAndUserBtn {

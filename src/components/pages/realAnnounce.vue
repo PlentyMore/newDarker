@@ -1,9 +1,9 @@
 <template>
   <div class="announce">
-    <div class="page-container">
+    <div class="page-container1">
       <div class="title-container">
         <h1>{{notice.title}}</h1>
-        <div>
+        <div style="color:white">
           <span ><i class="el-icon-date" title="发布时间" style="padding-right: 5px"></i>{{notice.createTime | formatDate}}</span>
           <span style="margin-left: 15px"><i class="el-icon-view" title="阅读量" style="padding-right: 5px"></i>{{notice.viewCount}}</span>
         </div>
@@ -78,11 +78,12 @@
   .title-container {
     /*border-bottom: 1px solid white;*/
     margin: 20px 0 60px 0;
+    color: wheat;
   }
   .title-container div {
     margin-bottom: 10px;
   }
-  .page-container {
+  .page-container1 {
     text-align: left;
     width: 800px;
     display: inline-block;

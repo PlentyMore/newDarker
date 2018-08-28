@@ -15,11 +15,20 @@
         <transition name="menu" v-if="login">
             <div v-if="show" class="withLogin">
                 <div class="withLoginInBox">
-                    <p class="withLoginUsername">{{account}}</p>
-                    <p class="withLoginItem" @click="jmpPersonal">个人中心</p>
-                    <p class="withLoginItem" @click="logout">退出登录</p>
+                    <p class="withLoginItem" @click="jmpPersonalMain" @mouseover="selecting1=true">{{account}}</p>
+                    <p class="withLoginItem" @click="jmpPersonal" @mouseover="selecting2=true">个人中心</p>
+                    <p class="withLoginItem" @click="logout" @mouseover="selecting3=true">退出登录</p>
                 </div>
             </div>
+        </transition>
+        <transition name="selectingTran1">
+          <span class="selectingu selectingu1" @click="jmpPersonalMain" @mouseout="selecting1=false" v-show="selecting1">{{account}}</span>
+        </transition>
+        <transition name="selectingTran1">
+          <span class="selectingu selectingu2" @click="jmpPersonal" @mouseout="selecting2=false" v-show="selecting2">个人中心</span>
+        </transition>
+        <transition name="selectingTran1">
+          <span class="selectingu selectingu3" @click="logout" @mouseout="selecting3=false" v-show="selecting3">退出登录</span>
         </transition>
     </div>
 </template>
@@ -40,7 +49,10 @@ export default {
       avatar: localStorage.getItem("face")
         ? localStorage.getItem("face")
         : "../../../static/img/noAvatar.jpg",
-      account: localStorage.getItem("loginUserName")
+      account: localStorage.getItem("loginUserName"),
+      selecting1: false,
+      selecting2: false,
+      selecting3: false
     };
   },
   mounted() {
@@ -49,6 +61,13 @@ export default {
   watch: {
     login() {
       this.$emit("update:isLogin", false);
+    },
+    show() {
+      if (!this.show) {
+        this.selecting1 = false;
+        this.selecting2 = false;
+        this.selecting3 = false;
+      }
     }
   },
   methods: {
@@ -70,12 +89,61 @@ export default {
     },
     jmpPersonal() {
       this.$emit("jmpPersonal");
+    },
+    jmpPersonalMain() {
+      console.log('go');
+      this.$router.push({
+        name:'user',
+        params:{
+          uid:localStorage.getItem("USER_ID")
+        }
+      });
     }
   }
 };
 </script>
 
 <style>
+.selectingu{
+  background: rgb(255, 255, 255);
+  position: absolute;
+  right: 156px;
+  overflow: hidden;
+  height: 45px;
+  width: 160px;
+  display: flex;
+  flex-direction: column;
+  line-height: 45px;
+  cursor: pointer;
+  font-size: 15px;
+  opacity: 1;
+}
+.selectingu1{
+  top:67px;
+}
+.selectingu2{
+  top:102px;
+}
+.selectingu3{
+  top:137px;
+}
+.selectingTran1-leave-active,
+.selectingTran1-enter-active {
+  transition: all 0.5s ease;
+}
+.selectingTran1-leave-active,
+.selectingTran1-enter {
+  width: 155px !important;
+  font-size: 13px !important;
+  opacity: 0 !important;
+  /*!important 将该样式优先级调至最高*/
+}
+.selectingTran1-leave,
+.selectingTran1-enter-active {
+  width: 160px;
+  font-size: 15px;
+  opacity: 1;
+}
 .userMenuBox {
   height: 60px;
   width: 60px;
@@ -103,7 +171,7 @@ export default {
   height: 100px;
 }
 .withoutLogin {
-  background: white;
+  background: rgba(255, 255, 255, 0.8);
   position: absolute;
   top: 60px;
   right: 20px;
@@ -122,7 +190,7 @@ export default {
   height: 70%;
   text-align: left;
 }
-.afterLoginYouCan p{
+.afterLoginYouCan p {
   margin-top: 0;
   font-size: 13px;
 }
@@ -152,7 +220,7 @@ export default {
   font-size: 10px;
 }
 .withLogin {
-  background: white;
+  background: rgba(255, 255, 255, 0.8);
   position: absolute;
   top: 60px;
   right: 160px;
@@ -182,6 +250,9 @@ export default {
   text-overflow: ellipsis;
   margin: 0;
   transition: background 0.4s;
+}
+.withLoginUsername {
+  cursor: pointer;
 }
 .withLoginItem {
   cursor: pointer;

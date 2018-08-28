@@ -82,7 +82,7 @@
             <div @click.stop id='dplayer' ref="player" class="videoSize"></div>
             <div class="mvBarrageBox" @click.stop>
               <input placeholder="暂未开发，请使用播放窗自带弹幕功能（播放窗右下角）" disabled="false">
-              <p>发射</p>
+              <p style="text-align:center;">发射</p>
             </div>
           </el-upload>
         </div>
@@ -114,6 +114,8 @@ export default {
     footer1
   },
   data() {
+    vm.$mount();
+    console.log('data会执行吗');
     return {
       dp: "",
       hasInfo: false,
@@ -154,8 +156,11 @@ export default {
   watch: {
     videoInfo() {
       if (this.bugTmp > 1) this.initDp();
+      this.videoCover =
+        this.videoInfo.thumb === ""
+          ? "../../../static/img/1.jpg"
+          : this.videoInfo.thumb;
       this.switchVideo();
-      this.videoCover = this.videoInfo.thumb===""?'../../../static/img/1.jpg':this.videoInfo.thumb;
     },
     async searchMvKey(key) {
       console.log("searching...", this.searchMvKey);
@@ -254,7 +259,7 @@ export default {
         maximum: 1000,
         user: localStorage.getItem("loginUserName"),
         bottom: "15%",
-        unlimited: true,
+        unlimited: true
       };
       this.dp.switchVideo({ url: this.videoURL }, danmaku);
     },
@@ -431,7 +436,7 @@ export default {
         });
       }, 800);
     },
-    cancelMvSearch(){
+    cancelMvSearch() {
       this.showMatchBox = false;
       this.searchMvKey = "";
       this.searchMvResult = [];
@@ -450,13 +455,15 @@ export default {
       })).data;
       console.log(res);
     },
-    initDp() {
-      const dp = new VueDPlayer({
+    async initDp() {
+      console.log("初始化dplayer", this.videoCover);
+      const dp = await new VueDPlayer({
         container: document.getElementById("dplayer"),
         autoplay: false,
         video: {
           url: this.videoURL,
-          pic: this.videoCover
+          pic: this.videoCover,
+          poster: this.videoCover
         },
         danmaku: {
           api: "http://test.echisan.cn:8888/dplayer/",
@@ -484,7 +491,13 @@ export default {
       if (rd.code === 0) {
         this.videoInfo = rd.data;
         this.hasInfo = true;
-        this.videoCover = rd.data.thumb===""?'../../../static/img/1.jpg':rd.data.thumb;
+        this.videoCover =
+          rd.data.thumb === "" ? "../../../static/img/1.jpg" : rd.data.thumb;
+        console.log("封面更新", this.videoCover);
+        if (rd.data.videoUrl) {
+          this.videoURL = rd.data.videoUrl;
+        }
+        this.initDp();
       }
     },
     goAnchor() {
@@ -514,22 +527,20 @@ export default {
     }
   },
   mounted() {
-    this.initDp();
-    console.log("watchPage:specificRpid", this.specificRpid);
     let epid = this.$route.params.epid;
+    console.log("epid是", epid);
     if (epid) {
       console.log("video epid", epid);
       this.initEpisodeInfo(epid);
-      this.initDp();
-    }
-  }
+    } else this.initDp();
+  },
 };
 </script>
 
 <style>
-.searchResultBg2{
-  position: relative;
+.searchResultBg2 {
   z-index: -1;
+  position: relative;
 }
 .searchResultBgBox {
   position: fixed;
@@ -541,7 +552,7 @@ export default {
   z-index: -2;
 }
 .searchResultBgInBox {
-  background: rgba(0, 0, 0, .5);
+  background: rgba(0, 0, 0, 0.5);
   top: 0;
   left: 0;
   position: fixed;
@@ -554,8 +565,9 @@ export default {
   width: 100%;
   filter: blur(20px) grayscale(30%);
 }
-.submitMvBoxTran-enter-active, .submitMvBoxTran-leave-active {
-  transition: opacity .5s;
+.submitMvBoxTran-enter-active,
+.submitMvBoxTran-leave-active {
+  transition: opacity 0.5s;
 }
 .submitMvBoxTran-enter, .submitMvBoxTran-leave-to /* .fade-leave-active below version 2.1.8 */ {
   opacity: 0;
@@ -768,7 +780,6 @@ export default {
 .videoSize {
   height: 506px;
   width: 900px;
-  z-index: 1;
 }
 /*拖动框大小*/
 .el-upload-dragger {
@@ -777,6 +788,7 @@ export default {
   background: rgba(255, 255, 255, 0.315);
   border: 0px;
   margin-top: 0px;
+  text-align: left;
 }
 .uploadTips {
   font-size: 13px;
@@ -784,6 +796,7 @@ export default {
   font-weight: bold;
   color: wheat;
   height: 30px;
+  text-align: center;
 }
 .mvBarrageBox {
   background: rgba(0, 0, 0, 0.356);

@@ -43,13 +43,13 @@ export default {
   },
   data() {
     return {
-      avatar: localStorage.getItem("face")?localStorage.getItem("face"):'',
+      avatar: localStorage.getItem("face") ? localStorage.getItem("face") : "",
       isLogin: localStorage.getItem("USER_ID") ? true : false,
       content: "",
       sendBtnText: "发表评论",
       sendingFlag: false,
       show_emoji_box: false,
-      loginBoxShow:false
+      loginBoxShow: false
     };
   },
   computed: {
@@ -99,14 +99,25 @@ export default {
           type: this.type,
           content: this.content
         });
+        console.log("回复结果", postRes);
         let rd = postRes.data;
         if (rd.code === 0) {
           this.$emit("onAddRootReply", rd.data.rpid);
           this.content = "";
           this.sendingFlag = false;
           this.sendBtnText = "发表评论";
+          this.$message({
+            message: "发送评论成功",
+            type: "error"
+          });
         } else {
+          this.sendingFlag = false;
+          this.sendBtnText = "发表评论";
           console.log("发送评论失败");
+          this.$message({
+            message: "发送评论失败: " + rd.msg,
+            type: "error"
+          });
         }
         //不可直接修改props数据，会出错
         //（调用父组件的refresh函数时，会更改父组件data，同时会重新渲染父组件，然后父组件会重新传值到props，导致冲突）
@@ -127,6 +138,7 @@ export default {
           root: this.parentRpid,
           tuid: this.replyInfo.user.uid
         });
+        console.log("回复结果", postRes);
         let rd = postRes.data;
         if (rd.code === 0) {
           if (this.top) {
@@ -135,14 +147,25 @@ export default {
           } else {
             this.$emit("onAddSubReply", rd.data.rpid);
           }
-
           this.content = "";
           this.sendingFlag = false;
           this.sendBtnText = "发表评论";
+          this.$message({
+            message: "发送评论成功",
+            type: "error"
+          });
         } else {
+          this.sendingFlag = false;
+          this.sendBtnText = "发表评论";
           console.log("发送子评论失败");
+          this.$message({
+            message: "发送评论失败: " + rd.msg,
+            type: "error"
+          });
         }
       }
+      this.sendBtnText = "发表评论";
+      this.sendingFlag = false;
     },
     selectedEmoji(emoji) {
       this.show_emoji_box = false;
@@ -256,7 +279,7 @@ export default {
   line-height: 24px;
   margin: auto auto;
 }
-.replyLoginTip{
+.replyLoginTip {
   position: absolute;
   background: rgba(128, 128, 128, 0.671);
   width: 720px;
@@ -268,21 +291,21 @@ export default {
   text-align: center;
   font-size: 12px;
 }
-.replyLoginTipInBox{
+.replyLoginTipInBox {
   display: flex;
   flex-direction: row;
   margin: auto auto;
 }
-.loginTipText{
+.loginTipText {
   line-height: 20px;
   height: 20px;
   margin: auto 0;
   color: rgb(61, 61, 61);
 }
-.loginTipText1{
+.loginTipText1 {
   margin-right: 5px;
 }
-.replyLoginBtn{
+.replyLoginBtn {
   background: rgb(0, 164, 240);
   margin: auto 0;
   line-height: 20px;
@@ -292,7 +315,7 @@ export default {
   padding: 2px 5px 2px 5px;
   border-radius: 3px;
   cursor: pointer;
-  transition: all .2s;
+  transition: all 0.2s;
   margin-right: 5px;
 }
 .replyLoginBtn:hover {
@@ -301,15 +324,16 @@ export default {
 .replyLoginBtn:active {
   background: rgb(0, 174, 255);
 }
-.loginNowBox{
+.loginNowBox {
   position: fixed;
   z-index: 1000;
   top: 60px;
   left: 0;
   opacity: 1;
 }
-.loginNowBoxTran-enter-active, .loginNowBoxTran-leave-active {
-  transition: opacity .5s;
+.loginNowBoxTran-enter-active,
+.loginNowBoxTran-leave-active {
+  transition: opacity 0.5s;
 }
 .loginNowBoxTran-enter, .loginNowBoxTran-leave-to /* .fade-leave-active below version 2.1.8 */ {
   opacity: 0;
