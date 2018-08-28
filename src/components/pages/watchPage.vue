@@ -114,7 +114,6 @@ export default {
     footer1
   },
   data() {
-    vm.$mount();
     console.log('data会执行吗');
     return {
       dp: "",
