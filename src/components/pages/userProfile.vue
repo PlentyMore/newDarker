@@ -77,7 +77,7 @@
       let rpid = this.$route.query.rpid;
       console.log("uid is:", uid);
       if (uid) {
-        this.uid = uid;
+        this.uid = parseInt(uid);
         this.initUserInfo(uid);
       }
       else {
