@@ -114,7 +114,6 @@ export default {
     footer1
   },
   data() {
-    console.log('data会执行吗');
     return {
       dp: "",
       hasInfo: false,
@@ -153,13 +152,18 @@ export default {
     };
   },
   watch: {
+    '$route' (to, from) {
+      console.log("to: ",to+" from: ",from);
+      this.resetAllData();
+      setTimeout(()=>{
+        this.initDp();
+      },1);
+    },
     videoInfo() {
-      if (this.bugTmp > 1) this.initDp();
-      this.videoCover =
-        this.videoInfo.thumb === ""
-          ? "../../../static/img/1.jpg"
-          : this.videoInfo.thumb;
-      this.switchVideo();
+      // if (this.bugTmp > 1) this.initDp();
+      if(this.dp)
+        this.switchVideo();
+      this.videoCover = this.videoInfo.thumb===""?'../../../static/img/1.jpg':this.videoInfo.thumb;
     },
     async searchMvKey(key) {
       console.log("searching...", this.searchMvKey);
@@ -238,6 +242,43 @@ export default {
       return fullMd5;
     },
     */
+    resetAllData(){
+      console.log("begin reset add data.......");
+      this.dp = "";
+      this.hasInfo = false;
+      this.videoCover = "../../../static/img/1.jpg";
+      this.videoURL = "";
+      this.videoMd5 = "";
+      this.videoSize = 0;
+      this.videoInfo = {
+        bangumiId: -1,
+        bangumiName: "",
+        danmakuCount: 0,
+        danmakuId: "",
+        episodeId: -1,
+        episodeIndex: -1,
+        replyable: -1,
+        thumb: "",
+        videoId: -1,
+        viewCount: -1
+      };
+      this.showSubmitMvBox = false;
+      this.specificRpid = this.$route.query.rpid;
+      this.loading = false;
+      this.videoListShow = false;
+      this.videoList = [];
+      this.mvIndex = 0;
+      this.showMatchBox = false;
+      this.searchMvKey = "";
+      this.searchMvResult = [];
+      this.searchMvBoxShow = true;
+      this.searchWaitingShow = false;
+      this.noSearchMvResult = false;
+      this.searchResultChoose = {};
+      this.searchResultEpisodeNum = 0;
+      this.videoCover = '../../../static/img/1.jpg';
+      console.log("end reset add data.......")
+    },
     getFileMd5(fileRaw) {
       return new Promise((res, rej) => {
         try {
@@ -262,17 +303,6 @@ export default {
       };
       this.dp.switchVideo({ url: this.videoURL }, danmaku);
     },
-    /*
-    async initComments() {
-      let repliesData = await api.getRepliesOfAnyClassPage({
-        oid: this.videoInfo.episodeId,
-        type: 1
-      });
-      if (repliesData.status === 200) {
-        this.commentList=repliesData;
-      }
-    },
-    */
     async handleChange(file) {
       this.specificRpid = null;
       this.loading = true;
@@ -455,8 +485,9 @@ export default {
       console.log(res);
     },
     async initDp() {
-      console.log("初始化dplayer", this.videoCover);
-      const dp = await new VueDPlayer({
+      console.log("init dplayer!!!!");
+      console.log("pic:",this.videoCover);
+      this.dp = await (new VueDPlayer({
         container: document.getElementById("dplayer"),
         autoplay: false,
         video: {
@@ -465,6 +496,7 @@ export default {
           poster: this.videoCover
         },
         danmaku: {
+          id: this.videoInfo.danmakuId,
           api: "http://test.echisan.cn:8888/dplayer/",
           token: localStorage.getItem("JWT_TOKEN"),
           maximum: 1000,
@@ -472,8 +504,7 @@ export default {
           bottom: "15%",
           unlimited: true
         }
-      });
-      this.dp = dp;
+      }));
     },
     closeSubmitMvBox() {
       this.showSubmitMvBox = false;
@@ -487,52 +518,33 @@ export default {
     async initEpisodeInfo(epid) {
       let rd = (await api.getEpisodeInfoByEpId(epid)).data;
       console.log("根据epid获取视频信息", rd);
+      console.log("begin initEpisodeInfo");
       if (rd.code === 0) {
         this.videoInfo = rd.data;
         this.hasInfo = true;
-        this.videoCover =
-          rd.data.thumb === "" ? "../../../static/img/1.jpg" : rd.data.thumb;
-        console.log("封面更新", this.videoCover);
-        if (rd.data.videoUrl) {
-          this.videoURL = rd.data.videoUrl;
-        }
-        this.initDp();
+        this.videoURL = rd.data.videoUrl;
+        console.log("url!!!!!!!!!!!:",rd.data.videoUrl);
+        this.videoCover = rd.data.thumb===""?'../../../static/img/1.jpg':rd.data.thumb;
       }
-    },
-    goAnchor() {
-      this.loading = false;
-      setTimeout(() => {
-        console.log("翻滚吧！");
-        let anchor = document.getElementById(this.specificRpid);
-        console.log("anchor:", anchor);
-        console.log("scrollIntoView!!!");
-        anchor.scrollIntoView();
-      }, 100);
-    },
-    cantGoAnchor() {
-      this.loading = false;
-      this.$message({
-        message: "评论已被删除",
-        type: "info"
-      });
-    },
-    nextPageGoAnchor() {
-      let anchor = document.getElementById("comment");
-      setTimeout(() => {
-        console.log("翻滚吧！");
-        let anchor = document.getElementById("comment");
-        anchor.scrollIntoView();
-      }, 100);
+      console.log("end initEpisodeInfo");
     }
   },
-  mounted() {
+  async mounted() {
+    console.log("watchpage mounted!!!!");
     let epid = this.$route.params.epid;
-    console.log("epid是", epid);
-    if (epid) {
-      console.log("video epid", epid);
-      this.initEpisodeInfo(epid);
-    } else this.initDp();
+    if(epid){
+      this.initEpisodeInfo(epid).then(()=>{
+        console.log("initEpisode end.......");
+        this.initDp();
+      });
+    }
+    else {
+      this.initDp();
+    }
   },
+  created(){
+    console.log("watchPage created!!!");
+  }
 };
 </script>
 

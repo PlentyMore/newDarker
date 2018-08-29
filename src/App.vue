@@ -107,8 +107,14 @@ export default {
       this.$router.push({ name: "index" });
     },
     jmpWatch: function() {
-      this.activeDate = new Date().getTime();
-      this.$router.push({ name: "watch" });
+      // this.activeDate = new Date().getTime();
+      this.$router.push({ name: "blank"});
+      this.$router.push({ name: "watch"});
+      // setTimeout(()=>{
+      //
+      //   this.$router.push({ name: "watch"});
+      // },100);
+
     },
     jmpPersonal: function() {
       this.activeDate = new Date().getTime();

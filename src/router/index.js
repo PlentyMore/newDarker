@@ -16,6 +16,7 @@ import realAnnounce from '@/components/pages/realAnnounce'
 import userProfile from '@/components/pages/userProfile'
 import contactUs from '@/components/pages/contactUs'
 import aboutUs from '@/components/pages/aboutUs'
+import blank from "@/components/pages/blank"
 
 Vue.use(Router)
 
@@ -110,6 +111,11 @@ const router= new Router({
       path: '/aboutUs',
       name: 'aboutUs',
       component: aboutUs
+    },
+    {
+      path: '/blank',
+      name: 'blank',
+      component: blank
     }
   ]
 });
