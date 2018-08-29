@@ -714,6 +714,7 @@ export default {
   border-radius: 6px;
   margin: auto auto;
   transition: background 0.2s;
+  text-align: center;
 }
 .mvInfo {
   display: flex;
@@ -867,6 +868,7 @@ export default {
   border: 1px solid rgba(89, 147, 255, 0.692);
   top: 150px;
   left: 250px;
+  text-align: center;
 }
 .choosMvTitle {
   background: rgb(0, 69, 97);

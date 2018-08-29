@@ -147,6 +147,10 @@ export default {
 </script>
 
 <style>
+  .vicp-wrap {
+    background-color: #07070c !important;
+    width: 450px !important;
+  }
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
