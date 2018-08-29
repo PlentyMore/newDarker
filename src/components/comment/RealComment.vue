@@ -102,6 +102,11 @@
         subPage: ""
       };
     },
+    watch:{
+      oid(){
+        this.initComment();
+      }
+    },
     methods:{
       async refreshComment(){
         console.log("refresh comment");

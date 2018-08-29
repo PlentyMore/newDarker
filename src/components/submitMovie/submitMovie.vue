@@ -96,6 +96,16 @@ export default {
   },
   methods: {
     async submitNewMv() {
+      if(this.bangumiName==""){
+        this.$message({
+          message:'番剧名称不可为空',
+          type:'error'
+        });
+        return;
+      }
+      if(!this.zeroEp&&this.episodeTotal==0){
+        
+      }
       let rd = this.pb
         ? (await api.updatePostBangumi({
             id: this.pb.id,
@@ -253,7 +263,7 @@ export default {
 }
 .mvTitleInputInBox input {
   margin: auto 10px;
-  height: 15px;
+  height: 25px;
   padding-left: 5px;
   padding-right: 5px;
   border-radius: 3px;
@@ -333,7 +343,7 @@ export default {
 }
 .totalEpisodeInBox input {
   margin: auto 10px;
-  height: 15px;
+  height: 25px;
   padding-left: 5px;
   padding-right: 5px;
   border-radius: 3px;
