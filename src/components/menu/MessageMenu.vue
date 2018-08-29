@@ -203,7 +203,7 @@ export default {
 .unReadItemNum {
   color: red;
   font-size: 12px;
-  font-family: Stencil Std,serif;
+  font-family: 华文琥珀,serif;
 }
 .animation-run {
   background: rgba(255, 166, 0, 0.5);

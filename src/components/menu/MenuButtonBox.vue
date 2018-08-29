@@ -2,7 +2,7 @@
     <div class="box">
         <div class="logo" v-on:click="mainPage">
             <img src="../../../static/img/logo.png" class="logoImg">
-            <div class="logoTitle">Darker</div>
+            <div class="logoTitle">Darker.</div>
         </div>
         <div class="headerBtnBox">
             <div class="headerBtnInBox">
@@ -233,9 +233,9 @@ export default {
 .logoTitle {
   width: 140px;
   font-size: 25px;
-  font-family: Stencil Std,serif;
-  line-height: 50px;
-  margin: 10px -25px;
+  font-family: 'Black Ops One', cursive;
+  line-height: 60px;
+  margin: 3px -32px;
   color: black;
 }
 .msgAndUserBtn {

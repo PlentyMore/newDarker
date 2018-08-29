@@ -287,7 +287,7 @@ export default {
   border: 1px dashed black;
   /*padding:10px;*/
   font-size: 20px;
-  font-family: 华文琥珀,serif;
+  font-family: 'Sigmar One', cursive;
   font-weight: bold;
   line-height: 20px;
   margin: auto auto;

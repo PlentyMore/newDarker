@@ -188,7 +188,7 @@ export default {
   margin: 10px auto;
   transition: all 0.2s;
   outline: none;
-  font-family: 华文琥珀,serif;
+  font-family: 'Leckerli One', cursive;
 }
 .wrongTips {
   font-size: 10px !important;

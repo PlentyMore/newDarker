@@ -153,7 +153,7 @@ export default {
   padding-right: 10px;
   transition: border 0.2s;
   outline: none;
-  font-family: 华文琥珀,serif;
+  font-family: 'Leckerli One', cursive;
 }
 .loginBox input:hover {
   border: 1px solid white;

@@ -604,7 +604,7 @@ export default {
 }
 .submitMovieBox {
   background: rgba(0, 0, 0, 0.37);
-  height: 100%;
+  height: 960px;
   width: 100%;
   position: absolute;
   left: 0;

@@ -24,7 +24,7 @@
         <div class="base6"></div>
         <div class="welcome">
             <div class="textBox" @mouseover="startFn" @mouseout="endFn">
-                <h1 :data-start="start" :data-startB="startB" class="text" :data-text="welcome">{{welcome}}</h1>
+                <h1 :data-start="start" :data-startB="startB" style="font-weight: bold;" class="text" :data-text="welcome">{{welcome}}</h1>
             </div>
             <div class="sysMsgBox" @click="jmpAnnounce" style="cursor:pointer">
                 <marquee class="sysMsg">{{announceInfo.title}}</marquee>
@@ -284,6 +284,7 @@ export default {
   top: -45px;
   color: rgb(0, 0, 0);
   clip: rect(0px, 1000px, 80px, 0px);
+  font-weight: bold;
 }
 [data-start="true"] {
   animation: textShiningA1 2s linear 0s 1 normal;
@@ -299,6 +300,7 @@ export default {
   background: rgba(0, 0, 0, 0);
   clip: rect(0px, 1000px, 80px, 0px);
   opacity: 0.6;
+  font-weight: bold;
 }
 [data-start="true"].text:before {
   top: -1px;

@@ -290,6 +290,7 @@ export default {
   padding-right: 10px;
   transition: border 0.2s;
   outline: none;
+  font-family: 'Leckerli One', cursive;
 }
 .forgetBox input:hover {
   border: 1px solid white;
@@ -328,6 +329,7 @@ export default {
 }
 .forgetStep2 input {
   margin: -10px auto;
+  font-family: 'Leckerli One', cursive;
 }
 .errorTip {
   color: red;
@@ -359,6 +361,7 @@ export default {
 .mailCodeBox input {
   width: 180px;
   margin: 10px 0;
+  font-family: 'Leckerli One', cursive;
 }
 .getCodeGreyBtn {
   height: 30px;
