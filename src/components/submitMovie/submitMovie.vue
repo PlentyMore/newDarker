@@ -41,7 +41,8 @@
                     <p class="coverUploadBtn" @click="showUploadCover=true">上传封面</p>
                 </div>
                 <p class="coverPreviewText" v-if="coverUrl==''">封面预览</p>
-                <img :src="coverUrl" class="coverPreview">
+                <img :src="coverUrl" v-if="coverUrl" class="coverPreview">
+                <div v-else class="coverPreviewNoPic"></div>
             </div>
             <div class="footerRule">
                 <p>* 若本次提交被收录后封面仍可修改 *</p>
@@ -61,8 +62,8 @@
             :width="620"
             :height="350"
             :noCircle="true"
-            :url="uploadURL"
-            :headers="uploadHEADERS"
+            :url="GLOBAL.uploadURL"
+            :headers="GLOBAL.uploadHEADERS"
             :langExt="langExtObj"
             img-format="jpg"
       ></my-upload>
@@ -83,11 +84,6 @@ export default {
       episodeTotal: 0,
       zeroEp: false,
       showUploadCover: false,
-      uploadURL: "https://api.imgur.com/3/image",
-      imgURL: "https://i.imgur.com",
-      uploadHEADERS: {
-        Authorization: "Client-ID 3855bbe9883a511"
-      },
       coverUrl: "",
       langExtObj: {
         preview: "封面预览"
@@ -96,15 +92,26 @@ export default {
   },
   methods: {
     async submitNewMv() {
-      if(this.bangumiName==""){
+      if(this.bangumiName === ''){
         this.$message({
-          message:'番剧名称不可为空',
-          type:'error'
+          message: "番剧名称未填写",
+          type: "error"
         });
         return;
       }
-      if(!this.zeroEp&&this.episodeTotal==0){
-        
+      else if(this.episodeTotal === ''){
+        this.$message({
+          message: "总集数未填写",
+          type: "error"
+        });
+        return;
+      }
+      else if (!parseInt(this.episodeTotal) || parseInt(this.episodeTotal) < 1){
+        this.$message({
+          message: "总集数必须是大于0的整数",
+          type: "error"
+        });
+        return;
       }
       let rd = this.pb
         ? (await api.updatePostBangumi({
@@ -162,7 +169,7 @@ export default {
       let link = res.data.link;
       link = link.substring(link.lastIndexOf("/"));
       console.log("link:", link);
-      this.coverUrl = this.imgURL + link;
+      this.coverUrl = this.GLOBAL.imgURL + link;
       console.log("field: " + field);
       // console.log('curImageUrl:', this.curImageUrl);
     },
@@ -406,7 +413,14 @@ export default {
   height: 260px;
   width: 480px;
   margin: -10px auto;
-  /*border: 1px solid wheat;*/
+  border-radius: 5px;
+}
+.coverPreviewNoPic {
+  background: rgba(255, 255, 255, 0);
+  height: 260px;
+  width: 480px;
+  margin: -10px auto;
+  border: 1px solid #6b6355;;
   border-radius: 5px;
 }
 .footerRule {

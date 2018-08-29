@@ -15,8 +15,8 @@
                 :width="300"
                 :height="300"
                 :noSquare="true"
-                :url="uploadURL"
-                :headers="uploadHEADERS"
+                :url="GLOBAL.uploadURL"
+                :headers="GLOBAL.uploadHEADERS"
                 img-format="jpg"
         ></my-upload>
         </div>
@@ -58,17 +58,20 @@ export default {
         age: "loading",
         sign: "loading"
       },
-      uploadURL: "https://api.imgur.com/3/image",
-      imgURL: "https://i.imgur.com",
-      uploadHEADERS: {
-        Authorization: "Client-ID 3855bbe9883a511"
-      },
       imgDataUrl: "",
       curImageUrl: "",
       avatarSettingShow: false,
       loading: true
     };
   },
+  // watch: {
+  //   '$route' (to, from) {
+  //     console.log("to: ",to+" from: ",from);
+  //     setTimeout(()=>{
+  //       this.avatar = localStorage.getItem("face");
+  //     },1);
+  //   },
+  // },
   methods: {
     async initUserInfo() {
       let uid = localStorage.getItem("USER_ID");
@@ -86,7 +89,7 @@ export default {
       this.loading = false;
     },
     async updateUserInfo() {
-      if(this.loading) return; 
+      if(this.loading) return;
       let uid = localStorage.getItem("USER_ID");
       let user = {
         sex: this.userInfo.sex,
@@ -121,8 +124,8 @@ export default {
       link = link.substring(link.lastIndexOf("/"));
       console.log("link:", link);
       let imageUrl = link;
-      this.imgDataUrl = this.imgURL + imageUrl;
-      this.curImageUrl = this.imgURL + imageUrl;
+      this.imgDataUrl = this.GLOBAL.imgURL + imageUrl;
+      this.curImageUrl = this.GLOBAL.imgURL + imageUrl;
       console.log("field: " + field);
       this.updateUserAvatar();
     },
@@ -146,6 +149,8 @@ export default {
         setTimeout(() => {
           this.$router.go(0);
         }, 800);
+        // this.$router.push({ name: "blank"});
+        // this.$router.push({ name: "personal"});
       } else {
         console.log(rd.msg);
       }
@@ -164,7 +169,7 @@ export default {
   margin-top: 50px;
 }
 .avatarBox {
-  
+
 }
 .avatarBox p {
   color: wheat;

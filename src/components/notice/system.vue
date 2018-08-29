@@ -9,8 +9,8 @@
             <darker-scroll
                 :item-count=pageSize
                 :item-height=80
-                :item-spacing=15
-                :scroll-hight=700
+                :item-spacing=20
+                :scroll-hight=740
                 :scroll-width=840
                 @nextPage="nextPage"
                 style="margin-top:0;"

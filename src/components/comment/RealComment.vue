@@ -103,7 +103,7 @@
       };
     },
     watch:{
-      oid(){
+      oid(val){
         this.initComment();
       }
     },

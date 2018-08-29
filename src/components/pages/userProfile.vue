@@ -29,7 +29,7 @@
         </div>
       </div>
     </div>
-    <div class="comment-container">
+    <div class="comment-container1">
       <real-comment
         :oid="uid"
         :type="4"
@@ -77,7 +77,7 @@
       let rpid = this.$route.query.rpid;
       console.log("uid is:", uid);
       if (uid) {
-        this.uid = uid;
+        this.uid = parseInt(uid);
         this.initUserInfo(uid);
       }
       else {
@@ -128,7 +128,8 @@
     font-size: 16px;
     vertical-align: middle;
   }
-  .comment-container{
+  .comment-container1{
     margin: 68px auto;
+    margin-bottom: 255px;
   }
 </style>

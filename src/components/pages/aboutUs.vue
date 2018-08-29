@@ -31,25 +31,7 @@
 
 <script>
 import api from "../../api.js";
-export default {
-  methods: {
-    async func1() {
-        console.log('正在执行func1');
-        let a=await api.reVerifyEmail();
-        console.log('请求完毕');
-        return 123;
-    },
-    func2(){
-        this.func1().then(a=>{
-            console.log('执行完了func1',a);
-        });
-        console.log('func1外层')
-    }
-  },
-  mounted(){
-      this.func2();
-  }
-};
+export default {};
 </script>
 
 <style>
@@ -57,6 +39,6 @@ export default {
   display: flex;
   flex-direction: column;
   background: white;
-  height: 755px;
+  height: 843px;
 }
 </style>

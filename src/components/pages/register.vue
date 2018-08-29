@@ -144,7 +144,7 @@ export default {
 }
 .registerPage {
   width: 100%;
-  height: 755px;
+  height: 845px;
 }
 .registerBox {
   background: rgba(97, 97, 97, 0.596);
@@ -167,7 +167,7 @@ export default {
 .registerBox p {
   font-size: 25px;
   color: wheat;
-  font-family: 华文琥珀;
+  font-family: 华文琥珀,serif;
 }
 .registerBox form {
   height: 90%;
@@ -188,7 +188,7 @@ export default {
   margin: 10px auto;
   transition: all 0.2s;
   outline: none;
-  font-family: 华文琥珀;
+  font-family: 华文琥珀,serif;
 }
 .wrongTips {
   font-size: 10px !important;

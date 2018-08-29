@@ -45,7 +45,7 @@
                 :item-count=pageSize
                 :item-height=120
                 :item-spacing=15
-                :scroll-hight=540
+                :scroll-hight=630
                 :scroll-width=850
                 @nextPage="nextPage"
                 class="scroll">
@@ -347,7 +347,7 @@ export default {
   height: 90px !important;
 }
 .lastItemMenu {
-  margin-top: -150px !important;
+  margin: -110px auto !important;
 }
 .submitMvBoxTran-enter-active,
 .submitMvBoxTran-leave-active {
@@ -604,7 +604,7 @@ export default {
 }
 .submitMovieBox {
   background: rgba(0, 0, 0, 0.37);
-  height: 814px;
+  height: 100%;
   width: 100%;
   position: absolute;
   left: 0;

@@ -57,7 +57,7 @@ export default {
   font-size: 15px;
   font-weight: bold;
   color: wheat;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
 }
 </style>

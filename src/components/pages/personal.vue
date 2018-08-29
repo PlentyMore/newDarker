@@ -49,7 +49,7 @@ export default {
   display: flex;
   flex-direction: row;
   width: 100%;
-  height: 750px;
+  height: 840px;
   overflow: hidden;
 }
 .personalInBox {

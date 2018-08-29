@@ -45,7 +45,7 @@ export default {};
 .contactUsBox {
   display: flex;
   flex-direction: column;
-  height: 755px;
+  height: 840px;
 }
 .contactUsInBox {
   margin: 0 auto;
@@ -81,7 +81,7 @@ export default {};
   flex-direction: row;
 }
 .blockItem {
-  background: rgba(5, 20, 34);
+  background: rgb(35, 35, 48);
   width: 280px;
   height: 130px;
   border-radius: 3px;
@@ -90,7 +90,7 @@ export default {};
   margin: auto auto;
 }
 .blockTitle {
-  background: rgba(5, 20, 34);
+  background: rgb(35, 35, 48);
   color: rgb(169, 199, 199);
   margin: 0px auto;
   line-height: 30px;

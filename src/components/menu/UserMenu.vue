@@ -129,7 +129,7 @@ export default {
 }
 .selectingTran1-leave-active,
 .selectingTran1-enter-active {
-  transition: all 0.5s ease;
+  transition: all 0.2s ease;
 }
 .selectingTran1-leave-active,
 .selectingTran1-enter {

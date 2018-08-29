@@ -108,7 +108,7 @@ export default {
           this.sendBtnText = "发表评论";
           this.$message({
             message: "发送评论成功",
-            type: "error"
+            type: "success"
           });
         } else {
           this.sendingFlag = false;
@@ -152,7 +152,7 @@ export default {
           this.sendBtnText = "发表评论";
           this.$message({
             message: "发送评论成功",
-            type: "error"
+            type: "success"
           });
         } else {
           this.sendingFlag = false;

@@ -91,7 +91,7 @@ export default {
     console.log("bid:", bid);
     console.log("bangumi:", bangumi);
     if (bid) {
-      this.bid = bid;
+      this.bid = parseInt(bid);
       this.initBangumi(bid);
       this.initEpisodes(bid);
     } else {

@@ -112,7 +112,7 @@ export default {
 }
 .selectingTran-leave-active,
 .selectingTran-enter-active {
-  transition: all 0.5s ease;
+  transition: all 0.1s ease;
 }
 .selectingTran-leave-active,
 .selectingTran-enter {
@@ -203,7 +203,7 @@ export default {
 .unReadItemNum {
   color: red;
   font-size: 12px;
-  font-family: Stencil Std;
+  font-family: Stencil Std,serif;
 }
 .animation-run {
   background: rgba(255, 166, 0, 0.5);

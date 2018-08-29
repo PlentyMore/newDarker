@@ -107,8 +107,14 @@ export default {
       this.$router.push({ name: "index" });
     },
     jmpWatch: function() {
-      this.activeDate = new Date().getTime();
-      this.$router.push({ name: "watch" });
+      // this.activeDate = new Date().getTime();
+      this.$router.push({ name: "blank"});
+      this.$router.push({ name: "watch"});
+      // setTimeout(()=>{
+      //
+      //   this.$router.push({ name: "watch"});
+      // },100);
+
     },
     jmpPersonal: function() {
       this.activeDate = new Date().getTime();
@@ -141,6 +147,10 @@ export default {
 </script>
 
 <style>
+  .vicp-wrap {
+    background-color: #07070c !important;
+    width: 450px !important;
+  }
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -277,7 +287,7 @@ export default {
   border: 1px dashed black;
   /*padding:10px;*/
   font-size: 20px;
-  font-family: 华文琥珀;
+  font-family: 华文琥珀,serif;
   font-weight: bold;
   line-height: 20px;
   margin: auto auto;
@@ -294,7 +304,7 @@ export default {
   margin-right: 10px;
   line-height: 23px;
   font-size: 25px;
-  font-family: 华文琥珀;
+  font-family: 华文琥珀,serif;
   font-weight: bold;
   text-align: center;
 }

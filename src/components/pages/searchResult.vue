@@ -4,8 +4,19 @@
       <div class="searchResultBgInBox"></div>
       <div class="searchResultBgBox"><img :src="bgUrl" class='searchResultBgImg'></div>
     </div>
+    <transition name="submitMvBoxTran">
+      <div class="submitMovieBox" v-if="showSubmitBox">
+        <submit-movie
+          :show="showSubmitBox"
+          @closeBox="closeSubmitMvBox"
+          @updateMvList="reloadMvInfo"
+          class="submitMovieInBox">
+        </submit-movie>
+      </div>
+    </transition>
     <div class="searchResultBox" :style="resultStyle">
       <h1 style="color: #1b84ec" v-show="bangumis === ''">什么都没有找到</h1>
+      <a @click="showSubmitBox = true" class="sr-submit-link" v-show="bangumis === ''">点此提交番剧信息</a>
       <div v-for="(item,i) in bangumis" v-if="index>i" :class="['searchResultItem',{'run-animation2':item.bangumiId==showId[i]}]" @mouseover="changeBgUrl(item.thumb)" :key="item.bangumiId">
            <img :src="item.thumb?item.thumb:'../../../static/img/1.jpg'" @click="goBangumiDetail(item)">
           <div class="bangumiName" v-if="item.bangumiName.length<='ElderDriverBroken♂Man1'.length"><p>{{item.bangumiName}}</p></div>
@@ -26,8 +37,12 @@
 
 <script>
 import api from "../../api";
+import submitMovie from "../submitMovie/submitMovie.vue";
 export default {
   props: ["searchText"],
+  components:{
+    "submit-movie": submitMovie
+  },
   data() {
     return {
       bangumis: "",
@@ -39,10 +54,20 @@ export default {
       showTimer: null,
       resultStyle:{
         'min-height':'900px'
-      }
+      },
+      showSubmitBox: false
     };
   },
   methods: {
+    closeSubmitMvBox() {
+      this.showSubmitBox = false;
+    },
+    reloadMvInfo() {
+      this.$message({
+        message: "提交成功，审核通过后即可选择您的番剧信息。",
+        type: "success"
+      });
+    },
     changeBgUrl(url) {
       this.bgUrl = url === "" ? "../../static/img/1.jpg" : url;
     },
@@ -207,6 +232,11 @@ export default {
   margin: 8% auto;
   z-index: 10;
 }
+.sr-submit-link {
+  color: #9a656e;
+  cursor: pointer;
+  text-decoration: underline;
+}
 .searchResultItem {
   opacity: 0.8;
   background: rgba(255, 255, 255, 0.548);
@@ -243,5 +273,26 @@ export default {
   margin-top: 0;
   height: 25px;
   line-height: 25px;
+}
+.submitMovieInBox {
+  margin: auto auto;
+}
+.submitMovieBox {
+  background: rgba(0, 0, 0, 0.37);
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  left: 0;
+  top: 60px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+}
+.submitMvBoxTran-enter-active,
+.submitMvBoxTran-leave-active {
+  transition: opacity 0.5s;
+}
+.submitMvBoxTran-enter, .submitMvBoxTran-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
 }
 </style>

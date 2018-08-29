@@ -196,7 +196,7 @@ export default {
   cursor: pointer;
 }
 .logoImg {
-  height: 30px;
+  height: 25px;
   margin: auto 20px;
   filter: invert(0%);
 }
@@ -233,7 +233,7 @@ export default {
 .logoTitle {
   width: 140px;
   font-size: 25px;
-  font-family: Stencil Std;
+  font-family: Stencil Std,serif;
   line-height: 50px;
   margin: 10px -25px;
   color: black;

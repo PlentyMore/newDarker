@@ -62,7 +62,7 @@
       console.log("rpid:",rpid);
       if(id){
         this.initNotice(id);
-        this.nid = id;
+        this.nid = parseInt(id);
       }
       if(rpid){
         this.rpid = rpid;

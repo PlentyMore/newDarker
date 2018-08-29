@@ -24,7 +24,7 @@ export default {
         "margin-top": "0px"
       },
       scrollBoxSize: {
-        height: this.scrollHight + "px",
+        height: this.scrollHight + "px !important",
         width: this.scrollWidth + "px"
       },
       mtop: 0,

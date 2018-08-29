@@ -225,7 +225,7 @@ export default {
 .forgetBox {
   display: flex;
   flex-direction: column;
-  height: 755px;
+  height: 845px;
 }
 .nowPath {
   display: flex;

@@ -24,7 +24,7 @@
         <div class="base6"></div>
         <div class="welcome">
             <div class="textBox" @mouseover="startFn" @mouseout="endFn">
-                <h1 :data-start="start" :data-startB="startB" class="text" data-text="Welcome to Darker!!">Welcome to Darker!!</h1>
+                <h1 :data-start="start" :data-startB="startB" class="text" :data-text="welcome">{{welcome}}</h1>
             </div>
             <div class="sysMsgBox" @click="jmpAnnounce" style="cursor:pointer">
                 <marquee class="sysMsg">{{announceInfo.title}}</marquee>
@@ -43,9 +43,9 @@
       <div class="indexFooter">
         <div class="inderFooter2">
           <div class="footerAbout">
-            <a class="footerItem" href="#/aboutUs">关于我们</a>
-            <a class="footerItem" href="#/contactUs" @mouseover="infoText='联系我们'" @mouseout="infoText='用爱发电'">{{infoText}}</a>
-            <a class="footerItem" href="https://t.me/joinchat/D6RlYg6geGuiS3WP_ag5zg"><img style="width:20px;height:15px;" src="../../../static/img/logo.png"><p>加入我们</p></a>
+            <a target="_blank" class="footerItem" href="#/aboutUs">关于我们</a>
+            <a target="_blank" class="footerItem" href="#/contactUs" @mouseover="infoText='联系我们'" @mouseout="infoText='用爱发电'">{{infoText}}</a>
+            <a target="_blank" class="footerItem" href="https://t.me/joinchat/D6RlYg6geGuiS3WP_ag5zg"><img style="width:20px;height:15px;" src="../../../static/img/logo.png"><p>加入我们</p></a>
           </div>
           <div class="authorInfo">
             <p>Crafted with</p>
@@ -53,7 +53,7 @@
             <p>by Darkers ©2018 Darker.</p>
           </div>
           <div class="indexFooterInBox">
-            <a href="https://www.digitalocean.com/" class="footerItem"><img class="elementIcon" src="https://www.v2ex.com/static/img/do_logo.png"></a>
+            <a target="_blank" :href="GLOBAL.DOInviteLink" class="footerItem"><img class="elementIcon" :src="GLOBAL.imgURL+'/FlgYbSr.png'"></a>
           </div>
         </div>
       </div>
@@ -75,7 +75,9 @@ export default {
       announceInfo:{},
       imgWidth:'',
       widthNum:0,
-      infoText:'用爱发电'
+      infoText:'用爱发电',
+      welcome:'Welcome to darker!!'
+      //welcome:'Welcome to dark!!'
       // notice: "",
       // showNotice: false,
       // lastNoticeId: "",
@@ -135,24 +137,34 @@ export default {
         this.imgWidth=(100/this.bgImgUrl.length).toString()+'%';
         this.widthNum=100/this.bgImgUrl.length;
       }
+    },
+    async initWelcome(){
+      let res=(await api.getWelcome()).data;
+      console.log('欢迎标语',res);
+      if(res.code==0||res.data=="") return res.data;
+      else return 'Welcome to darker!!'
     }
   },
-  async created() {
-    await this.initCommend();
+  created() {
     //在这里获取首页推荐的数据
-    this.carouselTimer = setInterval(()=> {
-      this.bgImgIndex++;
-      if (this.bgImgIndex == this.bgImgUrl.length) this.bgImgIndex = 0;
-      this.hotImgNowLoc = (this.widthNum * this.bgImgIndex).toString() + "%";
-    }, 5000);
-    await this.initAnnounce();
+    this.initCommend().then(()=>{
+      this.carouselTimer = setInterval(()=> {
+        this.bgImgIndex++;
+        if (this.bgImgIndex == this.bgImgUrl.length) this.bgImgIndex = 0;
+        this.hotImgNowLoc = (this.widthNum * this.bgImgIndex).toString() + "%";
+      }, 5000);
+    })
+    this.initAnnounce();
     this.$emit('toIndex');
+    this.initWelcome().then(text=>{
+      this.welcome=text;
+    })
   }
 };
 </script>
 
 <style>
-.indexFooter{
+.indexFooter {
   position: absolute;
   bottom: 0;
   z-index: 1000;
@@ -161,31 +173,31 @@ export default {
   left: 0.5%;
   width: 99%;
 }
-.inderFooter2{
+.inderFooter2 {
   display: flex;
   flex-direction: row;
   margin: auto auto;
 }
-.footerAbout{
+.footerAbout {
   display: flex;
   flex-direction: row;
 }
-.authorInfo{
+.authorInfo {
   display: flex;
   flex-direction: row;
   height: 20px;
 }
-.authorInfo p{
+.authorInfo p {
   height: 20px;
   margin: auto 3px;
   line-height: 20px;
 }
-.indexFooterInBox{
+.indexFooterInBox {
   display: flex;
   flex-direction: row;
   margin: auto auto;
 }
-.footerItem{
+.footerItem {
   margin: auto 10px;
   text-align: center;
   display: flex;
@@ -194,16 +206,16 @@ export default {
   text-decoration: none;
   color: black;
 }
-.footerItem img{
+.footerItem img {
   height: 20px;
   width: 20px;
   margin: auto auto;
 }
-.elementIcon{
+.elementIcon {
   height: 20px;
   width: 120px !important;
 }
-.footerItem p{
+.footerItem p {
   line-height: 20px;
   height: 20px;
   margin: auto 5px;
@@ -246,11 +258,11 @@ export default {
   position: absolute;
   height: 85px;
   width: 50%;
-  margin-left: 25%;
-  margin-top: 280px;
   display: flex;
   flex-direction: column;
   z-index: 1000;
+  top: 340px;
+  left: 25.5%;
   /*border-left: 10px solid black;*/
   /*border-right: 10px solid black;*/
 }
@@ -259,6 +271,7 @@ export default {
   height: 90%;
   width: 100%;
   top: 20%;
+  margin: auto auto;
 }
 .text {
   /*background: rgb(228, 166, 8);*/
@@ -270,7 +283,7 @@ export default {
   font-size: 70px;
   top: -45px;
   color: rgb(0, 0, 0);
-  clip: rect(0px, 900px, 80px, 0px);
+  clip: rect(0px, 1000px, 80px, 0px);
 }
 [data-start="true"] {
   animation: textShiningA1 2s linear 0s 1 normal;
@@ -284,7 +297,7 @@ export default {
   position: absolute;
   width: 100%;
   background: rgba(0, 0, 0, 0);
-  clip: rect(0px, 900px, 80px, 0px);
+  clip: rect(0px, 1000px, 80px, 0px);
   opacity: 0.6;
 }
 [data-start="true"].text:before {
@@ -301,18 +314,18 @@ export default {
 }
 @keyframes textShiningA1 {
   0% {
-    clip: rect(15px, 900px, 25px, 0px);
+    clip: rect(15px, 1000px, 25px, 0px);
     opacity: 1;
   }
   70% {
-    clip: rect(60px, 900px, 70px, 0px);
+    clip: rect(60px, 1000px, 70px, 0px);
     opacity: 1;
   }
   71% {
     opacity: 0;
   }
   77% {
-    clip: rect(0px, 900px, 85px, 0px);
+    clip: rect(0px, 1000px, 85px, 0px);
     opacity: 1;
   }
   85% {
@@ -335,7 +348,7 @@ export default {
   }
   37% {
     opacity: 0;
-    color:black;
+    color: black;
   }
   39% {
     opacity: 1;
@@ -348,34 +361,34 @@ export default {
     opacity: 1;
   }
   14% {
-    clip: rect(10px, 900px, 20px, 0px);
+    clip: rect(10px, 1000px, 20px, 0px);
   }
   15% {
-    clip: rect(10px, 900px, 20px, 0px);
+    clip: rect(10px, 1000px, 20px, 0px);
   }
   35% {
-    clip: rect(25.75px, 900px, 35.75px, 0px);
+    clip: rect(25.75px, 1000px, 35.75px, 0px);
   }
   37% {
-    clip: rect(0px, 900px, 80px, 0px);
+    clip: rect(0px, 1000px, 80px, 0px);
   }
   39% {
-    clip: rect(27.55px, 900px, 37.55px, 0px);
+    clip: rect(27.55px, 1000px, 37.55px, 0px);
   }
   65% {
-    clip: rect(35.75px, 900px, 42.25px, 0px);
+    clip: rect(35.75px, 1000px, 42.25px, 0px);
     text-shadow: 2px 2px #35ff1a;
   }
   67% {
-    clip: rect(27.85px, 900px, 43.55px);
+    clip: rect(27.85px, 1000px, 43.55px);
     text-shadow: 80px 80px #35ff1a;
   }
   69% {
-    clip: rect(37.95px, 900px, 44.85px, 0px);
+    clip: rect(37.95px, 1000px, 44.85px, 0px);
     text-shadow: 2px 2px #35ff1a;
   }
   100% {
-    clip: rect(55px, 900px, 65px, 0px);
+    clip: rect(55px, 1000px, 65px, 0px);
     opacity: 1;
   }
 }
@@ -385,41 +398,41 @@ export default {
     opacity: 1;
   }
   14% {
-    clip: rect(12px, 900px, 25px, 0px);
+    clip: rect(12px, 1000px, 25px, 0px);
   }
   15% {
-    clip: rect(12px, 900px, 25px, 0px);
+    clip: rect(12px, 1000px, 25px, 0px);
   }
   35% {
-    clip: rect(25.75px, 900px, 35.75px, 0px);
+    clip: rect(25.75px, 1000px, 35.75px, 0px);
   }
   37% {
-    clip: rect(0px, 900px, 80px, 0px);
+    clip: rect(0px, 1000px, 80px, 0px);
   }
   39% {
-    clip: rect(27.55px, 900px, 37.55px, 0px);
+    clip: rect(27.55px, 1000px, 37.55px, 0px);
   }
   65% {
-    clip: rect(35.75px, 900px, 42.25px, 0px);
+    clip: rect(35.75px, 1000px, 42.25px, 0px);
     text-shadow: -2px -2px #00a7e0;
   }
   67% {
-    clip: rect(36.85px, 900px, 52.55px);
+    clip: rect(36.85px, 1000px, 52.55px);
     text-shadow: -80px -80px #00a7e0;
   }
   69% {
-    clip: rect(37.95px, 900px, 44.85px, 0px);
+    clip: rect(37.95px, 1000px, 44.85px, 0px);
     text-shadow: -2px -2px #00a7e0;
   }
   100% {
-    clip: rect(57px, 900px, 70px, 0px);
+    clip: rect(57px, 1000px, 70px, 0px);
     opacity: 1;
   }
 }
 .sysMsgBox {
   position: absolute;
   top: -13px;
-    /*background: rgb(228, 166, 8);*/
+  /*background: rgb(228, 166, 8);*/
   background: rgb(3, 4, 4);
   opacity: 0.9;
   height: 30px;
@@ -453,13 +466,13 @@ export default {
   flex-direction: row;
   margin: auto auto;
 }
-.hotImgItemBox{
+.hotImgItemBox {
   cursor: pointer;
 }
 .hotImgInBox img {
   height: 100%;
   width: inherit;
-    /*
+  /*
     置于a底下
     position: relative;
     z-index: -1;
@@ -500,7 +513,7 @@ export default {
   width: 100px;
   height: 30px;
 }
-.footerImgBox{
+.footerImgBox {
   position: absolute;
   z-index: 3;
   width: 100%;
@@ -511,7 +524,7 @@ export default {
   flex-direction: column;
   overflow: hidden;
 }
-.footerImg{
+.footerImg {
   margin: auto auto;
   margin-bottom: 0;
   width: 100%;
@@ -521,25 +534,29 @@ export default {
   animation: footerMv 10s infinite linear;
 }
 @keyframes footerMv {
-  0%{background-position: 0 0;}
-  100%{background-position: 130% 0;}
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 130% 0;
+  }
 }
-.footerImg2{
+.footerImg2 {
   margin: auto auto;
   margin-bottom: 0;
   width: 100%;
   height: 70px;
   background-image: url("../../../static/img/wave2.png");
-  animation: footerMv 20s infinite .2s linear;
+  animation: footerMv 20s infinite 0.2s linear;
   display: flex;
   flex-direction: column;
 }
-.footerImg2 p{
-  margin:auto auto;
+.footerImg2 p {
+  margin: auto auto;
   margin-bottom: 0;
   cursor: pointer;
 }
-.righterImgBox{
+.righterImgBox {
   position: absolute;
   z-index: 2;
   width: 100%;
@@ -550,14 +567,14 @@ export default {
   flex-direction: column;
   overflow: hidden;
 }
-.righterImg{
+.righterImg {
   margin: auto auto;
   margin-right: 0;
   width: 100px;
-/*.notify {*/
+  /*.notify {*/
   /*display: inline-block;*/
-/*}*/
-/*.notify .content {*/
+  /*}*/
+  /*.notify .content {*/
   /*display: inline-block;*/
   /*border: 1px solid #f8dfaa;*/
   /*width: 600px;*/
@@ -567,25 +584,25 @@ export default {
   /*line-height: 30px;*/
   /*text-align: left;*/
   /*border-radius: 4px;*/
-/*}*/
-/*.notify .content a:hover {*/
+  /*}*/
+  /*.notify .content a:hover {*/
   /*cursor: pointer;*/
-/*}*/
-/*.notify-bell {*/
+  /*}*/
+  /*.notify-bell {*/
   /*left: 10px;*/
   /*top: 6px;*/
   /*position: absolute;*/
-/*}*/
-/*.notify-close {*/
+  /*}*/
+  /*.notify-close {*/
   /*right: 10px;*/
   /*top: 6px;*/
   /*position: absolute;*/
-/*}*/
-/*.notify-link {*/
+  /*}*/
+  /*.notify-link {*/
   /*margin-left: 35px;*/
   /*font-size: 14px;*/
 }
-.cloudBox{
+.cloudBox {
   position: absolute;
   z-index: 3;
   width: 100%;
@@ -596,7 +613,7 @@ export default {
   flex-direction: column;
   overflow: hidden;
 }
-.cloud1{
+.cloud1 {
   margin: auto auto;
   margin-right: -180;
   margin-bottom: 180px;
@@ -607,11 +624,18 @@ export default {
   animation: cloudMv 20s infinite linear;
 }
 @keyframes cloudMv {
-  0%{margin-right: -180px;}
-  99%{margin-right: 1600px;opacity: 0;}
-  100%{opacity: 0;}
+  0% {
+    margin-right: -180px;
+  }
+  99% {
+    margin-right: 1600px;
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
 }
-.cloud2{
+.cloud2 {
   margin: auto auto;
   margin-right: -180px;
   margin-bottom: 650px;
@@ -621,7 +645,7 @@ export default {
   background-size: cover;
   animation: cloudMv 25s infinite 7s linear;
 }
-.cloud3{
+.cloud3 {
   margin: auto auto;
   margin-right: -100px;
   margin-bottom: 550px;
@@ -632,8 +656,15 @@ export default {
   animation: cloudMv2 30s infinite 15s linear;
 }
 @keyframes cloudMv2 {
-  0%{margin-right: -100px;}
-  99%{margin-right: 1600px;opacity: 0;}
-  100%{opacity: 0;}
+  0% {
+    margin-right: -100px;
+  }
+  99% {
+    margin-right: 1600px;
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
 }
 </style>

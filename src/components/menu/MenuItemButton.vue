@@ -93,7 +93,7 @@ export default {
   width: 70px;
   text-align: center;
   line-height: 30px;
-  font-family: 华文琥珀;
+  font-family: 华文琥珀,serif;
   margin-top: 17px;
   color: rgb(119, 146, 158);
   opacity: 0.7;

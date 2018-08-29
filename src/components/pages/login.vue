@@ -112,7 +112,7 @@ export default {
 .loginPage {
   margin:-60px 0;
   width: 100%;
-  height: 815px;
+  height: 905px;
   background-image: url('');
   background-size: contain;
 }
@@ -137,7 +137,7 @@ export default {
 .loginBox p {
   font-size: 25px;
   color: wheat;
-  font-family: 华文琥珀;
+  font-family: 华文琥珀,serif;
 }
 .loginBox form {
   height: 90%;
@@ -153,7 +153,7 @@ export default {
   padding-right: 10px;
   transition: border 0.2s;
   outline: none;
-  font-family: 华文琥珀;
+  font-family: 华文琥珀,serif;
 }
 .loginBox input:hover {
   border: 1px solid white;
