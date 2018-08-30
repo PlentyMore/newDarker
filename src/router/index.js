@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import index from '@/components/pages/index'
 import searchResult from '@/components/pages/searchResult'
+import onlineList from '@/components/pages/onlineList'
 import movieInfo from '@/components/pages/movieInfo'
 import watch from '@/components/pages/watchPage'
 import login from '@/components/pages/login'
@@ -31,6 +32,11 @@ const router= new Router({
       path: '/searchResult',
       name: 'searchResult',
       component: searchResult
+    },
+    {
+      path:'/onlineList',
+      name:'onlineList',
+      component:onlineList
     },
     {
       path: '/movieInfo',

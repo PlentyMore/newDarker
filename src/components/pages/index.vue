@@ -19,15 +19,16 @@
           <img src="../../../static/img/righter.png" class="righterImg">
         </div>
         <div class="carouselBox">
-            <img :src="bgImgUrl[bgImgIndex].thumb" class="carousel run-animation" id='carousel'>
+            <img :src="bgImgUrl[bgImgIndex].imageUrl" class="carousel run-animation" id='carousel'>
         </div>
         <div class="base6"></div>
         <div class="welcome">
             <div class="textBox" @mouseover="startFn" @mouseout="endFn">
                 <h1 :data-start="start" :data-startB="startB" style="font-weight: bold;" class="text" :data-text="welcome">{{welcome}}</h1>
             </div>
-            <div class="sysMsgBox" @click="jmpAnnounce" style="cursor:pointer">
-                <marquee class="sysMsg">{{announceInfo.title}}</marquee>
+            <div class="sysMsgBox" style="cursor:pointer">
+                <marquee class="sysMsg" @click="jmpAnnounce">{{announceInfo.title}}</marquee>
+                <p>在线人数: {{online}}<el-badge value="hot" class="onlineBadge"></el-badge></p>
             </div>
             <div class="barrageBox" v-if="false">
                 <input class="barrageInput" placeholder="在这里输入弹幕" style="width:140px; padding-left:10px;padding-right:10px;">
@@ -37,7 +38,7 @@
         <div class="hotImgBox">
             <div class="hotImgInBox">
                 <div class="hotImgNow" @click="jmpNowBangumi" :style="{'margin-left':hotImgNowLoc,width:imgWidth}"></div>
-                <img v-for="(url,index) in bgImgUrl" :src="url.thumb" :style="[{width:imgWidth}]" @click="jmpToBangumi(url)" class="hotImgItemBox" @mouseover="userChangeHotImgNow(index)" :key="url.bangumiId">
+                <img v-for="(url,index) in bgImgUrl" :src="url.imageUrl" :style="[{width:imgWidth}]" @click="jmpToBangumi(url)" class="hotImgItemBox" @mouseover="userChangeHotImgNow(index)" :key="url.bangumiId">
             </div>
         </div>
       <div class="indexFooter">
@@ -69,14 +70,15 @@ export default {
       startB: false,
       timer: null,
       carouselTimer: null,
-      bgImgUrl: [{thumb:'../../../static/img/1.jpg'}],
+      bgImgUrl: [{imageUrl:'../../../static/img/1.jpg'}],
       bgImgIndex: 0,
       hotImgNowLoc: "0px",
       announceInfo:{},
       imgWidth:'',
       widthNum:0,
       infoText:'用爱发电',
-      welcome:'Welcome to darker!!'
+      welcome:'Welcome to darker!!',
+      online:'',
       //welcome:'Welcome to dark!!'
       // notice: "",
       // showNotice: false,
@@ -114,10 +116,10 @@ export default {
     },
     jmpToBangumi(item){
       console.log(item);
-      window.location.assign('/#/bangumi/'+item.bangumiId);
+      window.location.assign(item.linkUrl);
     },
     jmpNowBangumi(){
-      window.location.assign('/#/bangumi/'+this.bgImgUrl[this.bgImgIndex].bangumiId);
+      window.location.assign(this.bgImgUrl[this.bgImgIndex].linkUrl);
     },
     jmpAnnounce() {
       this.$router.push({ name: "announce" ,params:{id:this.announceInfo.id} });
@@ -142,23 +144,31 @@ export default {
       let res=(await api.getWelcome()).data;
       console.log('欢迎标语',res);
       if(res.code==0||res.data=="") return res.data;
-      else return 'Welcome to darker!!'
+      else return 'Welcome to darker!!';
+    },
+    async initIndexInfo(){
+      let res=(await api.getIndex()).data;
+      console.log('初始化首页新接口',res);
+      if(res.code==0){
+        this.online=res.data.online_watch_count;
+        (res.data.index_sentence!=''||!res.data.index_sentence)?this.welcome=res.data.index_sentence:this.welcome;
+        this.bgImgUrl=res.data.index_recommend;
+        this.imgWidth=(100/this.bgImgUrl.length).toString()+'%';
+        this.widthNum=100/this.bgImgUrl.length;
+      }
     }
   },
   created() {
     //在这里获取首页推荐的数据
-    this.initCommend().then(()=>{
+    this.initIndexInfo().then(()=>{
       this.carouselTimer = setInterval(()=> {
         this.bgImgIndex++;
         if (this.bgImgIndex == this.bgImgUrl.length) this.bgImgIndex = 0;
         this.hotImgNowLoc = (this.widthNum * this.bgImgIndex).toString() + "%";
       }, 5000);
-    })
+    });
     this.initAnnounce();
     this.$emit('toIndex');
-    this.initWelcome().then(text=>{
-      this.welcome=text;
-    })
   }
 };
 </script>
@@ -440,12 +450,31 @@ export default {
   height: 30px;
   width: 100%;
   border-bottom: 3px solid gray;
+  display: flex;
+  flex-direction: row;
+}
+.sysMsgBox p{
+  color: wheat;
+  margin: auto auto;
+  text-align: center;
+  width: 20%;
+  height: 30px;
+  line-height: 30px;
+  font-size: 15px;
+  font-weight: bold;
+  border-left: 2px solid grey;
+  position: relative;
+}
+.onlineBadge{
+  margin: 5px 5px;
+  position: absolute;
 }
 .sysMsg {
   line-height: 30px;
   color: #c19e33;
-  width: 90%;
+  width: 80%;
   font-weight: bold;
+  margin: auto auto;
 }
 .hotImgBox {
   background: #00a7e0;

@@ -81,8 +81,11 @@
             </transition>
             <div @click.stop id='dplayer' ref="player" class="videoSize"></div>
             <div class="mvBarrageBox" @click.stop>
+              <div class="onlineNumBox">
+                <p>在线人数 {{online}}</p>
+              </div>
               <input placeholder="暂未开发，请使用播放窗自带弹幕功能（播放窗右下角）" disabled="false">
-              <p style="text-align:center;">发射</p>
+              <p style="text-align:center;" class="mvBarrageBoxBtn">发射</p>
             </div>
           </el-upload>
         </div>
@@ -116,6 +119,9 @@ export default {
   data() {
     return {
       dp: "",
+      online: 0,
+      ws:null,
+      webSocketInterval:null,
       hasInfo: false,
       videoCover: "../../../static/img/1.jpg",
       videoURL: "",
@@ -152,18 +158,20 @@ export default {
     };
   },
   watch: {
-    '$route' (to, from) {
-      console.log("to: ",to+" from: ",from);
+    $route(to, from) {
+      console.log("to: ", to + " from: ", from);
       this.resetAllData();
-      setTimeout(()=>{
+      setTimeout(() => {
         this.initDp();
-      },1);
+      }, 1);
     },
     videoInfo() {
       // if (this.bugTmp > 1) this.initDp();
-      if(this.dp)
-        this.switchVideo();
-      this.videoCover = this.videoInfo.thumb===""?'../../../static/img/1.jpg':this.videoInfo.thumb;
+      if (this.dp) this.switchVideo();
+      this.videoCover =
+        this.videoInfo.thumb === ""
+          ? "../../../static/img/1.jpg"
+          : this.videoInfo.thumb;
     },
     async searchMvKey(key) {
       console.log("searching...", this.searchMvKey);
@@ -200,49 +208,30 @@ export default {
     }
   },
   methods: {
-    /*
-    //完整md5
-    getFileMd5Full(fileRaw) {
-      var blobSlice =
-          File.prototype.slice ||
-          File.prototype.mozSlice ||
-          File.prototype.webkitSlice,
-        file = fileRaw,
-        chunkSize = 4194304, // Read in chunks of 4MB
-        chunks = Math.ceil(file.size / chunkSize),
-        currentChunk = 0,
-        spark = new SparkMD5.ArrayBuffer(),
-        fileReader = new FileReader();
-      var startData = new Date();
-      var fullMd5 = "";
-      fileReader.onload = function(e) {
-        console.log("read chunk nr", currentChunk + 1, "of", chunks);
-        spark.append(e.target.result); // Append array buffer
-        currentChunk++;
-        if (currentChunk < chunks) {
-          loadNext();
-        } else {
-          console.log("finished loading");
-          fullMd5 = spark.end();
-          console.log("computed hash", fullMd5); // Compute hash
-          console.log("time consumed:" + (new Date() - startData) + "ms");
-        }
-      };
-      fileReader.onerror = function() {
-        console.log("oops, something went wrong.");
-      };
-
-      function loadNext() {
-        var start = currentChunk * chunkSize,
-          end = start + chunkSize;
-        fileReader.readAsArrayBuffer(blobSlice.call(file, start, end));
-      }
-
-      loadNext();
-      return fullMd5;
+    initWebsocket(epid) {
+      this.ws = new WebSocket("ws://test.echisan.cn:8888/watch/" + epid);
+      this.ws.onmessage = this.getMessage;
     },
-    */
-    resetAllData(){
+    runws(epid) {
+      if (this.ws.readyState === this.ws.OPEN) {
+        this.getMessage();
+      } else if (this.ws.readyState === this.ws.CONNECTING) {
+        let that = this;
+        this.webSocketInterval=setInterval(() => {
+          that.getMessage();
+        }, 300);
+      } else {
+        this.initWebsocket(epid);
+        let that = this;
+        this.webSocketInterval=setInterval(() => {
+          that.getMessage();
+        }, 500);
+      }
+    },
+    getMessage(e) {
+      this.online = e.data;
+    },
+    resetAllData() {
       console.log("begin reset add data.......");
       this.dp = "";
       this.hasInfo = false;
@@ -276,8 +265,8 @@ export default {
       this.noSearchMvResult = false;
       this.searchResultChoose = {};
       this.searchResultEpisodeNum = 0;
-      this.videoCover = '../../../static/img/1.jpg';
-      console.log("end reset add data.......")
+      this.videoCover = "../../../static/img/1.jpg";
+      console.log("end reset add data.......");
     },
     getFileMd5(fileRaw) {
       return new Promise((res, rej) => {
@@ -486,8 +475,8 @@ export default {
     },
     async initDp() {
       console.log("init dplayer!!!!");
-      console.log("pic:",this.videoCover);
-      this.dp = await (new VueDPlayer({
+      console.log("pic:", this.videoCover);
+      this.dp = await new VueDPlayer({
         container: document.getElementById("dplayer"),
         autoplay: false,
         video: {
@@ -504,7 +493,7 @@ export default {
           bottom: "15%",
           unlimited: true
         }
-      }));
+      });
     },
     closeSubmitMvBox() {
       this.showSubmitMvBox = false;
@@ -523,8 +512,9 @@ export default {
         this.videoInfo = rd.data;
         this.hasInfo = true;
         this.videoURL = rd.data.videoUrl;
-        console.log("url!!!!!!!!!!!:",rd.data.videoUrl);
-        this.videoCover = rd.data.thumb===""?'../../../static/img/1.jpg':rd.data.thumb;
+        console.log("url!!!!!!!!!!!:", rd.data.videoUrl);
+        this.videoCover =
+          rd.data.thumb === "" ? "../../../static/img/1.jpg" : rd.data.thumb;
       }
       console.log("end initEpisodeInfo");
     }
@@ -532,18 +522,22 @@ export default {
   async mounted() {
     console.log("watchpage mounted!!!!");
     let epid = this.$route.params.epid;
-    if(epid){
-      this.initEpisodeInfo(epid).then(()=>{
+    if (epid) {
+      this.initWebsocket(epid);
+      this.initEpisodeInfo(epid).then(() => {
         console.log("initEpisode end.......");
         this.initDp();
       });
-    }
-    else {
+    } else {
       this.initDp();
     }
   },
-  created(){
+  created() {
     console.log("watchPage created!!!");
+  },
+  beforeDestroy(){
+    clearInterval(this.webSocketInterval);
+    this.webSocketInterval=null;
   }
 };
 </script>
@@ -822,14 +816,14 @@ export default {
   outline: none;
   margin: auto auto;
   height: 20px;
-  width: 80%;
+  width: 70%;
   border-radius: 5px;
   padding-left: 10px;
   padding-right: 10px;
   background: rgba(255, 255, 255, 0.8);
   border: 0px;
 }
-.mvBarrageBox p {
+.mvBarrageBoxBtn {
   background: palevioletred;
   color: white;
   margin: auto auto;
@@ -841,10 +835,22 @@ export default {
   z-index: 1000;
   transition: background 0.2s;
 }
-.mvBarrageBox p:hover {
+.onlineNumBox{
+  width: 10%;
+  margin: auto auto;
+}
+.onlineNumBox p{
+  margin: auto auto;
+  color: wheat;
+  font-size: 15px;
+  line-height: 100%;
+  text-align: center;
+  font-weight: bold;
+}
+.mvBarrageBoxBtn:hover {
   background: rgb(209, 94, 132);
 }
-.mvBarrageBox p:active {
+.mvBarrageBoxBtn:active {
   background: rgb(209, 128, 155);
 }
 .commentList {

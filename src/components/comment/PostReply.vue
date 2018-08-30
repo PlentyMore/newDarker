@@ -2,7 +2,7 @@
   <div class="replyBox" :style="mode>0?'width:820px;':''">
     <div class="replyInfoBox">
       <img :src="avatar!=''?avatar:'../../../static/img/noAvatar.jpg'">
-      <div class="replyLoginTip" v-if="!isLogin">
+      <div :class="mode>0?'replyLoginTip2':'replyLoginTip'" v-if="!isLogin">
         <div class="replyLoginTipInBox">
           <p class="loginTipText loginTipText1">请先 </p>
           <p class="replyLoginBtn" @click="loginBoxShow=true">登陆</p>
@@ -283,8 +283,22 @@ export default {
   position: absolute;
   background: rgba(128, 128, 128, 0.671);
   width: 720px;
-  height: 80px;
-  left: 75px;
+  height: 70px;
+  top: 2px;
+  left: 77px;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: row;
+  text-align: center;
+  font-size: 12px;
+}
+.replyLoginTip2 {
+  position: absolute;
+  background: rgba(128, 128, 128, 0.671);
+  width: 651px;
+  height: 70px;
+  top: 2px;
+  left: 72px;
   border-radius: 5px;
   display: flex;
   flex-direction: row;

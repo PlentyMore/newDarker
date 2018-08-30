@@ -79,9 +79,14 @@ const baseURL = "https://darker.online";
 const baseURL2 = "http://test.echisan.cn:8888";
 // const baseURL = "http://10.0.46.20:8080";
 
+//首页相关
 const getWelcome= ()=>{
   return axios.get(`${baseURL2}/index/is`);
 }
+const getIndex=()=>{
+  return axios.get(`${baseURL2}/index`);
+}
+
 
 //  登录相关
 const login = data => {
@@ -324,6 +329,7 @@ const resetPassword = data =>{
 export default {
   baseURL,
   baseURL2,
+  getIndex,
   getWelcome,
   login,
   logout,
