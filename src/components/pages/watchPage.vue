@@ -165,9 +165,10 @@ export default {
   watch: {
     $route(to, from) {
       console.log("to: ", to + " from: ", from);
-      this.resetAllData().then(()=>{
+      this.resetAllData();
+      setTimeout(() => {
         this.initDp();
-      });
+      },1);
     },
     videoInfo() {
       // if (this.bugTmp > 1) this.initDp();
@@ -368,7 +369,10 @@ export default {
           setTimeout(() => {
             this.$notify({
               title: "识别成功",
-              message: this.bangumiName + " " + this.episodeIndex,
+              message:
+              this.videoInfo.bangumiName +
+              " " +
+              this.videoInfo.episodeIndex,
               type: "success"
             });
           }, 800);
