@@ -154,7 +154,12 @@ export default {
       searchResultChoose: {},
       searchResultEpisodeNum: 0,
       //弹幕bug，第一次放视频没有弹幕出现
-      bugTmp: 0
+      bugTmp: 0,
+      tmpDanmaku: {
+        text: '',
+        color: '#fff',
+        type: 'top'
+      }
     };
   },
   watch: {
@@ -319,7 +324,7 @@ export default {
           //存在多个结果
           if (videosInfos.length > 1) {
             //等用户选择后才有将hasInfo设为true
-            this.hasInfo = false;
+            // this.hasInfo = false;
             //用户选择番剧信息列表显示
             this.videoListShow = true;
             //番剧信息列表数据
@@ -401,7 +406,7 @@ export default {
             this.videoInfo.bangumiName + " " + this.videoInfo.episodeIndex,
           type: "success"
         });
-        this.initDp();
+        api.matchVideoSuccess({v:this.videoInfo.videoId});
       }, 800);
     },
     noChoose() {
@@ -454,6 +459,11 @@ export default {
           message:
             this.videoInfo.bangumiName + " " + this.videoInfo.episodeIndex,
           type: "success"
+        });
+        api.sendVideoMatchInfo({
+          ep_id: this.videoInfo.episodeId,
+          v_md5: this.videoMd5,
+          v_size: this.videoSize
         });
       }, 800);
     },
@@ -957,5 +967,11 @@ export default {
 .wattingBox p {
   margin: auto auto;
   font-weight: bold;
+}
+.dplayer-danmaku .dplayer-danmaku-item {
+  text-shadow: rgb(0, 0, 0) 1px 0px 1px,
+  rgb(0, 0, 0) 0px 1px 1px,
+  rgb(0, 0, 0) 0px -1px 1px,
+  rgb(0, 0, 0) -1px 0px 1px;
 }
 </style>
