@@ -214,9 +214,12 @@ export default {
   border-radius: 8%;
   text-align: center;
   text-decoration: none;
+  cursor: pointer;
 }
 .comment-container {
   margin-top: 120px;
   width: 100%;
+  position: relative;
+  z-index: 300;
 }
 </style>

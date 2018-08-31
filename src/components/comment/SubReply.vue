@@ -222,6 +222,7 @@ export default {
   width: 770px;
   word-wrap: break-word;
   word-break: break-all;
+  font-size: 13px;
 }
 .commentChildControlBox {
   width: 770px;

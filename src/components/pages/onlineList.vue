@@ -8,8 +8,8 @@
       <h1 style="color: #1b84ec" v-show="bangumis === ''">暂时没有人在观看视频</h1>
       <div v-for="(item,i) in bangumis" v-if="index>i" :class="['searchResultItem1',{'run-animation21':item.bangumiId==showId[i]}]" @mouseover="changeBgUrl(item.thumb)" @click="goBangumiDetail(item)" :key="item.bangumiId">
         <img :src="item.thumb?item.thumb:'../../../static/img/1.jpg'">
-        <div class="bangumiName1" v-if="item.bangumiName.length<='ElderDriverBroken♂Man1'.length"><p>{{item.bangumiName}}</p></div>
-          <marquee v-else behavior="alternate" scrollamount="6">{{item.bangumiName}}</marquee>
+        <div class="bangumiName1" v-if="item.title.length<='ElderDriverBroken♂Man1'.length"><p>{{item.title}}</p></div>
+          <marquee v-else behavior="alternate" scrollamount="6">{{item.title}}</marquee>
           <div class="mvOtherInfo1">
             <div>
               <img src="../../../static/img/saw2.png" title="访问量">
@@ -76,14 +76,7 @@ export default {
       this.bgUrl = url === "" ? "../../static/img/1.jpg" : url;
     },
     goBangumiDetail(bangumi) {
-      console.log("go bangumiDetail");
-      console.log("bangumi: ", bangumi);
-      let routeData = this.$router.resolve({
-        name: "bangumiDetail",
-        params: { bid: bangumi.bangumiId, bangumi: bangumi }
-      });
-      console.log("href:", routeData.href);
-      window.open(routeData.href, "_blank");
+      window.open(bangumi.linkUrl);
     }
   },
   created() {

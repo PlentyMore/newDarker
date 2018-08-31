@@ -214,7 +214,7 @@ export default {
   top: 0;
   left: 0;
   position: fixed;
-  z-index: 3;
+  z-index: 2;
   width: 100%;
   height: 100%;
 }
