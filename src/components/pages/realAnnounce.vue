@@ -1,19 +1,19 @@
 <template>
   <div class="announce">
     <div class="page-container1">
-      <div class="title-container">
+      <div class="title-container1">
         <h1>{{notice.title}}</h1>
         <div style="color:white">
-          <span ><i class="el-icon-date" title="发布时间" style="padding-right: 5px"></i>{{notice.createTime | formatDate}}</span>
-          <span style="margin-left: 15px"><i class="el-icon-view" title="阅读量" style="padding-right: 5px"></i>{{notice.viewCount}}</span>
+          <span ><i class="el-icon-date1" title="发布时间" style="padding-right: 5px"></i>{{notice.createTime | formatDate}}</span>
+          <span style="margin-left: 15px"><i class="el-icon-view1" title="阅读量" style="padding-right: 5px"></i>{{notice.viewCount}}</span>
         </div>
       </div>
-      <div class="content-container">
-        <div class="ctx-text" v-html="notice.content">
+      <div class="content-container1">
+        <div class="ctx-text1" v-html="notice.content">
         </div>
       </div>
     </div>
-    <div class="bottom-container">
+    <div class="bottom-container1">
       <real-comment :oid="nid" :type=2 :rpid="rpid"></real-comment>
     </div>
   </div>
@@ -75,12 +75,12 @@
   .announce-prev {
     text-align: center;
   }
-  .title-container {
+  .title-container1 {
     /*border-bottom: 1px solid white;*/
     margin: 20px 0 60px 0;
     color: wheat;
   }
-  .title-container div {
+  .title-container1 div {
     margin-bottom: 10px;
   }
   .page-container1 {
@@ -91,23 +91,23 @@
     margin-top: 60px;
     animation: ShowVideo 0.4s;
   }
-  .content-container {
+  .content-container1 {
     margin-bottom: 20px;
     animation: ShowVideo 0.6s;
   }
-  .page-container .title-container, .page-container .content-container,
-  .page-container .comment-container, .page-container .bottom-container {
+  .page-container1 .title-container1, .page-container1 .content-container1,
+  .page-container1 .comment-container1, .page-container1 .bottom-container1 {
     padding: 0 20px;
   }
-  .title-container h1 {
+  .title-container1 h1 {
     font-weight: 600;
     font-size: 26px;
     line-height: 30px;
   }
-  .content-container .ctx-text img {
+  .content-container1 .ctx-text1 img {
     max-width: 760px;
   }
-  .announce .page-container {
+  .announce .page-container1 {
     color: white;
   }
 </style>
