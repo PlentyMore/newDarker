@@ -17,8 +17,8 @@
     <div class="searchResultBox" :style="resultStyle">
       <h1 style="color: #1b84ec" v-show="bangumis === ''">什么都没有找到</h1>
       <a @click="showSubmitBox = true" class="sr-submit-link" v-show="bangumis === ''">点此提交番剧信息</a>
-      <div v-for="(item,i) in bangumis" v-if="index>i" :class="['searchResultItem',{'run-animation2':item.bangumiId==showId[i]}]" @mouseover="changeBgUrl(item.thumb)" :key="item.bangumiId">
-           <img :src="item.thumb?item.thumb:'../../../static/img/1.jpg'" @click="goBangumiDetail(item)">
+      <div v-for="(item,i) in bangumis" v-if="index>i" :class="['searchResultItem',{'run-animation2':item.bangumiId==showId[i]}]" @mouseover="changeBgUrl(item.thumb)" @click="goBangumiDetail(item)" :key="item.bangumiId">
+           <img :src="item.thumb?item.thumb:'../../../static/img/1.jpg'">
           <div class="bangumiName" v-if="item.bangumiName.length<='ElderDriverBroken♂Man1'.length"><p>{{item.bangumiName}}</p></div>
           <marquee v-else behavior="alternate" scrollamount="6">{{item.bangumiName}}</marquee>
           <p class="bangumiEpInfo">集数：{{item.episodeTotal}}</p>
