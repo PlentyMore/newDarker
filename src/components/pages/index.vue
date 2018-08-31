@@ -291,10 +291,11 @@ export default {
   background: rgb(42, 83, 103);
   opacity: 0.8;
   position: absolute;
-  height: 100%;
+  height: 90px;
   width: 100%;
-  font-size: 70px;
-  top: -45px;
+  font-size: 50px;
+  line-height: 90px;
+  top: -31px;
   color: rgb(0, 0, 0);
   clip: rect(0px, 1000px, 80px, 0px);
   font-weight: bold;
@@ -487,7 +488,7 @@ export default {
   height: 10%;
   width: 50%;
   /*绝对布局的居中法*/
-  top: 435px;
+  top: 440px;
   left: 25.4%;
   display: flex;
   flex-direction: row;

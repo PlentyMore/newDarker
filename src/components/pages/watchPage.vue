@@ -166,9 +166,7 @@ export default {
     $route(to, from) {
       console.log("to: ", to + " from: ", from);
       this.resetAllData();
-      setTimeout(() => {
-        this.initDp();
-      },1);
+      setTimeout(()=>{this.initDp()});
     },
     videoInfo() {
       // if (this.bugTmp > 1) this.initDp();
@@ -178,6 +176,7 @@ export default {
           ? "../../../static/img/1.jpg"
           : this.videoInfo.thumb;
       clearInterval(this.webSocketInterval);
+      if(this.ws)this.ws.close();
       this.webSocketInterval=null;
       this.initWebsocket(this.videoInfo.episodeId);
     },
@@ -369,10 +368,7 @@ export default {
           setTimeout(() => {
             this.$notify({
               title: "识别成功",
-              message:
-              this.videoInfo.bangumiName +
-              " " +
-              this.videoInfo.episodeIndex,
+              message: this.bangumiName + " " + this.episodeIndex,
               type: "success"
             });
           }, 800);
@@ -553,6 +549,7 @@ export default {
     console.log("watchPage created!!!");
   },
   beforeDestroy(){
+    if(this.ws) this.ws.close();
     clearInterval(this.webSocketInterval);
     this.webSocketInterval=null;
   }
@@ -977,5 +974,6 @@ export default {
   rgb(0, 0, 0) 0px 1px 1px,
   rgb(0, 0, 0) 0px -1px 1px,
   rgb(0, 0, 0) -1px 0px 1px;
+  animation: danmaku 9s linear !important;
 }
 </style>
