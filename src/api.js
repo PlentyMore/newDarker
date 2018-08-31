@@ -86,7 +86,9 @@ const getWelcome= ()=>{
 const getIndex=()=>{
   return axios.get(`${baseURL2}/index`);
 }
-
+const getOnlineList=()=>{
+  return axios.get(`${baseURL2}/index/online`);
+}
 
 //  登录相关
 const login = data => {
@@ -330,6 +332,7 @@ export default {
   baseURL,
   baseURL2,
   getIndex,
+  getOnlineList,
   getWelcome,
   login,
   logout,

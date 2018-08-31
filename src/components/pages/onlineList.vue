@@ -1,38 +1,29 @@
 <template>
-  <div class="searchResultPage">
-    <div class="searchResultBg">
-      <div class="searchResultBgInBox"></div>
-      <div class="searchResultBgBox"><img :src="bgUrl" class='searchResultBgImg'></div>
+  <div class="searchResultPage1">
+    <div class="searchResultBg1">
+      <div class="searchResultBgInBox1"></div>
+      <div class="searchResultBgBox1"><img :src="bgUrl" class='searchResultBgImg1'></div>
     </div>
-    <transition name="submitMvBoxTran">
-      <div class="submitMovieBox" v-if="showSubmitBox">
-        <submit-movie
-          :show="showSubmitBox"
-          @closeBox="closeSubmitMvBox"
-          @updateMvList="reloadMvInfo"
-          class="submitMovieInBox">
-        </submit-movie>
-      </div>
-    </transition>
-    <div class="searchResultBox" :style="resultStyle">
-      <h1 style="color: #1b84ec" v-show="bangumis === ''">什么都没有找到</h1>
-      <a @click="showSubmitBox = true" class="sr-submit-link" v-show="bangumis === ''">点此提交番剧信息</a>
-      <div v-for="(item,i) in bangumis" v-if="index>i" :class="['searchResultItem',{'run-animation2':item.bangumiId==showId[i]}]" @mouseover="changeBgUrl(item.thumb)" :key="item.bangumiId">
-           <img :src="item.thumb?item.thumb:'../../../static/img/1.jpg'" @click="goBangumiDetail(item)">
-          <div class="bangumiName" v-if="item.bangumiName.length<='ElderDriverBroken♂Man1'.length"><p>{{item.bangumiName}}</p></div>
+    <div class="searchResultBox1" :style="resultStyle">
+      <h1 style="color: #1b84ec" v-show="bangumis === ''">暂时没有人在观看视频</h1>
+      <div v-for="(item,i) in bangumis" v-if="index>i" :class="['searchResultItem1',{'run-animation21':item.bangumiId==showId[i]}]" @mouseover="changeBgUrl(item.thumb)" :key="item.bangumiId">
+        <img :src="item.thumb?item.thumb:'../../../static/img/1.jpg'" @click="goBangumiDetail(item)">
+        <div class="bangumiName1" v-if="item.bangumiName.length<='ElderDriverBroken♂Man1'.length"><p>{{item.bangumiName}}</p></div>
           <marquee v-else behavior="alternate" scrollamount="6">{{item.bangumiName}}</marquee>
-          <p class="bangumiEpInfo">集数：{{item.episodeTotal}}</p>
+          <div class="mvOtherInfo1">
+            <div>
+              <img src="../../../static/img/saw2.png" title="访问量">
+              <p>{{item.episodeViewCount}}</p>
+            </div>
+            <div>
+              <img src="../../../static/img/barrage2.png" title="弹幕数">
+              <p>{{item.danmakuCount}}</p>
+            </div>
+          </div>
+          <p class="bangumiEpInfo1">在线人数:{{item.onlineCount}}</p>
       </div>
     </div>
-    <div v-if="bangumis" class="page-container">
-      <el-pagination v-show="page.totalSize>10" @size-change="handleSizeChange" @current-change="handleCurrentChange"
-        :current-page.sync="page.pageNumber"
-        :page-sizes="[10,20,30,40,50]" :page-size="page.pageSize"
-        layout="total, sizes, prev, pager, next, jumper" :total="page.totalSize"
-        style="margin:auto auto;">
-        </el-pagination>
-      </div>
-    </div>
+  </div>
 </template>
 
 <script>
@@ -40,7 +31,7 @@ import api from "../../api";
 import submitMovie from "../submitMovie/submitMovie.vue";
 export default {
   props: ["searchText"],
-  components:{
+  components: {
     "submit-movie": submitMovie
   },
   data() {
@@ -52,43 +43,23 @@ export default {
       index: 0,
       showId: [],
       showTimer: null,
-      resultStyle:{
-        'min-height':'900px'
+      resultStyle: {
+        "min-height": "900px"
       },
       showSubmitBox: false
     };
   },
   methods: {
-    closeSubmitMvBox() {
-      this.showSubmitBox = false;
-    },
-    reloadMvInfo() {
-      this.$message({
-        message: "提交成功，审核通过后即可选择您的番剧信息。",
-        type: "success"
-      });
-    },
-    changeBgUrl(url) {
-      this.bgUrl = url === "" ? "../../static/img/1.jpg" : url;
-    },
-    async searchBangumis(text) {
-      clearInterval(this.showTimer);
-      this.showTimer=null;
-      this.index=0;
-      if(!this.searchText){
-        console.log('给我跳转！！！！');
-        this.$router.push({name:'index'});
-      }
-      let res = await api.getsearchBangumisIdResult(text);
-      let rd = res.data;
-      console.log("searchBangumiRes:", rd);
-      if (rd.code === 0) {
-        this.bangumis = rd.data.content;
-        this.page = rd.data.page;
+    async initOnlineList() {
+      let res = (await api.getOnlineList()).data;
+      console.log("在线列表信息", res);
+      if (res.code === 0) {
+        this.bangumis = res.data;
+        console.log(this.bangumis);
         this.bgUrl =
-          rd.data.content[0].thumb === ""
+          res.data[0].thumb === ""
             ? "../../static/img/1.jpg"
-            : rd.data.content[0].thumb;
+            : res.data[0].thumb;
         console.log("bgUrl", this.bgUrl);
         console.log("pageNum:", "ElderDriverBroken♂Man".length);
         this.showTimer = setInterval(() => {
@@ -99,80 +70,28 @@ export default {
             this.showTimer = null;
           }
         }, 150);
-      } else {
-        this.bangumis = "";
-        this.page.totalSize = 0;
-        console.log("no bangumi search result");
       }
     },
-    async handleCurrentChange(val) {
-      let res = await api.searchBangumisByName(
-        this.searchText,
-        val,
-        this.page.pageSize
-      );
-      let rd = res.data;
-      if (rd.code === 0) {
-        this.bangumis = rd.data.content;
-        this.page = rd.data.page;
-      } else {
-        this.bangumis = "";
-        console.log("error search bangumis in page");
-      }
-    },
-    async handleSizeChange(val) {
-      console.log("pageSize:", val);
-      let res = await api.searchBangumisByName(this.searchText, 1, val);
-      let rd = res.data;
-      if (rd.code === 0) {
-        this.bangumis = rd.data.content;
-        this.page = rd.data.page;
-      } else {
-        console.log("error search bangumis in page");
-      }
-    },
-    goBangumiDetail(bangumi) {
-      console.log("go bangumiDetail");
-      console.log("bangumi: ", bangumi);
-      let routeData = this.$router.resolve({
-        name: "bangumiDetail",
-        params: { bid: bangumi.bangumiId, bangumi: bangumi }
-      });
-      console.log("href:", routeData.href);
-      window.open(routeData.href, "_blank");
-    },
-    showIndex(index) {
-      return index;
-    },
-    test() {
-      //alert(this.$route.params.searchText);
-      console.log(this.searchText);
-    }
-  },
-  watch: {
-    searchText(newInfo) {
-      clearInterval(this.showTimer);
-      this.showTimer=null;
-      this.index=0;
-      console.log(newInfo);
-      this.searchBangumis(newInfo);
+    changeBgUrl(url) {
+      this.bgUrl = url === "" ? "../../static/img/1.jpg" : url;
     }
   },
   created() {
     console.log(this.searchText);
-    this.searchBangumis(this.searchText);
+    this.initOnlineList();
   },
-  beforeDestroy(){
-    this.$emit('toIndex');
+  beforeDestroy() {
+    clearInterval(this.showTimer);
+    this.bangumis = "";
   }
 };
 </script>
 
 <style>
-.el-pagination__total{
+.el-pagination__total {
   color: black;
 }
-.run-animation2 {
+.run-animation21 {
   animation: show 0.8s linear 0s 1 normal;
 }
 @keyframes show {
@@ -188,7 +107,7 @@ export default {
     opacity: 1;
   }
 }
-.page-container {
+.page-container1 {
   display: flex !important;
   flex-direction: column;
   width: 100% !important;
@@ -196,11 +115,11 @@ export default {
   background: none !important;
   margin-top: -130px;
 }
-.searchResultBg{
+.searchResultBg1 {
   position: relative;
   z-index: -1;
 }
-.searchResultBgBox {
+.searchResultBgBox1 {
   position: fixed;
   top: 0;
   left: 0;
@@ -209,7 +128,7 @@ export default {
   overflow: hidden;
   z-index: 2;
 }
-.searchResultBgInBox {
+.searchResultBgInBox1 {
   background: rgba(0, 0, 0, 0.486);
   top: 0;
   left: 0;
@@ -218,30 +137,30 @@ export default {
   width: 100%;
   height: 100%;
 }
-.searchResultBgImg {
+.searchResultBgImg1 {
   height: 100%;
   width: 100%;
   filter: blur(20px) grayscale(30%);
 }
-.searchResultPage {
+.searchResultPage1 {
   display: flex;
   flex-direction: column;
 }
-.searchResultBox {
+.searchResultBox1 {
   width: 1000px;
   margin: 8% auto;
   z-index: 10;
 }
-.sr-submit-link {
+.sr-submit-link1 {
   color: #9a656e;
   cursor: pointer;
   text-decoration: underline;
 }
-.searchResultItem {
+.searchResultItem1 {
   opacity: 0.8;
   background: rgba(255, 255, 255, 0.548);
   width: 180px;
-  height: 160px;
+  height: 180px;
   margin: 30px 10px;
   float: left;
   display: inline-block;
@@ -251,48 +170,62 @@ export default {
   cursor: pointer;
   opacity: 1;
 }
-.searchResultItem:hover {
+.searchResultItem1:hover {
   box-shadow: 0px 0px 20px white;
 }
-.searchResultBox img {
+.searchResultBox1 img {
   width: 180px;
   height: 100px;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
 }
-.searchResultBox marquee {
+.searchResultBox1 marquee {
   height: 25px;
   line-height: 25px;
 }
-.bangumiName {
+.bangumiName1 {
   height: 25px;
   line-height: 25px;
-  margin-top: -10px;
+  margin-top: -15px;
 }
-.bangumiEpInfo {
-  margin-top: 0;
-  height: 25px;
-  line-height: 25px;
+.bangumiEpInfo1 {
+  margin-top: 5px;
+  height: 20px;
+  line-height: 20px;
+  font-size: 15px;
+  background: rgba(255, 255, 255, 0.459);
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
 }
-.submitMovieInBox {
-  margin: auto auto;
-}
-.submitMovieBox {
-  background: rgba(0, 0, 0, 0.37);
-  height: 960px;
-  width: 100%;
-  position: absolute;
-  left: 0;
-  top: 60px;
-  z-index: 1000;
+.mvOtherInfo1 {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  height: 25px;
+  margin: 0 auto;
+  width: 100%;
 }
-.submitMvBoxTran-enter-active,
-.submitMvBoxTran-leave-active {
-  transition: opacity 0.5s;
+.mvOtherInfo1 div {
+  display: flex;
+  flex-direction: row;
+  margin: auto auto;
+  margin-right: 10px;
+  width: 50%;
+  height: 25px;
 }
-.submitMvBoxTran-enter, .submitMvBoxTran-leave-to /* .fade-leave-active below version 2.1.8 */ {
-  opacity: 0;
+.mvOtherInfo1 img {
+  height: 20px;
+  width: 20px;
+  margin: auto auto;
+  margin-right: -18px;
+  display: inline-block;
+}
+.mvOtherInfo1 p {
+  margin: auto auto;
+  color: white;
+  font-size: 13px;
+  line-height: 25px;
+  height: 25px;
+  padding-left: 3px;
+  display: inline-block;
 }
 </style>

@@ -28,7 +28,7 @@
             </div>
             <div class="sysMsgBox" style="cursor:pointer">
                 <marquee class="sysMsg" @click="jmpAnnounce">{{announceInfo.title}}</marquee>
-                <p>在线人数: {{online}}<el-badge value="hot" class="onlineBadge"></el-badge></p>
+                <p @click="jmpOnlineList">在线人数: {{online}}<el-badge value="hot" class="onlineBadge"></el-badge></p>
             </div>
             <div class="barrageBox" v-if="false">
                 <input class="barrageInput" placeholder="在这里输入弹幕" style="width:140px; padding-left:10px;padding-right:10px;">
@@ -123,6 +123,9 @@ export default {
     },
     jmpAnnounce() {
       this.$router.push({ name: "announce" ,params:{id:this.announceInfo.id} });
+    },
+    jmpOnlineList(){
+      this.$router.push({ name: "onlineList"});
     },
     async initAnnounce(){
       let resData=(await api.getNotice()).data;

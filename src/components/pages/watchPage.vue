@@ -172,6 +172,9 @@ export default {
         this.videoInfo.thumb === ""
           ? "../../../static/img/1.jpg"
           : this.videoInfo.thumb;
+      clearInterval(this.webSocketInterval);
+      this.webSocketInterval=null;
+      this.initWebsocket(this.videoInfo.episodeId);
     },
     async searchMvKey(key) {
       console.log("searching...", this.searchMvKey);
