@@ -131,6 +131,14 @@
                   <span class="demonstration" style="width:30%">字体大小</span>
                   <el-slider v-model="fontSize" style="width:60%;margin:-10px auto;" :max="30" :min="10"></el-slider>
                 </div>
+                <div class="displaySet">
+                  <span class="demonstration" style="width:100px">尽量防挡字幕</span>
+                  <el-switch
+                    v-model="hideBottomDan"
+                    active-color="#3a86ef"
+                    inactive-color="#777">
+                  </el-switch>
+                </div>
               </div>
             </div>
             <div slot="reference" class="choose-dan-pos">
@@ -247,7 +255,8 @@ export default {
       },
       loginBoxShow: false,
       isLogin: false,
-      manualSetDisabled: false
+      manualSetDisabled: false,
+      hideBottomDan: false
     };
   },
   watch: {
@@ -267,6 +276,26 @@ export default {
       let danmaku=document.getElementsByClassName('dplayer-danmaku');
       console.log(this.fontSize.toString()+'px');
       danmaku[0].setAttribute('style','font-size: ' + this.fontSize.toString() + 'px !important');
+    },
+    hideBottomDan(){
+      if(this.hideBottomDan){
+        this.$nextTick(()=>{
+          let danmaku=document.getElementsByClassName('dplayer-danmaku');
+          if(danmaku){
+            danmaku[0].classList.add("my-block-bottom");
+            localStorage.setItem("dbb",true);
+          }
+        });
+      }
+      else {
+        this.$nextTick(()=>{
+          let danmaku=document.getElementsByClassName('dplayer-danmaku');
+          if(danmaku){
+            danmaku[0].classList.remove("my-block-bottom");
+            localStorage.setItem("dbb",false);
+          }
+        });
+      }
     },
     videoInfo() {
       // if (this.bugTmp > 1) this.initDp();
@@ -697,6 +726,11 @@ export default {
     console.log("watchPage created!!!");
     if(localStorage.getItem("USER_ID"))
       this.isLogin = true;
+    if(localStorage.getItem("dbb")){
+      if(localStorage.getItem("dbb")==="true"){
+        this.hideBottomDan = true;
+      }
+    }
   },
   beforeDestroy() {
     if (this.ws) this.ws.close();
@@ -1313,5 +1347,8 @@ export default {
   top: 60px;
   left: 0;
   opacity: 1;
+}
+.my-block-bottom .dplayer-danmaku-bottom {
+  opacity: 0 !important;
 }
 </style>
