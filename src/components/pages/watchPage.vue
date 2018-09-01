@@ -901,8 +901,9 @@ export default {
 }
 
 .matchInfoBox select {
-  background: rgba(255, 255, 255, 0.527);
+  background: rgba(255, 255, 255, 0.774);
   margin: auto auto;
+  color: black;
   width: 30%;
   outline: none;
   padding: 5px 5px 5px 5px;
