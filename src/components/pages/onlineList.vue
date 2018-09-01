@@ -12,11 +12,13 @@
           <marquee v-else behavior="alternate" scrollamount="6">{{item.title}}</marquee>
           <div class="mvOtherInfo1">
             <div>
-              <img src="../../../static/img/saw2.png" title="访问量">
-              <p>{{item.episodeViewCount}}</p>
+              <!--<img src="../../../static/img/saw2.png" title="访问量">-->
+              <i class="el-icon-view" title="访问量"></i>
+              <p style="padding-left: 8px;">{{getPrettyViewCount(item.episodeViewCount)}}</p>
             </div>
             <div>
-              <img src="../../../static/img/barrage2.png" title="弹幕数">
+              <!--<img src="../../../static/img/barrage2.png" title="弹幕数">-->
+              <i class="el-icon-tickets" title="弹幕数"></i>
               <p>{{item.danmakuCount}}</p>
             </div>
           </div>
@@ -77,6 +79,12 @@ export default {
     },
     goBangumiDetail(bangumi) {
       window.open(bangumi.linkUrl);
+    },
+    getPrettyViewCount(num){
+      if(num < 10000){
+        return num;
+      }
+      return (num / 10000).toFixed(1).toString() + 'w';
     }
   },
   created() {
@@ -110,14 +118,14 @@ export default {
     opacity: 1;
   }
 }
-.page-container1 {
-  display: flex !important;
-  flex-direction: column;
-  width: 100% !important;
-  height: 80px !important;
-  background: none !important;
-  margin-top: -130px;
-}
+/*.page-container1 {*/
+  /*display: flex !important;*/
+  /*flex-direction: column;*/
+  /*width: 100% !important;*/
+  /*height: 80px !important;*/
+  /*background: none !important;*/
+  /*margin-top: -130px;*/
+/*}*/
 .searchResultBg1 {
   position: relative;
   z-index: -1;
@@ -215,12 +223,13 @@ export default {
   width: 50%;
   height: 25px;
 }
-.mvOtherInfo1 img {
-  height: 20px;
+.mvOtherInfo1 i {
+  /*height: 20px;*/
   width: 20px;
   margin: auto auto;
   margin-right: -18px;
   display: inline-block;
+  color: #0d1b82;
 }
 .mvOtherInfo1 p {
   margin: auto auto;

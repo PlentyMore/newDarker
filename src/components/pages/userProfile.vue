@@ -10,25 +10,29 @@
     <!--</div>-->
   <!--</div>-->
   <div class="user-p-container">
-    <div class="profile-wrapper">
-      <div class="u-avatar">
-        <img class="avatar-img" :src="userInfo.face?userInfo.face:'../../../static/img/noAvatar.jpg'"/>
+    <div class="profile-outter">
+      <div class="profile-wrapper">
+        <div class="u-avatar">
+          <img class="avatar-img" :src="userInfo.face?userInfo.face:'../../../static/img/noAvatar.jpg'"/>
+        </div>
+        <div class="u-infos">
+          <div class="u-nick">
+            <span style="font-size: 22px">{{userInfo.nick}}</span>
+          </div>
+          <div class="u-id">
+            <span >id:{{userInfo.uid?userInfo.uid:userInfo.userId}}</span>
+          </div>
+          <div class="u-sex">
+            <span >性别 {{userInfo.sex}}</span>
+          </div>
+        </div>
       </div>
-      <div class="u-infos">
-        <div class="u-nick">
-          <span >{{userInfo.nick}}</span>
-        </div>
-        <div class="u-id">
-          <span >id:{{userInfo.uid}}</span>
-        </div>
-        <div class="u-sex">
-          <span >性别 {{userInfo.sex}}</span>
-        </div>
-        <div class="u-sign">
-          <span >{{userInfo.sign}}</span>
-        </div>
+      <div class="u-sign">
+        <p class="u-sign-title">个人签名</p>
+        <p>{{userInfo.sign}}</p>
       </div>
     </div>
+
     <div class="comment-container1">
       <real-comment
         :oid="uid"
@@ -98,7 +102,7 @@
   .profile-wrapper {
     display: inline-flex;
     animation: ShowVideo 0.4s;
-    margin:100px auto;
+    margin: 50px 10px 20px 10px;
   }
   .u-avatar {
     position: relative;
@@ -131,5 +135,11 @@
   .comment-container1{
     margin: 68px auto;
     margin-bottom: 255px;
+  }
+  .u-sign {
+    color: #cccccc;
+  }
+  .u-sign-title {
+    margin: 10px
   }
 </style>

@@ -282,8 +282,10 @@ export default {
         this.$nextTick(()=>{
           let danmaku=document.getElementsByClassName('dplayer-danmaku');
           if(danmaku){
-            danmaku[0].classList.add("my-block-bottom");
-            localStorage.setItem("dbb",true);
+            if(danmaku[0]){
+              danmaku[0].classList.add("my-block-bottom");
+              localStorage.setItem("dbb",true);
+            }
           }
         });
       }
@@ -291,8 +293,10 @@ export default {
         this.$nextTick(()=>{
           let danmaku=document.getElementsByClassName('dplayer-danmaku');
           if(danmaku){
-            danmaku[0].classList.remove("my-block-bottom");
-            localStorage.setItem("dbb",false);
+            if(danmaku[0]){
+              danmaku[0].classList.remove("my-block-bottom");
+              localStorage.setItem("dbb",false);
+            }
           }
         });
       }

@@ -165,7 +165,7 @@ export default {
 }
 .loginBox input {
   background: rgba(255, 255, 255, 0.85);
-  height: 40px;
+  height: 33px;
   width: 60%;
   border-radius: 4px;
   border: 1px solid gray;
@@ -173,7 +173,7 @@ export default {
   padding-right: 10px;
   transition: border 0.2s;
   outline: none;
-  font-family: 'Leckerli One', cursive;
+  /*font-family: 'Leckerli One', cursive;*/
 }
 .loginBox input:hover {
   border: 1px solid white;
@@ -199,7 +199,7 @@ export default {
   line-height: 40px;
   border-radius: 5px;
   color: white;
-  border: 1px solid white;
+  /*border: 1px solid white;*/
   background: rgb(100, 149, 237);
   transition: all 0.1s;
   cursor: pointer;

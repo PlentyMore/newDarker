@@ -2,7 +2,7 @@
     <div class="box">
         <div class="logo" v-on:click="mainPage">
             <img src="../../../static/img/logo.png" class="logoImg">
-            <div class="logoTitle">Darker.</div>
+            <div class="logoTitle">Darker</div>
         </div>
         <div class="headerBtnBox">
             <div class="headerBtnInBox">

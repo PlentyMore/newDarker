@@ -35,12 +35,22 @@
                 <p class="sendBtn">点击发送</p>
             </div>
         </div>
-        <div class="hotImgBox">
-            <div class="hotImgInBox">
-                <div class="hotImgNow" @click="jmpNowBangumi" :style="{'margin-left':hotImgNowLoc,width:imgWidth}"></div>
-                <img v-for="(url,index) in bgImgUrl" :src="url.imageUrl" :style="[{width:imgWidth}]" @click="jmpToBangumi(url)" class="hotImgItemBox" @mouseover="userChangeHotImgNow(index)" :key="url.bangumiId">
-            </div>
+        <!--<div class="hotImgBox">-->
+            <!--<div class="hotImgInBox">-->
+                <!--<div class="hotImgNow" @click="jmpNowBangumi" :style="{'margin-left':hotImgNowLoc,width:imgWidth}"></div>-->
+                <!--<img v-for="(url,index) in bgImgUrl" :src="url.imageUrl" :style="[{width:imgWidth}]" @click="jmpToBangumi(url)" class="hotImgItemBox" @mouseover="userChangeHotImgNow(index)" :key="url.bangumiId">-->
+            <!--</div>-->
+        <!--</div>-->
+      <div class="hotImgBox">
+        <div class="hotImgInBox">
+          <div class="hotImgNow" @click="jmpNowBangumi" @mouseover="showImgTitle=true" @mouseout="showImgTitle=false" :style="{'margin-left':hotImgNowLoc,width:imgWidth}"></div>
+          <div v-for="(url,index) in bgImgUrl" :style="[{width:imgWidth}]" @click="jmpToBangumi(url)" class="hotImgItemBox" @mouseover="userChangeHotImgNow(index)" :key="url.bangumiId">
+            <el-tooltip :visible-arrow=false :content="url.title" placement="bottom" effect="dark" :manual=false :value="(showImgTitle&&bgImgIndex==index)||bgImgIndex==index">
+              <img :src="url.imageUrl" style="width:100%">
+            </el-tooltip>
+          </div>
         </div>
+      </div>
       <div class="indexFooter">
         <div class="inderFooter2">
           <div class="footerAbout">
@@ -79,11 +89,7 @@ export default {
       infoText:'用爱发电',
       welcome:'Welcome to darker!!',
       online:'',
-      //welcome:'Welcome to dark!!'
-      // notice: "",
-      // showNotice: false,
-      // lastNoticeId: "",
-      // curNoticeId: ""
+      showImgTitle: false
     };
   },
   methods: {
@@ -273,7 +279,7 @@ export default {
   width: 50%;
   display: flex;
   flex-direction: column;
-  z-index: 1000;
+  z-index: 999;
   top: 340px;
   left: 25.5%;
   /*border-left: 10px solid black;*/

@@ -180,15 +180,16 @@ export default {
 }
 .registerBox input {
   background: rgba(255, 255, 255, 0.85);
-  height: 40px;
+  height: 33px;
   width: 67%;
   border-radius: 4px;
   border: 1px solid gray;
   padding-right: 10px;
+  padding-left: 10px;
   margin: 10px auto;
   transition: all 0.2s;
   outline: none;
-  font-family: 'Leckerli One', cursive;
+  /*font-family: 'Leckerli One', cursive;*/
 }
 .wrongTips {
   font-size: 10px !important;
@@ -216,12 +217,12 @@ export default {
   margin: auto auto;
 }
 .registerBox a {
-  height: 40px;
-  width: 67%;
+  height: 38px;
+  width: 73%;
   line-height: 40px;
   border-radius: 5px;
   color: white;
-  border: 1px solid white;
+  /*border: 1px solid white;*/
   background: rgb(100, 149, 237);
   transition: all 0.1s;
   cursor: pointer;

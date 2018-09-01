@@ -4,8 +4,8 @@
       <div class="title-container1">
         <h1>{{notice.title}}</h1>
         <div style="color:white">
-          <span ><i class="el-icon-date1" title="发布时间" style="padding-right: 5px"></i>{{notice.createTime | formatDate}}</span>
-          <span style="margin-left: 15px"><i class="el-icon-view1" title="阅读量" style="padding-right: 5px"></i>{{notice.viewCount}}</span>
+          <span ><i class="el-icon-date" title="发布时间" style="padding-right: 5px"></i>{{notice.createTime | formatDate}}</span>
+          <span style="margin-left: 15px"><i class="el-icon-view" title="阅读量" style="padding-right: 5px"></i>{{notice.viewCount}}</span>
         </div>
       </div>
       <div class="content-container1">
