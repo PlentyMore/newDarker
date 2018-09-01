@@ -6,7 +6,7 @@
             <img src="../../../static/img/logo.png" class="loginLogo">
             <p>登入 Darker</p>
             <input type="text" name="fname" placeholder="昵称/邮箱" v-model="username"/>
-            <input type="password" name="lname" min="6" max="20" placeholder="请输入密码" v-model="password"/>
+            <input @keyup.enter="login" type="password" name="lname" min="6" max="20" placeholder="请输入密码" v-model="password"/>
             <div class="switchBox">
               记住我
               <darker-switch :choose.sync="choose" class="switch"></darker-switch>

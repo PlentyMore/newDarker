@@ -89,7 +89,7 @@
           <div class="onlineNumBox">
             <p>在线人数 {{online}}</p>
           </div>
-          <div class="dm-color-wrapper">
+          <div title="选择弹幕颜色" class="dm-color-wrapper">
             <el-color-picker size="mini" v-model="tmpDanmaku.color"></el-color-picker>
           </div>
           <el-popover
@@ -108,7 +108,7 @@
                 <el-radio-button label="bottom">底部</el-radio-button>
               </el-radio-group>
             </div>
-            <div slot="reference" class="choose-dan-pos">
+            <div slot="reference" title="选择弹幕类型" class="choose-dan-pos">
               <i class="el-icon-tickets dan-icon"></i>
             </div>
           </el-popover>
@@ -141,7 +141,7 @@
                 </div>
               </div>
             </div>
-            <div slot="reference" class="choose-dan-pos">
+            <div slot="reference" title="弹幕显示设置" class="choose-dan-pos">
               <i class="el-icon-setting dan-icon" @click="showFontSet=!showFontSet"></i>
             </div>
           </el-popover>
@@ -1079,11 +1079,17 @@ export default {
   text-align: center;
   color: white;
   margin: 0 0px;
+  cursor: pointer;
 }
-
+.choose-dan-pos:hover {
+  background-color: #7d6b6b;
+}
 .dm-color-wrapper {
   height: 100%;
   width: 38px;
+}
+.dm-color-wrapper:hover {
+  background-color: #7d6b6b;
 }
 
 .el-color-picker--mini {
