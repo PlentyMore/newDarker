@@ -33,7 +33,7 @@
     <div :class="[hasInfo? '':'noMvInfo']">
       <el-upload id="uploadBox" class="videoBox" drag :multiple="false" :auto-upload="false" :on-change="handleChange"
                  action="/" :show-file-list="false">
-        <div class="uploadTips">{{hasInfo?'将视频文件拖动到播放窗口，或点击这里可以手动选择视频文件':'将视频文件拖动到播放窗口，或点击这里可以手动选择视频文件'}}</div>
+        <div class="uploadTips">将视频文件拖动到播放窗口，或点击这里可以手动选择视频文件</div>
         <div class="wattingBox" v-if="loading">
           <img
             src='data:image/gif;base64,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'>
@@ -137,11 +137,24 @@
               <i class="el-icon-setting dan-icon" @click="showFontSet=!showFontSet"></i>
             </div>
           </el-popover>
-          <input :disabled="canSendDanmaku" @keyup.enter="sendDanmaku" v-model="tmpDanmaku.text" placeholder="请输入弹幕">
+          <div class="wp-replyLoginTip" v-if="!canSendDanmaku">
+            <div class="wp-replyLoginTipInBox">
+              <p class="wp-loginTipText wp-loginTipText1">请先 </p>
+              <p v-if="!isLogin" class="wp-replyLoginBtn" @click="loginBoxShow=true">登陆</p>
+              <p v-else class="wp-load-video-btn">
+                <el-upload :multiple="false" :auto-upload="false" :on-change="handleChange"
+                           action="/" :show-file-list="false">
+                  <el-button size="mini" type="primary">载入视频</el-button>
+                </el-upload>
+              </p>
+              <p class="wp-loginTipText">后发表弹幕 (・ω・)</p>
+            </div>
+          </div>
+          <input ref="dipt" :disabled="!canSendDanmaku || manualSetDisabled" @keyup.enter="sendDanmaku" v-model="tmpDanmaku.text" placeholder="请输入弹幕">
           <button @click="sendDanmaku"
-                  :disabled="canSendDanmaku"
+                  :disabled="!canSendDanmaku || manualSetDisabled"
                   style="text-align:center;border: none"
-                  class="mvBarrageBoxBtn">
+                  :class="{mvBarrageBoxBtn:canSendDanmaku,'nl-mvBarrageBoxBtn':!canSendDanmaku || manualSetDisabled}">
             <span>发送</span>
           </button>
         </div>
@@ -155,6 +168,9 @@
       >
       </real-comment>
     </div>
+    <transition name="loginNowBoxTran">
+      <login-box class="wp-loginNowBox" v-if="loginBoxShow" @closeLoginBox="loginBoxShow=false"></login-box>
+    </transition>
   </div>
 </template>
 
@@ -167,13 +183,15 @@ import hashMe from "../../assets/hashme.js";
 import submitMovie from "../submitMovie/submitMovie.vue";
 import realComment from "../comment/RealComment.vue";
 import footer1 from "../footer/footer.vue";
+import loginBox from "../login/login.vue";
 
 export default {
   components: {
     VueDPlayer,
     submitMovie,
     "real-comment": realComment,
-    footer1
+    footer1,
+    "login-box": loginBox
   },
   data() {
     return {
@@ -226,7 +244,10 @@ export default {
       danmakuStyle: {
         opacity: "1",
         fontSize: "25px"
-      }
+      },
+      loginBoxShow: false,
+      isLogin: false,
+      manualSetDisabled: false
     };
   },
   watch: {
@@ -297,6 +318,10 @@ export default {
     sendDanmaku() {
       if (this.dp) {
         if (this.tmpDanmaku.text === "") return;
+        this.manualSetDisabled = true;
+        // this.$nextTick(()=>{
+        //   this.$refs['dipt'].blur();
+        // });
         this.dp.danmaku.send(
           {
             text: this.tmpDanmaku.text,
@@ -307,6 +332,14 @@ export default {
             this.tmpDanmaku.text = "";
           }
         );
+        setTimeout(()=>{
+          this.manualSetDisabled = false;
+          this.$nextTick(()=>{
+            console.log("time out refs: ",this.$refs['dipt']);
+            this.$refs['dipt'].focus();
+            console.log("danmaku input focus!!!!");
+          })
+        },3000);
       }
     },
     initWebsocket(epid) {
@@ -640,10 +673,10 @@ export default {
   },
   computed: {
     canSendDanmaku() {
-      if (!localStorage.getItem("USER_ID")) return true;
-      if (!this.videoInfo.danmakuId) return true;
-      if (!this.hasInfo) return true;
-      return false;
+      if (!localStorage.getItem("USER_ID")) return false;
+      if (!this.videoInfo.danmakuId) return false;
+      if (!this.hasInfo) return false;
+      return true;
     }
   },
   async mounted() {
@@ -661,6 +694,8 @@ export default {
   },
   created() {
     console.log("watchPage created!!!");
+    if(localStorage.getItem("USER_ID"))
+      this.isLogin = true;
   },
   beforeDestroy() {
     if (this.ws) this.ws.close();
@@ -984,12 +1019,13 @@ export default {
   cursor: default;
   display: flex;
   flex-direction: row;
+  position: relative;
 }
 
 .mvBarrageBox input {
   outline: none;
   margin: auto 0;
-  height: 100%;
+  height: 96%;
   width: 65%;
   padding-left: 10px;
   padding-right: 10px;
@@ -1032,6 +1068,19 @@ export default {
 
 .mvBarrageBoxBtn {
   background: palevioletred;
+  color: white;
+  margin: auto 0;
+  width: 55px;
+  height: 100%;
+  line-height: 38px;
+  border-radius: 3px;
+  cursor: pointer;
+  z-index: 1000;
+  transition: background 0.2s;
+}
+
+.nl-mvBarrageBoxBtn {
+  background: gray;
   color: white;
   margin: auto 0;
   width: 55px;
@@ -1196,6 +1245,68 @@ export default {
   font-family: SimHei, "Microsoft JhengHei", Arial, Helvetica, sans-serif;
   font-weight: bold;
   line-height: 1.125;
+  opacity: 1;
+}
+.wp-replyLoginTip {
+  position: absolute;
+  background: rgba(128, 128, 128, 0.671);
+  width: 730px;
+  height: 38px;
+  left: 120px;
+  display: flex;
+  flex-direction: row;
+  text-align: center;
+  font-size: 12px;
+}
+.wp-replyLoginTipInBox {
+  display: flex;
+  flex-direction: row;
+  margin: auto auto;
+}
+.wp-loginTipText {
+  line-height: 20px;
+  height: 20px;
+  margin: auto 0;
+  color: rgb(61, 61, 61);
+}
+.wp-loginTipText1 {
+  margin-right: 5px;
+}
+.wp-replyLoginBtn {
+  background: rgb(0, 164, 240);
+  margin: auto 0;
+  line-height: 20px;
+  height: 20px;
+  color: white;
+  width: 30px;
+  padding: 2px 5px 2px 5px;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-right: 5px;
+}
+.wp-replyLoginBtn:hover {
+  background: rgb(0, 134, 196);
+}
+.wp-replyLoginBtn:active {
+  background: rgb(0, 174, 255);
+}
+.wp-load-video-btn {
+  margin: auto 0;
+  line-height: 30px;
+  height: 30px;
+  color: white;
+  width: 60px;
+  padding: 2px 10px 2px 5px;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-right: 18px;
+}
+.wp-loginNowBox {
+  position: fixed;
+  z-index: 1000;
+  top: 60px;
+  left: 0;
   opacity: 1;
 }
 </style>
