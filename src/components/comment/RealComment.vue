@@ -22,6 +22,7 @@
         :type="type"
         :rootReply="topReplies"
         :subPage="subPage"
+        :refresh="refreshVal"
         :top=true
         @onRefreshComment="refreshComment"
         @onRemoveTopReply="removeTopReply"
@@ -34,12 +35,14 @@
         <root-reply
           :oid="oid"
           :type="type"
+          :hot=true
           :rootReply="rootReply"
           :rootIndex="index"
           :subPage="subPage"
+          :refresh="refreshVal"
           @onRefreshComment="refreshComment"
           @onRemoveRootReply="removeRootReply"
-          @onUpdateRootReply="updateRootReply"
+          @onUpdateHotReply="updateHotReply"
         ></root-reply>
       </div>
     </div>
@@ -59,6 +62,7 @@
           :oid="oid"
           :type="type"
           :subPage="subPage"
+          :refresh="refreshVal"
           @onRefreshComment="refreshComment"
           @onRemoveRootReply="removeRootReply"
           @onUpdateRootReply="updateRootReply">
@@ -99,7 +103,8 @@
         hotReplies: [],
         rootReplies:[],
         page: "",
-        subPage: ""
+        subPage: "",
+        refreshVal: 0
       };
     },
     watch:{
@@ -120,6 +125,7 @@
           }
           console.log("topReply:",top);
         });
+        this.refreshVal++;
         this.initComment();
       },
       async initComment() {
@@ -190,6 +196,15 @@
         this.topReplies = data.top;
         this.rootReplies = data.replies;
         this.page = data.page;
+      },
+      updateHotReply(data,index){
+        for(let i = 0; i< data.replies.length; i++){
+          if(data.replies[i].rpid === data.subpage.rootId){
+            this.hotReplies.splice(index,1,data.replies[i]);
+            console.log("found hotReply,update it :",data.replies[i]);
+          }
+        }
+        console.log("hotReplies:",this.hotReplies);
       },
       removeTopReply(){
         this.topReplies = "";

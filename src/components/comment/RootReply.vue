@@ -85,6 +85,8 @@
       :parentRpid="rootReply.rpid"
       :mode=1
       :top="top"
+      :hot="hot"
+      @onAddHotSubReply="addHotSubReply"
       @onAddTopSubReply="addTopSubReply"
       @onAddSubReply="addSubReply">
     </post-reply>
@@ -98,7 +100,7 @@ import api from "../../api.js";
 import { formatDate } from "../../time.js";
 export default {
   name: "RootReply",
-  props: ["rootReply", "rootIndex", "oid", "type", "rpid", "subPage", "top"],
+  props: ["rootReply", "rootIndex", "oid", "type", "rpid", "subPage", "refresh", "top", "hot"],
   components: {
     "post-reply": PostReply,
     "sub-reply": SubReply
@@ -115,6 +117,13 @@ export default {
       showDelBox: false,
       showAdminBox: false
     };
+  },
+  watch: {
+    refresh(val){
+      console.log("refresh!!!",val);
+      this.page = "";
+      this.noMore = false
+    }
   },
   computed: {
     getDateDiff() {
@@ -319,6 +328,24 @@ export default {
         this.noMore = true;
       } else {
         console.log("添加评论后刷新置顶子评论失败");
+      }
+    },
+    async addHotSubReply(rpid) {
+      let res = await api.getRepliesOfAnyClassPage({
+        rpid: rpid,
+        oid: this.oid,
+        type: this.type
+        // root: this.rootReply.rpid
+      });
+      let rd = res.data;
+      if (rd.code === 0) {
+        this.$emit("onUpdateHotReply", rd.data, this.rootIndex);
+        console.log("刷新热评：",rd.data);
+        this.page = rd.data.subpage;
+        this.showReplyBox = false;
+        this.noMore = true;
+      } else {
+        console.log("添加评论后刷新热评失败");
       }
     },
     async stickReply(rpid) {

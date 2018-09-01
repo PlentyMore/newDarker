@@ -36,7 +36,7 @@ import emojiBox from "./EmojiBox.vue";
 import loginBox from "../login/login.vue";
 export default {
   name: "PostReply",
-  props: ["oid", "type", "mode", "parentRpid", "replyInfo", "top"],
+  props: ["oid", "type", "mode", "parentRpid", "replyInfo", "top","hot"],
   components: {
     emojiBox,
     loginBox
@@ -144,7 +144,12 @@ export default {
           if (this.top) {
             console.log("emit onAddTopSubReply");
             this.$emit("onAddTopSubReply", rd.data.rpid);
-          } else {
+          }
+          else if(this.hot){
+            console.log("emit onAddHotSubReply");
+            this.$emit("onAddHotSubReply", rd.data.rpid);
+          }
+          else {
             this.$emit("onAddSubReply", rd.data.rpid);
           }
           this.content = "";

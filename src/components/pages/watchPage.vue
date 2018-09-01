@@ -150,7 +150,7 @@
               <p class="wp-loginTipText">后发表弹幕 (・ω・)</p>
             </div>
           </div>
-          <input ref="dipt" :disabled="!canSendDanmaku || manualSetDisabled" @keyup.enter="sendDanmaku" v-model="tmpDanmaku.text" placeholder="请输入弹幕">
+          <input maxlength="50" ref="dipt" :disabled="!canSendDanmaku || manualSetDisabled" @keyup.enter="sendDanmaku" v-model="tmpDanmaku.text" placeholder="请输入弹幕">
           <button @click="sendDanmaku"
                   :disabled="!canSendDanmaku || manualSetDisabled"
                   style="text-align:center;border: none"
@@ -644,7 +644,8 @@ export default {
           user: localStorage.getItem("loginUserName"),
           bottom: "15%",
           unlimited: true
-        }
+        },
+        opacity: 1
       });
     },
     closeSubmitMvBox() {
@@ -1246,6 +1247,10 @@ export default {
   font-weight: bold;
   line-height: 1.125;
   opacity: 1;
+  text-shadow: rgb(0, 0, 0) 1px 0px 1px,
+  rgb(0, 0, 0) 0px 1px 1px,
+  rgb(0, 0, 0) 0px -1px 1px,
+  rgb(0, 0, 0) -1px 0px 1px;
 }
 .wp-replyLoginTip {
   position: absolute;
@@ -1267,7 +1272,7 @@ export default {
   line-height: 20px;
   height: 20px;
   margin: auto 0;
-  color: rgb(61, 61, 61);
+  color: rgb(206, 205, 205);
 }
 .wp-loginTipText1 {
   margin-right: 5px;
