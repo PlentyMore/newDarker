@@ -710,6 +710,7 @@ export default {
       if (!localStorage.getItem("USER_ID")) return false;
       if (!this.videoInfo.danmakuId) return false;
       if (!this.hasInfo) return false;
+      if (!this.videoURL) return false;
       return true;
     }
   },
@@ -743,7 +744,7 @@ export default {
   }
 };
 </script>
-<style>
+<style scoped>
 .displaySet {
   display: flex;
   flex-direction: row;
@@ -1022,27 +1023,6 @@ export default {
   margin: 150px auto;
 }
 
-.videoBox {
-  width: 900px;
-  height: 450px;
-  margin: auto auto;
-}
-
-.videoSize {
-  height: 506px;
-  width: 900px;
-}
-
-/*拖动框大小*/
-.el-upload-dragger {
-  width: 900px;
-  height: 574px;
-  background: rgba(255, 255, 255, 0.315);
-  border: 0px;
-  margin-top: 0px;
-  text-align: left;
-}
-
 .uploadTips {
   font-size: 13px;
   line-height: 30px;
@@ -1072,44 +1052,6 @@ export default {
   background: inherit;
   border: 0;
   color: white;
-}
-
-.choose-dan-pos {
-  width: 38px;
-  height: 100%;
-  text-align: center;
-  color: white;
-  margin: 0 0px;
-  cursor: pointer;
-}
-.choose-dan-pos:hover {
-  background-color: #7d6b6b;
-}
-.dm-color-wrapper {
-  height: 100%;
-  width: 38px;
-}
-.dm-color-wrapper:hover {
-  background-color: #7d6b6b;
-}
-
-.el-color-picker--mini {
-  margin: 5px;
-}
-
-.dan-icon {
-  font-size: 25px;
-  margin: 7px auto;
-}
-
-.dm-pos-choose-wrapper {
-  background: inherit;
-  text-align: center;
-}
-
-.dm-pos-setting-title {
-  height: 30px;
-  font-weight: bold;
 }
 
 .mvBarrageBoxBtn {
@@ -1279,24 +1221,6 @@ export default {
   font-weight: bold;
 }
 
-.dplayer-danmaku .dplayer-danmaku-item {
-  -webkit-user-select: none;
-  position: absolute;
-  white-space: pre;
-  pointer-events: none;
-  perspective: 500px;
-  display: inline-block;
-  will-change: transform;
-  color: rgb(255, 255, 255);
-  font-family: SimHei, "Microsoft JhengHei", Arial, Helvetica, sans-serif;
-  font-weight: bold;
-  line-height: 1.125;
-  opacity: 1;
-  text-shadow: rgb(0, 0, 0) 1px 0px 1px,
-  rgb(0, 0, 0) 0px 1px 1px,
-  rgb(0, 0, 0) 0px -1px 1px,
-  rgb(0, 0, 0) -1px 0px 1px;
-}
 .wp-replyLoginTip {
   position: absolute;
   background: rgba(128, 128, 128, 0.671);
@@ -1359,7 +1283,88 @@ export default {
   left: 0;
   opacity: 1;
 }
-.my-block-bottom .dplayer-danmaku-bottom {
-  opacity: 0 !important;
-}
+
+</style>
+<style>
+  .videoBox {
+    width: 900px;
+    height: 450px;
+    margin: auto auto;
+  }
+
+  .videoSize {
+    height: 506px;
+    width: 900px;
+  }
+
+  /*拖动框大小*/
+  .el-upload-dragger {
+    width: 900px;
+    height: 574px;
+    background: rgba(255, 255, 255, 0.315);
+    border: 0px;
+    margin-top: 0px;
+    text-align: left;
+  }
+
+  .choose-dan-pos {
+    width: 38px;
+    height: 100%;
+    text-align: center;
+    color: white;
+    margin: 0 0px;
+    cursor: pointer;
+  }
+  .choose-dan-pos:hover {
+    background-color: #7d6b6b;
+  }
+  .dm-color-wrapper {
+    height: 100%;
+    width: 38px;
+  }
+  .dm-color-wrapper:hover {
+    background-color: #7d6b6b;
+  }
+
+  .el-color-picker--mini {
+    margin: 5px;
+  }
+
+  .dan-icon {
+    font-size: 25px;
+    margin: 7px auto;
+  }
+
+  .dm-pos-choose-wrapper {
+    background: inherit;
+    text-align: center;
+  }
+
+  .dm-pos-setting-title {
+    height: 30px;
+    font-weight: bold;
+  }
+
+  .dplayer-danmaku .dplayer-danmaku-item {
+    -webkit-user-select: none;
+    position: absolute;
+    white-space: pre;
+    pointer-events: none;
+    perspective: 500px;
+    display: inline-block;
+    will-change: transform;
+    color: rgb(255, 255, 255);
+    font-family: SimHei, "Microsoft JhengHei", Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    line-height: 1.125;
+    opacity: 1;
+    text-shadow: rgb(0, 0, 0) 1px 0px 1px,
+    rgb(0, 0, 0) 0px 1px 1px,
+    rgb(0, 0, 0) 0px -1px 1px,
+    rgb(0, 0, 0) -1px 0px 1px;
+  }
+
+  .my-block-bottom .dplayer-danmaku-bottom {
+    opacity: 0 !important;
+  }
 </style>

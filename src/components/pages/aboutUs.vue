@@ -10,7 +10,7 @@
                 <p>只要您有视频，就能共享弹幕，本地视频从此不再单调！</p>
             </div>
         </div>
-        <div style="margin:-30px auto;width:100%;height300px;display:flex;flex-direction:row;">
+        <div style="margin:-30px auto;width:100%;height:300px;display:flex;flex-direction:row;">
             <div style="display:flex;flex-direction:row;margin: auto auto">
                 <div style="height:150px;width:300px;border:1px solid black;">
                     <p style="font-size:20px;margin:30px;">自动识别本地视频</p>
@@ -34,7 +34,7 @@ import api from "../../api.js";
 export default {};
 </script>
 
-<style>
+<style scoped>
 .aboutUsBox {
   display: flex;
   flex-direction: column;

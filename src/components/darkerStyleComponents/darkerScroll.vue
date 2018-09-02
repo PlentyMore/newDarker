@@ -1,6 +1,6 @@
 <template>
     <div class="scrollBox">
-        <div class="scrollInBox" :style="scrollBoxSize" @mousewheel="scroll($event)">
+        <div class="scrollOutBox" :style="scrollBoxSize" @mousewheel="scroll($event)">
             <div class="scrollInBox" :style="marginTop">
                 <slot></slot>
             </div>
@@ -87,8 +87,8 @@ export default {
 };
 </script>
 
-<style>
-.scrollInBox {
+<style scoped>
+.scrollOutBox {
   overflow: hidden;
   position: relative;
   display: flex;

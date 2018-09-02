@@ -47,7 +47,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .turningPageBox {
   background: sandybrown;
   width: 900px;

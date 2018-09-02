@@ -25,7 +25,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .leftMenuBox {
   /*background: rgba(24, 24, 24, 0.671);*/
   background: rgba(56, 53, 53, 0.671);

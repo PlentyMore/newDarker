@@ -88,7 +88,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .systemNoticeBox {
   display: flex;
   flex-direction: column;
@@ -132,8 +132,6 @@ export default {
   display: flex;
   flex-direction: row;
   margin-top: 10px;
-  display: flex;
-  flex-direction: row;
 }
 .systemTitle {
   margin: auto 10px;
@@ -148,9 +146,6 @@ export default {
   font-size: 13px;
   width: 98%;
   margin: auto 10px;
-}
-.systemContent a{
-  color: rgb(147, 147, 255);
 }
 .wattingBox {
   background: white;
@@ -175,4 +170,15 @@ export default {
   margin: 30px 18px;
   width: 95%;
 }
+</style>
+<style>
+  .systemContent a{
+    color: #0097d0;
+    cursor: pointer;
+    text-decoration: none;
+  }
+
+  .systemContent a:hover {
+    color: #0bbbfd;
+  }
 </style>

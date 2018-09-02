@@ -98,10 +98,7 @@ export default {
 };
 </script>
 
-<style>
-.el-pagination__total {
-  color: black;
-}
+<style scoped>
 .run-animation21 {
   animation: show 0.8s linear 0s 1 normal;
 }
@@ -118,14 +115,7 @@ export default {
     opacity: 1;
   }
 }
-/*.page-container1 {*/
-  /*display: flex !important;*/
-  /*flex-direction: column;*/
-  /*width: 100% !important;*/
-  /*height: 80px !important;*/
-  /*background: none !important;*/
-  /*margin-top: -130px;*/
-/*}*/
+
 .searchResultBg1 {
   position: relative;
   z-index: -1;
@@ -190,10 +180,6 @@ export default {
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
 }
-.searchResultBox1 marquee {
-  height: 25px;
-  line-height: 25px;
-}
 .bangumiName1 {
   height: 25px;
   line-height: 25px;
@@ -223,14 +209,6 @@ export default {
   width: 50%;
   height: 25px;
 }
-.mvOtherInfo1 i {
-  /*height: 20px;*/
-  width: 20px;
-  margin: auto auto;
-  margin-right: -18px;
-  display: inline-block;
-  color: #0d1b82;
-}
 .mvOtherInfo1 p {
   margin: auto auto;
   color: white;
@@ -240,4 +218,19 @@ export default {
   padding-left: 3px;
   display: inline-block;
 }
+</style>
+<style>
+  .mvOtherInfo1 i {
+    /*height: 20px;*/
+    width: 20px;
+    margin: auto auto;
+    margin-right: -18px;
+    display: inline-block;
+    color: #0d1b82;
+  }
+
+  .searchResultBox1 marquee {
+    height: 25px;
+    line-height: 25px;
+  }
 </style>

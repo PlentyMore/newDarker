@@ -29,7 +29,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .darkerSwitch {
   height: 18px;
   width: 35px;

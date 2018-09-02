@@ -17,26 +17,26 @@
             </transition>
             <transition name="selectingTran">
               <span class="selecting selecting1" @mouseout="selecting1=false" v-show="selecting1" @click="jmpNotice(0)">
-                系统通知 
+                系统通知
                 <el-badge :value="unreadNoticeNumTmp.system" v-if="unreadNoticeNumTmp.system>0" :style="{'margin-top':'auto'}" :max="999"></el-badge>
               </span>
 
             </transition>
             <transition name="selectingTran">
               <span class="selecting selecting2" @mouseout="selecting2=false" v-show="selecting2" @click="jmpNotice(1)">
-                回复我的 
+                回复我的
                 <el-badge :value="unreadNoticeNumTmp.reply" v-if="unreadNoticeNumTmp.reply>0" :style="{'margin-top':'auto'}" :max="999"></el-badge>
               </span>
             </transition>
             <transition name="selectingTran">
               <span class="selecting selecting3" @mouseout="selecting3=false" v-show="selecting3" @click="jmpNotice(2)">
-                @我的 
+                @我的
                 <el-badge :value="unreadNoticeNumTmp.at" v-if="unreadNoticeNumTmp.at>0" :style="{'margin-top':'auto'}" :max="999"></el-badge>
               </span>
             </transition>
             <transition name="selectingTran">
               <span class="selecting selecting4" @mouseout="selecting4=false" v-show="selecting4" @click="jmpNotice(3)">
-                收到的赞 
+                收到的赞
                 <el-badge :value="unreadNoticeNumTmp.like" v-if="unreadNoticeNumTmp.like>0" :style="{'margin-top':'auto'}" :max="999"></el-badge>
               </span>
             </transition>
@@ -83,7 +83,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .selecting {
   background: rgb(255, 255, 255);
   position: absolute;

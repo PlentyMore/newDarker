@@ -194,7 +194,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .submitMvBox {
   background: #252e53;
   z-index: 300;

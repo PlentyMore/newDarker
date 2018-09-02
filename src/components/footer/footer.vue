@@ -27,7 +27,7 @@ export default {
   }
 };
 </script>
-<style>
+<style scoped>
 .indexFooter1{
   display: flex;
   flex-direction: row;

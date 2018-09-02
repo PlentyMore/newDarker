@@ -41,7 +41,7 @@
 export default {};
 </script>
 
-<style>
+<style scoped>
 .contactUsBox {
   display: flex;
   flex-direction: column;

@@ -270,7 +270,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .safeBox {
   font-size: 13px;
   margin-top: 5%;

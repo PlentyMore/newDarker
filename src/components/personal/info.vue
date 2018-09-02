@@ -210,7 +210,8 @@ select {
 .infoForm select {
   width: 45% !important;
   margin-top: 8px;
-  background: rgba(255, 255, 255, 0);
+  color: wheat;
+  background: #2c2a2f;
   height: 30px;
 }
 .infoForm input:hover,

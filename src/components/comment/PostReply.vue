@@ -319,7 +319,7 @@ export default {
   line-height: 20px;
   height: 20px;
   margin: auto 0;
-  color: rgb(61, 61, 61);
+  color: rgb(206, 205, 205);
 }
 .loginTipText1 {
   margin-right: 5px;

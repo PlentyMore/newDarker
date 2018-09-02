@@ -103,7 +103,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .selectingu{
   background: rgb(255, 255, 255);
   position: absolute;

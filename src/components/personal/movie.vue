@@ -62,19 +62,64 @@
                             <p class="mvStateTitle">状态</p>
                             <p class="mvState" :style="stateStyle[item.pbs]">{{item.pbs_name}}</p>
                         </div>
-                        <div class="mvToolBox" @mouseover="toolDisplay(index,0)" @mouseout="toolDisplay(index,1)">
-                            <p class="mvToolTitle">操作<img src="../../../static/img/down.png"></p>
-                            <transition name="mvTool">
-                                <div v-if="index==showToolIndex" :class="[{'twoSelectMenu':(item.pbs !== 'SUCCESS' && item.pbs !== 'AUDITING')},{'lastItemMenu':(index==totalSize-1&&index!=0)},'mvToolSelect']">
-                                    <div>
-                                        <p class="normalBtn" v-if="item.pbs === 'SUCCESS' || item.pbs === 'AUDITING'">设置可见</p>
-                                        <p class="normalBtn" @click="updateBangumiCover(item.id,index)" v-if="item.pbs === 'SUCCESS' || item.pbs === 'AUDITING'">修改封面</p>
-                                        <p class="normalBtn" @click="updatePostBangumi(item)" v-if="item.pbs !== 'SUCCESS' && item.pbs !== 'AUDITING'">修改</p>
-                                        <p class="warnBtn" @click="deletePostBangumi(item.id)">删除</p>
-                                    </div>
-                                </div>
-                            </transition>
-                        </div>
+                        <!--<div class="mvToolBox" @mouseover="toolDisplay(index,0)" @mouseout="toolDisplay(index,1)">-->
+                            <!--<p class="mvToolTitle">操作<img src="../../../static/img/down.png"></p>-->
+                            <!--<transition name="mvTool">-->
+                                <!--<div v-if="index==showToolIndex" :class="[{'twoSelectMenu':(item.pbs !== 'SUCCESS' && item.pbs !== 'AUDITING')},{'lastItemMenu':(index==totalSize-1&&index!=0)},'mvToolSelect']">-->
+                                    <!--<div>-->
+                                        <!--<p class="normalBtn" v-if="item.pbs === 'SUCCESS' || item.pbs === 'AUDITING'">设置可见</p>-->
+                                        <!--<p class="normalBtn" @click="updateBangumiCover(item.id,index)" v-if="item.pbs === 'SUCCESS' || item.pbs === 'AUDITING'">修改封面</p>-->
+                                        <!--<p class="normalBtn" @click="updatePostBangumi(item)" v-if="item.pbs !== 'SUCCESS' && item.pbs !== 'AUDITING'">修改</p>-->
+                                        <!--<p class="warnBtn" @click="deletePostBangumi(item.id)">删除</p>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                            <!--</transition>-->
+                        <!--</div>-->
+                      <div class="mvToolBox">
+                        <el-dropdown >
+                          <span class="el-dropdown-link">
+                          <span style="color: #e4e4e6">操作</span>
+                            <i class="el-icon-arrow-down el-icon--right" style="color: #8bc34a"></i>
+                          </span>
+                          <el-dropdown-menu slot="dropdown" >
+                            <el-dropdown-item>
+                              <div class="action-btn-group">
+                                <el-button v-if="item.pbs === 'SUCCESS' || item.pbs === 'AUDITING'" size="mini"
+                                           class="show">设置为可见
+                                </el-button>
+                              </div>
+                            </el-dropdown-item>
+                            <el-dropdown-item>
+                              <div class="action-btn-group">
+                                <el-button v-if="item.pbs === 'SUCCESS' || item.pbs === 'AUDITING'"
+                                           size="mini"
+                                           class="thumb"
+                                           @click="updateBangumiCover(item.id,index)">设置封面
+                                </el-button>
+                              </div>
+                            </el-dropdown-item>
+                            <el-dropdown-item>
+                              <div class="action-btn-group">
+                                <el-button @click="updatePostBangumi(item)"
+                                           v-if="item.pbs !== 'SUCCESS' && item.pbs !== 'AUDITING'"
+                                           size="mini"
+                                           class="edit">修改
+                                </el-button>
+                              </div>
+                            </el-dropdown-item>
+                            <el-dropdown-item>
+                              <div class="action-btn-group">
+                                <el-button
+                                  @click="deletePostBangumi(item.id)"
+                                  size="mini"
+                                  class="delete">删除
+                                </el-button>
+                              </div>
+                            </el-dropdown-item>
+
+                          </el-dropdown-menu>
+                        </el-dropdown>
+                      </div>
                     </div>
                 </div>
             </darker-scroll>
@@ -342,7 +387,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .twoSelectMenu {
   height: 90px !important;
 }
@@ -385,6 +430,8 @@ export default {
 }
 .subSelect {
   width: 100px !important;
+  color: #d6d5d5;
+  background: #2c2a2f;
 }
 .sortBox {
   display: flex;
@@ -419,6 +466,8 @@ export default {
 .sortSelect {
   margin: auto;
   width: 160px;
+  color: #d6d5d5;
+  background: #2c2a2f;
 }
 .searchMvBox {
   width: 40%;
@@ -431,9 +480,6 @@ export default {
 .mvList {
   display: flex;
   flex-direction: column;
-}
-.scroll {
-  margin: auto 18px;
 }
 .searchMvBox input {
   height: 22px;
@@ -543,6 +589,7 @@ export default {
   margin: auto 2px;
 }
 .mvToolSelect {
+  z-index: 1000;
   background: white;
   position: absolute;
   margin-top: -15px;
@@ -635,4 +682,30 @@ export default {
   margin: auto auto;
   font-weight: bold;
 }
+</style>
+<style>
+  .scroll {
+    margin: auto 18px;
+  }
+  .action-btn-group button {
+    border: none;
+    background-color: #264452;
+    color: #e4e4e6;
+    width: 100%;
+  }
+  .action-btn-group button:hover {
+    background-color: #5c889c;
+  }
+  .action-btn-group button:active {
+    background-color: #253840;
+  }
+  .action-btn-group .delete {
+    background-color: #b72d2d;
+  }
+  .action-btn-group .delete:hover {
+    background-color: #e23b3b;
+  }
+  .action-btn-group .delete:active {
+    background-color: #840101;
+  }
 </style>

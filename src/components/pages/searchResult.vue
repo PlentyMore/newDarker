@@ -168,10 +168,7 @@ export default {
 };
 </script>
 
-<style>
-.el-pagination__total{
-  color: black;
-}
+<style scoped>
 .run-animation2 {
   animation: show 0.8s linear 0s 1 normal;
 }
@@ -295,4 +292,9 @@ export default {
 .submitMvBoxTran-enter, .submitMvBoxTran-leave-to /* .fade-leave-active below version 2.1.8 */ {
   opacity: 0;
 }
+</style>
+<style>
+  .el-pagination__total{
+    color: black;
+  }
 </style>

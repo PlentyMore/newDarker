@@ -69,7 +69,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .titleBox {
   width: 100px;
   height: 60px;

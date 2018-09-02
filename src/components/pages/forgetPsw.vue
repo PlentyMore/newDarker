@@ -209,7 +209,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .selectedPathItem {
   color: rgb(255, 87, 115) !important;
 }

@@ -212,7 +212,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .commentItemBox {
   display: flex;
   flex-direction: column;

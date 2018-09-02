@@ -104,7 +104,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .searchResultBgBox {
   position: fixed;
   top: 0;
@@ -133,7 +133,7 @@ export default {
   height: 100%;
   position: absolute;
   overflow-x: hidden;
-  margin-top: -60px;
+  margin-top: -100px;
 }
 .bangumi-bg-blur:before {
   content: "";

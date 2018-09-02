@@ -138,7 +138,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .replyNoticeBox {
   display: flex;
   flex-direction: column;

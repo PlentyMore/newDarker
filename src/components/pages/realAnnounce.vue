@@ -1,19 +1,19 @@
 <template>
   <div class="announce">
-    <div class="page-container1">
-      <div class="title-container1">
+    <div class="page-container">
+      <div class="title-container">
         <h1>{{notice.title}}</h1>
         <div style="color:white">
           <span ><i class="el-icon-date" title="发布时间" style="padding-right: 5px"></i>{{notice.createTime | formatDate}}</span>
           <span style="margin-left: 15px"><i class="el-icon-view" title="阅读量" style="padding-right: 5px"></i>{{notice.viewCount}}</span>
         </div>
       </div>
-      <div class="content-container1">
-        <div class="ctx-text1" v-html="notice.content">
+      <div class="content-container">
+        <div class="ctx-text" v-html="notice.content">
         </div>
       </div>
     </div>
-    <div class="bottom-container1">
+    <div class="bottom-container">
       <real-comment :oid="nid" :type=2 :rpid="rpid"></real-comment>
     </div>
   </div>
@@ -71,43 +71,47 @@
   }
 </script>
 
-<style>
-  .announce-prev {
-    text-align: center;
-  }
-  .title-container1 {
-    /*border-bottom: 1px solid white;*/
+<style scoped>
+  .title-container {
     margin: 20px 0 60px 0;
     color: wheat;
   }
-  .title-container1 div {
+  .title-container div {
     margin-bottom: 10px;
   }
-  .page-container1 {
+  .page-container {
     text-align: left;
     width: 800px;
     display: inline-block;
-    /*border: 1px solid white;*/
+    margin-bottom: 100px;
     margin-top: 60px;
-    animation: ShowVideo 0.4s;
   }
-  .content-container1 {
+  .content-container {
     margin-bottom: 20px;
-    animation: ShowVideo 0.6s;
   }
-  .page-container1 .title-container1, .page-container1 .content-container1,
-  .page-container1 .comment-container1, .page-container1 .bottom-container1 {
+  .page-container .title-container, .page-container .content-container,
+  .page-container .comment-container, .page-container .bottom-container {
     padding: 0 20px;
   }
-  .title-container1 h1 {
+  .title-container h1 {
     font-weight: 600;
     font-size: 26px;
     line-height: 30px;
   }
-  .content-container1 .ctx-text1 img {
+  .announce .page-container {
+    color: white;
+  }
+</style>
+<style>
+  .announce .page-container .content-container .ctx-text img {
     max-width: 760px;
   }
-  .announce .page-container1 {
-    color: white;
+  .announce .page-container .content-container .ctx-text a {
+    color: #0097d0;
+    cursor: pointer;
+    text-decoration: none;
+  }
+  .announce .page-container .content-container .ctx-text a:hover {
+    color: #0bbbfd;
   }
 </style>

@@ -84,7 +84,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .replyBox {
   width: 900px;
   margin: auto auto;
