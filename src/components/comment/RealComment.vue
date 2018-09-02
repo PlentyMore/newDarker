@@ -71,7 +71,9 @@
     </div>
     <div v-if="page || rootReplies.length>0" class="pagination">
       <el-pagination
+        class="root-pgn"
         v-if="page.totalSize>20"
+        background
         @current-change="pageSelect"
         :current-page.sync="page.pageNumber"
         :page-count="11"
@@ -349,23 +351,42 @@
   }
 </style>
 <style>
-  .el-pagination{
+  /*.el-pagination{*/
+    /*text-align: left;*/
+  /*}*/
+  /*.el-pagination button:disabled{*/
+    /*background-color: #06060c00;*/
+  /*}*/
+  /*.el-pagination .btn-prev{*/
+    /*background-color: #06060c00;*/
+  /*}*/
+  /*.el-pagination .btn-next{*/
+    /*background-color: #06060c00;*/
+  /*}*/
+  /*.el-pager li{*/
+    /*background-color: #06060c00;*/
+  /*}*/
+  /*.el-pagination__editor.el-input .el-input__inner{*/
+    /*background-color: #06060c00;*/
+    /*border-color: #795548;*/
+  /*}*/
+  .root-pgn {
     text-align: left;
   }
-  .el-pagination button:disabled{
-    background-color: #06060c00;
+  .root-pgn .el-pagination__total {
+    color: wheat;
   }
-  .el-pagination .btn-prev{
-    background-color: #06060c00;
+  .root-pgn .el-pager li {
+    background-color: transparent !important;
   }
-  .el-pagination .btn-next{
-    background-color: #06060c00;
+  .root-pgn .btn-prev, .root-pgn .btn-next {
+    background-color: transparent !important;
   }
-  .el-pager li{
-    background-color: #06060c00;
+  .root-pgn .el-pager .active {
+    border-radius: 30px !important;
+    background-color: #E91E63 !important;
   }
-  .el-pagination__editor.el-input .el-input__inner{
-    background-color: #06060c00;
-    border-color: #795548;
+  .root-pgn .el-pagination__jump {
+    color: wheat;
   }
 </style>

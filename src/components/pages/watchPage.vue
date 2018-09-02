@@ -90,7 +90,7 @@
             <p>在线人数 {{online}}</p>
           </div>
           <div title="选择弹幕颜色" class="dm-color-wrapper">
-            <el-color-picker size="mini" v-model="tmpDanmaku.color"></el-color-picker>
+            <el-color-picker :predefine="predefineColors" size="mini" v-model="tmpDanmaku.color"></el-color-picker>
           </div>
           <el-popover
             :visible-arrow=false
@@ -161,7 +161,7 @@
           <input maxlength="50" ref="dipt" :disabled="!canSendDanmaku || manualSetDisabled" @keyup.enter="sendDanmaku" v-model="tmpDanmaku.text" placeholder="请输入弹幕">
           <button @click="sendDanmaku"
                   :disabled="!canSendDanmaku || manualSetDisabled"
-                  style="text-align:center;border: none"
+                  style="text-align:center;border:none;outline:none"
                   :class="{mvBarrageBoxBtn:canSendDanmaku,'nl-mvBarrageBoxBtn':!canSendDanmaku || manualSetDisabled}">
             <span>发送</span>
           </button>
@@ -256,7 +256,25 @@ export default {
       loginBoxShow: false,
       isLogin: false,
       manualSetDisabled: false,
-      hideBottomDan: false
+      hideBottomDan: false,
+      predefineColors: [
+        '#00FFFF',
+        '#000000',
+        '#0000FF',
+        '#FF00FF',
+        '#808080',
+        '#008000',
+        '#00FF00',
+        '#800000',
+        '#000080',
+        '#808000',
+        '#800080',
+        '#FF0000',
+        '#C0C0C0',
+        '#008080',
+        '#FFFFFF',
+        '#FFFF00'
+      ]
     };
   },
   watch: {
@@ -937,7 +955,6 @@ export default {
   width: 30%;
   line-height: 25px;
   color: white;
-  height: 25px;
   cursor: pointer;
   border-radius: 6px;
   margin: auto auto;
@@ -948,7 +965,6 @@ export default {
 .mvInfo {
   display: flex;
   flex-direction: row;
-  margin-bottom: 0px;
   margin: 5% auto;
   margin-bottom: 0;
   width: 900px;
@@ -973,7 +989,6 @@ export default {
   width: 20%;
   line-height: 30px;
   color: white;
-  height: 30px;
   cursor: pointer;
   border-radius: 6px;
   margin: auto auto;
@@ -1302,8 +1317,8 @@ export default {
     width: 900px;
     height: 574px;
     background: rgba(255, 255, 255, 0.315);
-    border: 0px;
-    margin-top: 0px;
+    border: 0;
+    margin-top: 0;
     text-align: left;
   }
 
@@ -1312,7 +1327,7 @@ export default {
     height: 100%;
     text-align: center;
     color: white;
-    margin: 0 0px;
+    margin: 0;
     cursor: pointer;
   }
   .choose-dan-pos:hover {

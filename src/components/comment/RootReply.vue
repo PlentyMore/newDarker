@@ -64,6 +64,7 @@
 
     <div v-if="noMore">
       <el-pagination
+        class="sub-pgn"
         v-show="noMore"
         v-if="page.totalSize>10"
         @current-change="pageSelect"
@@ -649,4 +650,22 @@ export default {
   margin: auto auto;
   margin-right: 0;
 }
+</style>
+<style>
+  .sub-pgn {
+    text-align: left;
+  }
+  .sub-pgn .el-pagination__total {
+    color: wheat;
+  }
+  .sub-pgn .el-pager li {
+    background-color: transparent !important;
+    color: #606266 !important;
+  }
+  .sub-pgn .btn-prev, .sub-pgn .btn-next {
+    background-color: transparent !important;
+  }
+  .sub-pgn .el-pager .active {
+    color: #fff !important;
+  }
 </style>

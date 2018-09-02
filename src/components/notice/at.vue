@@ -25,17 +25,43 @@
                             </div>
                             <p class="atContent"><a :href="getContentUrl(item.content)" style="color:#409eff;font-size: 14px;">{{getContent(item.content)}}</a></p>
                         </div>
-                        <div class="atDelete" @click="itemIndex=itemIndex==index?-1:index;">删除
-                          <transition name="delConfirmTran">
-                            <div class="deleteConfirm" v-if="index==itemIndex">
-                              <p class="deleteConfirmTip">确定删除吗？</p>
-                              <div class="confirmDeleBtnBox">
-                                <p class="cancelDelBtn" @click="itemIndex=-1">取消</p>
-                                <p class="confirmDelBtn" @click="deleteReplyMessage(item.id)">确定</p>
-                              </div>
-                            </div>
-                          </transition>
+                        <!--<div class="atDelete" @click="itemIndex=itemIndex==index?-1:index;">删除-->
+                        <!--</div>-->
+                      <el-popover
+                        popper-class="del-pop"
+                        placement="bottom"
+                        trigger="hover"
+                      >
+                        <!--<div @click="itemIndex=itemIndex==index?-1:index;">删除-->
+                        <!--</div>-->
+                        <el-button @click="itemIndex=itemIndex==index?-1:index;"
+                                   type="danger"
+                                   size="mini"
+                        >
+                          删除</el-button>
+                        <el-button slot="reference"
+                                   icon="el-icon-more"
+                                   style="float: right;
+                                   padding: 2px 0;
+                                   color:#999;
+                                   transform: rotate(90deg);
+                                   font-size:18px;
+                                   top: 10px;
+                                   right: -50px;
+                                   position: relative"
+                                   type="text"
+                        >
+                        </el-button>
+                      </el-popover>
+                      <transition name="delConfirmTran">
+                        <div class="deleteConfirm" v-if="index==itemIndex">
+                          <p class="deleteConfirmTip">确定删除吗？</p>
+                          <div class="confirmDeleBtnBox">
+                            <p class="cancelDelBtn" @click="itemIndex=-1">取消</p>
+                            <p class="confirmDelBtn" @click="deleteReplyMessage(item.id)">确定</p>
+                          </div>
                         </div>
+                      </transition>
                     </div>
                     <div class="atAddr">
                         <p class="atAddrContent"><a :href="getContentUrl(item.title)" style="color:#03a9f4;font-size: 12px;">{{getContent(item.title)}}</a>中@了你</p>
@@ -107,6 +133,7 @@ export default {
           message: "删除成功",
           type: "success"
         });
+        this.itemIndex = -1;
         this.loading = true;
         this.initReplyMessage();
       }
@@ -243,7 +270,7 @@ export default {
   background: seagreen;
   margin: auto auto;
   height: 20px;
-  width: 40;
+  width: 40px;
 }
 .atDelete:hover {
   background: rgb(255, 117, 117);
@@ -276,14 +303,13 @@ export default {
 }
 .deleteConfirm {
   position: absolute;
-  right: 21%;
   display: flex;
   flex-direction: column;
   background: white;
   width: 150px;
   height: 70px;
-  margin-top: -20px;
-  right: 100px;
+  top: 23px;
+  right: 60px;
   border-radius: 5px;
   overflow: hidden;
 }
@@ -335,4 +361,9 @@ export default {
   border-top-right-radius: 3px;
   border-bottom-right-radius: 3px;
 }
+</style>
+<style>
+  .del-pop {
+    min-width: 20px !important;
+  }
 </style>

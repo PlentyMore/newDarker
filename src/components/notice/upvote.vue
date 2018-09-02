@@ -210,4 +210,8 @@ export default {
   margin: auto auto;
   font-weight: bold;
 }
+.scroll {
+  margin: 30px 18px;
+  width: 95%;
+}
 </style>
