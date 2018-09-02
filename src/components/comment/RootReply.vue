@@ -17,8 +17,8 @@
                   <div class="adminInBox">
                     <p :class="['stick','greyBtn']" v-if="!top && canSetTop" @click="stickReply(rootReply.rpid)">置顶</p>
                     <p :class="['stick','greyBtn']" class="stick" v-if="top && canSetTop" @click="unStickReply(rootReply.rpid)">取消置顶</p>
-                    <p class="report">举报</p>
-                    <p class="report" v-if="canDelReply" @click="showDelDialog">删除</p>
+                    <p @click="clickReport(1,rootReply.rpid)" v-if="canReport" class="report">举报</p>
+                    <p class="delete" v-if="canDelReply" @click="showDelDialog">删除</p>
                   </div>
                 </div>
               </transition>
@@ -52,6 +52,8 @@
                  :subIndex="index"
                  :oid="oid"
                  :type="type"
+                 @onRecvSubReport="clickReport"
+                 @onRecvShowLoginBox="showLoginBox = true"
                  @onRemoveSubReply="removeSubReply"
                  @onShowSubReplyBox="showSubReplyBox">
       </sub-reply>
@@ -91,6 +93,38 @@
       @onAddTopSubReply="addTopSubReply"
       @onAddSubReply="addSubReply">
     </post-reply>
+
+    <el-dialog title="举报" width="400" :visible.sync="showReportBox" append-to-body>
+      <el-radio-group v-model="reportType">
+        <div>
+          <el-radio :label=1>辱骂</el-radio>
+          <el-radio :label=2>色情</el-radio>
+          <el-radio :label=3>垃圾广告</el-radio>
+          <el-radio :label=4>引战</el-radio>
+        </div>
+        <div style="margin-top: 20px">
+          <el-radio :label=5>剧透</el-radio>
+          <el-radio :label=6>人身攻击</el-radio>
+          <el-radio :label=7>隐私侵犯</el-radio>
+          <el-radio :label=8>刷屏</el-radio>
+        </div>
+        <div style="margin-top: 20px">
+          <el-radio :label=9>违法违规</el-radio>
+          <el-radio :label=10>低俗</el-radio>
+          <el-radio :label=11>赌博诈骗</el-radio>
+          <el-radio :label=12>其他</el-radio>
+        </div>
+      </el-radio-group>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="cancelReport">取消</el-button>
+        <el-button :disabled="reportType === ''" type="primary" @click="handleRootReplyReoprt">确定</el-button>
+      </div>
+    </el-dialog>
+
+    <transition name="loginNowBoxTran">
+      <login-box class="loginNowBox" v-if="showLoginBox" @closeLoginBox="showLoginBox=false"></login-box>
+    </transition>
+
   </div>
 </template>
 
@@ -99,12 +133,14 @@ import PostReply from "./PostReply.vue";
 import SubReply from "./SubReply.vue";
 import api from "../../api.js";
 import { formatDate } from "../../time.js";
+import loginBox from "../login/login.vue";
 export default {
   name: "RootReply",
   props: ["rootReply", "rootIndex", "oid", "type", "rpid", "subPage", "refresh", "top", "hot"],
   components: {
     "post-reply": PostReply,
-    "sub-reply": SubReply
+    "sub-reply": SubReply,
+    "login-box": loginBox
   },
   data() {
     return {
@@ -116,7 +152,12 @@ export default {
       replyInfo: "",
       placeholder: "",
       showDelBox: false,
-      showAdminBox: false
+      showAdminBox: false,
+      showReportBox: false,
+      showLoginBox: false,
+      reportType: "",
+      rtt: "",
+      tid: ""
     };
   },
   watch: {
@@ -195,6 +236,11 @@ export default {
       }
       return false;
     },
+    canReport(){
+      if(this.uid == this.rootReply.uid)
+        return false;
+      return true;
+    },
     replyContent() {
       //替换所有的换行符
       let string = this.rootReply.content;
@@ -207,6 +253,51 @@ export default {
     }
   },
   methods: {
+    cancelReport(){
+      this.showReportBox = false;
+      this.reportType = "";
+    },
+    clickReport(rtt,tid){
+      if(!this.uid){
+        this.showLoginBox = true;
+        return;
+      }
+      this.rtt = rtt;
+      this.tid = tid;
+      this.showReportBox = true;
+    },
+    async handleRootReplyReoprt(){
+      if(!this.uid){
+        console.log("show Login Box");
+        this.showLoginBox = true;
+        return;
+      }
+      if(!this.reportType){
+        console.log("no type selcted");
+        return;
+      }
+      let res = await api.postReport({
+        rtt: this.rtt,
+        rt: this.reportType,
+        tid: this.tid
+      });
+      let rd = res.data;
+      if(rd.code === 0){
+        this.$message({
+          message: "举报成功",
+          type: "success"
+        });
+        this.reportType = "";
+      }
+      else {
+        this.$notify({
+          title: '',
+          message: rd.msg,
+          type: 'warning'
+        });
+      }
+      this.showReportBox = false;
+    },
     showDelDialog() {
       this.showAdminBox = false;
       this.showDelBox = !this.showDelBox;
@@ -635,6 +726,9 @@ export default {
   background: rgb(79, 199, 255);
 }
 .report {
+  background: rgb(66, 89, 125);
+}
+.delete {
   background: rgb(255, 73, 73);
 }
 .greyBtn {
@@ -649,6 +743,20 @@ export default {
   outline: none;
   margin: auto auto;
   margin-right: 0;
+}
+.loginNowBox {
+  position: fixed;
+  z-index: 1000;
+  top: 60px;
+  left: 0;
+  opacity: 1;
+}
+.loginNowBoxTran-enter-active,
+.loginNowBoxTran-leave-active {
+  transition: opacity 0.5s;
+}
+.loginNowBoxTran-enter, .loginNowBoxTran-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
 }
 </style>
 <style>

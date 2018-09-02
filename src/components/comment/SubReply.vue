@@ -14,8 +14,8 @@
             <transition name="adminBoxTran">
               <div class="adminBox" v-if="showAdminBox">
                 <div class="adminInBox">
-                  <p class="report">举报</p>
-                  <p class="report" v-if="canDelReply" @click="showDelDialog">删除</p>
+                  <p @click="handleReport(1,subReply.rpid)" v-if="canReport" class="report">举报</p>
+                  <p class="delete" v-if="canDelReply" @click="showDelDialog">删除</p>
                 </div>
               </div>
             </transition>
@@ -57,7 +57,8 @@ export default {
       uid: "",
       role: "",
       showDelBox: false,
-      showAdminBox: false
+      showAdminBox: false,
+      reportContent: ""
     };
   },
   computed: {
@@ -109,6 +110,11 @@ export default {
       }
       return false;
     },
+    canReport(){
+      if(this.uid == this.subReply.uid)
+        return false;
+      return true;
+    },
     replyContent() {
       //替换所有的换行符
       let string = this.subReply.content;
@@ -152,6 +158,14 @@ export default {
     },
     showReplyBox() {
       this.$emit("onShowSubReplyBox", this.subReply);
+    },
+    handleReport(rtt, tid){
+      if(!this.uid){
+        console.log("show login box");
+        this.$emit("onRecvShowLoginBox");
+        return
+      }
+      this.$emit("onRecvSubReport",rtt,tid);
     }
   },
   created() {
@@ -376,6 +390,9 @@ export default {
   background: rgb(79, 199, 255);
 }
 .report {
+  background: rgb(66, 89, 125);
+}
+.delete {
   background: rgb(255, 73, 73);
 }
 .adminBoxOutBox {

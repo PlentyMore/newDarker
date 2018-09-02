@@ -283,50 +283,54 @@ const getNoticeById = id => {
 
 //---replies_v2
 const getRepliesOfAnyClassPage = data =>{
-  return axios.get(`http://test.echisan.cn:8888/v2/replies`,{params:data});
+  return axios.get(`${baseURL2}/v2/replies`,{params:data});
 };
 const postVideoReply = data=>{
-  return axios.post(`http://test.echisan.cn:8888/v2/replies`,data);
-}
+  return axios.post(`${baseURL2}/v2/replies`,data);
+};
 const upvoteReply = rpid=>{
-  return axios.post(`http://test.echisan.cn:8888/v2/replies/${rpid}/like`);
-}
+  return axios.post(`${baseURL2}/v2/replies/${rpid}/like`);
+};
 const cancelUpvoteReply = rpid=>{
-  return axios.delete(`http://test.echisan.cn:8888/v2/replies/${rpid}/like`);
-}
+  return axios.delete(`${baseURL2}/v2/replies/${rpid}/like`);
+};
 const deleteMyRpely = rpid =>{
   return axios.delete(`${baseURL2}/v2/replies/${rpid}`);
-}
+};
 const stickReply = rpid =>{
   return axios.post(`${baseURL2}/v2/replies/${rpid}/top`);
-}
+};
 const unstickReply = rpid =>{
   return axios.delete(`${baseURL2}/v2/replies/${rpid}/top`);
-}
+};
 
 //---message_v2
 const getUnreadMessage = () =>{
   return axios.get(`${baseURL2}/v2/messages/cum`);
-}
+};
 
 const getMessageList = data =>{
   return axios.get(`${baseURL2}/v2/messages`,{params:data});
-}
+};
 
 const deleteMessage = mid =>{
   return axios.delete(`${baseURL2}/v2/messages/${mid}`);
-}
+};
 
 //---forgetPassword
 const checkEmail = data =>{
   return axios.post(`${baseURL2}/users/pwd/forget/cemail`,data);
-}
+};
 const getMailCode = ticket =>{
   return axios.get(`${baseURL2}/users/pwd/forget/vcode`,{params:ticket});
-}
+};
 const resetPassword = data =>{
   return axios.put(`${baseURL2}/users/pwd/forget/reset`,data);
-}
+};
+
+const postReport = data => {
+  return axios.post(`${baseURL2}/reports`,data)
+};
 
 export default {
   baseURL,
@@ -384,5 +388,6 @@ export default {
   getMailCode,
   resetPassword,
   stickReply,
-  unstickReply
+  unstickReply,
+  postReport
 };
