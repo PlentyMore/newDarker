@@ -103,9 +103,9 @@
                 <span>选择弹幕类型</span>
               </div>
               <el-radio-group @change="showDanPos = false" style="cursor: pointer;" size="mini" v-model="tmpDanmaku.type">
-                <el-radio-button label="top">顶部</el-radio-button>
-                <el-radio-button label="right">滚动</el-radio-button>
-                <el-radio-button label="bottom">底部</el-radio-button>
+                <el-radio-button label="1">顶部</el-radio-button>
+                <el-radio-button label="0">滚动</el-radio-button>
+                <el-radio-button label="2">底部</el-radio-button>
               </el-radio-group>
             </div>
             <div slot="reference" title="选择弹幕类型" class="choose-dan-pos">
@@ -242,8 +242,8 @@ export default {
       bugTmp: 0,
       tmpDanmaku: {
         text: "",
-        color: "#fff",
-        type: "right"
+        color: "#ffffff",
+        type: 0
       },
       showDanPos: false,
       showFontSet: false,
@@ -366,6 +366,9 @@ export default {
     }
   },
   methods: {
+    parseColor(val){
+      return parseInt(val.substring(1),16);
+    },
     sendDanmaku() {
       if (this.dp) {
         if (this.tmpDanmaku.text === "") return;
@@ -373,16 +376,6 @@ export default {
         // this.$nextTick(()=>{
         //   this.$refs['dipt'].blur();
         // });
-        this.dp.danmaku.send(
-          {
-            text: this.tmpDanmaku.text,
-            color: this.tmpDanmaku.color ? this.tmpDanmaku.color : "#fff",
-            type: this.tmpDanmaku.type
-          },
-          () => {
-            this.tmpDanmaku.text = "";
-          }
-        );
         setTimeout(()=>{
           this.manualSetDisabled = false;
           this.$nextTick(()=>{
@@ -391,6 +384,17 @@ export default {
             console.log("danmaku input focus!!!!");
           })
         },3000);
+        this.dp.danmaku.send(
+          {
+            text: this.tmpDanmaku.text,
+            color: this.tmpDanmaku.color ?
+              this.parseColor(this.tmpDanmaku.color) : this.parseColor("#ffffff"),
+            type: parseInt(this.tmpDanmaku.type)
+          },
+          () => {
+            this.tmpDanmaku.text = "";
+          }
+        );
       }
     },
     initWebsocket(epid) {
@@ -479,7 +483,7 @@ export default {
       console.log("弹幕id", this.videoInfo.danmakuId);
       let danmaku = {
         id: this.videoInfo.danmakuId,
-        api: "http://test.echisan.cn:8888/dplayer/",
+        api: this.GLOBAL.danmakuURL,
         token: localStorage.getItem("JWT_TOKEN"),
         maximum: 1000,
         user: localStorage.getItem("loginUserName"),
@@ -689,14 +693,15 @@ export default {
         },
         danmaku: {
           id: this.videoInfo.danmakuId,
-          api: "http://test.echisan.cn:8888/dplayer/",
+          api: this.GLOBAL.danmakuURL,
           token: localStorage.getItem("JWT_TOKEN"),
           maximum: 1000,
           user: localStorage.getItem("loginUserName"),
           bottom: "15%",
           unlimited: true
         },
-        opacity: 1
+        opacity: 1,
+        lang: 'zh-cn'
       });
     },
     closeSubmitMvBox() {
@@ -1372,11 +1377,11 @@ export default {
     font-family: SimHei, "Microsoft JhengHei", Arial, Helvetica, sans-serif;
     font-weight: bold;
     line-height: 1.125;
-    opacity: 1;
+    opacity: 1 !important;
     text-shadow: rgb(0, 0, 0) 1px 0px 1px,
     rgb(0, 0, 0) 0px 1px 1px,
     rgb(0, 0, 0) 0px -1px 1px,
-    rgb(0, 0, 0) -1px 0px 1px;
+    rgb(0, 0, 0) -1px 0px 1px !important;
   }
 
   .my-block-bottom .dplayer-danmaku-bottom {
