@@ -145,6 +145,10 @@ export default {
       }
     },
     async upvote() {
+      if(!this.uid){
+        this.$emit("onRecvShowLoginBox");
+        return;
+      }
       let upvoteRes;
       if (this.subReply.like_status === 0) {
         upvoteRes = await api.upvoteReply(this.subReply.rpid);

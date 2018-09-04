@@ -19,7 +19,8 @@
           <img src="../../../static/img/righter.png" class="righterImg">
         </div>
         <div class="carouselBox">
-            <img :src="bgImgUrl[bgImgIndex].imageUrl" class="carousel run-animation" id='carousel'>
+            <!--<img :src="bgImgUrl[bgImgIndex].imageUrl" class="carousel run-animation" id='carousel'>-->
+          <div :style="{'background': 'url('+bgImgUrl[bgImgIndex].imageUrl+') top/cover fixed'}" id='carousel' class="carousel run-animation"></div>
         </div>
         <div class="base6"></div>
         <div class="welcome">
@@ -28,10 +29,10 @@
             </div>
             <div class="sysMsgBox" style="cursor:pointer">
                 <marquee class="sysMsg" @click="jmpAnnounce">{{announceInfo.title}}</marquee>
-                <p @click="jmpOnlineList">在线观看人数: {{online}}<el-badge value="hot" class="onlineBadge"></el-badge></p>
+                <p @click="jmpOnlineList">在线观看人数: {{online?online:0}}<el-badge value="hot" class="onlineBadge"></el-badge></p>
             </div>
             <div class="barrageBox" v-if="false">
-                <input class="barrageInput" placeholder="在这里输入弹幕" style="width:140px; padding-left:10px;padding-right:10px;">
+                <input class="barrageInput" placeholder="按ESC返回" style="width:140px; padding-left:10px;padding-right:10px;">
                 <p class="sendBtn">点击发送</p>
             </div>
         </div>
@@ -44,9 +45,9 @@
       <div class="hotImgBox">
         <div class="hotImgInBox">
           <div class="hotImgNow" @click="jmpNowBangumi" @mouseover="showImgTitle=true" @mouseout="showImgTitle=false" :style="{'margin-left':hotImgNowLoc,width:imgWidth}"></div>
-          <div v-for="(url,index) in bgImgUrl" :style="[{width:imgWidth}]" @click="jmpToBangumi(url)" class="hotImgItemBox" @mouseover="userChangeHotImgNow(index)" :key="url.bangumiId">
+          <div v-for="(url,index) in bgImgUrl" :style="[{width:imgWidth}]" @click="jmpToBangumi(url)" class="hotImgItemBox" @mouseover="userChangeHotImgNow(index)" :key="url.id">
             <el-tooltip :visible-arrow=false :content="url.title" placement="bottom" effect="dark" :manual=false :value="(showImgTitle&&bgImgIndex==index)||bgImgIndex==index">
-              <img :src="url.imageUrl" style="width:100%">
+              <img :src="url.imageUrl" style="height: 96px;width:100%">
             </el-tooltip>
           </div>
         </div>
@@ -106,10 +107,10 @@ export default {
       this.startB = false;
     },
     userChangeHotImgNow: function(index) {
-      this.bgImgIndex = index;
-      this.hotImgNowLoc = (this.widthNum * this.bgImgIndex).toString() + "%";
       clearInterval(this.carouselTimer);
       this.carouselTimer=null;
+      this.bgImgIndex = index;
+      this.hotImgNowLoc = (this.widthNum * this.bgImgIndex).toString() + "%";
       let carousel = document.getElementById("carousel");
       carousel.classList.remove("run-animation");
       carousel.offsetLeft;
@@ -178,6 +179,7 @@ export default {
     });
     this.initAnnounce();
     this.$emit('toIndex');
+    console.log("index created!!!");
   }
 };
 </script>
@@ -250,10 +252,12 @@ export default {
 }
 .carousel {
   width: 100%;
-  height: auto;
+  height: 100%;
+  margin: 0 0;
   /*滤镜*/
   filter: grayscale(30%);
-  transform: all 0.3s;
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 .run-animation {
   animation: carouselMove 5s linear 0s infinite normal;
@@ -521,7 +525,7 @@ export default {
 }
 .hotImgNow {
   position: absolute;
-  height: 100%;
+  height: 96px;
   border: 1px solid white;
   box-shadow: 0px 0px 30px white inset;
   cursor: pointer;
@@ -612,36 +616,6 @@ export default {
   margin: auto auto;
   margin-right: 0;
   width: 100px;
-  /*.notify {*/
-  /*display: inline-block;*/
-  /*}*/
-  /*.notify .content {*/
-  /*display: inline-block;*/
-  /*border: 1px solid #f8dfaa;*/
-  /*width: 600px;*/
-  /*background-color: #fff1d3;*/
-  /*color: #e78b1f;*/
-  /*position: relative;*/
-  /*line-height: 30px;*/
-  /*text-align: left;*/
-  /*border-radius: 4px;*/
-  /*}*/
-  /*.notify .content a:hover {*/
-  /*cursor: pointer;*/
-  /*}*/
-  /*.notify-bell {*/
-  /*left: 10px;*/
-  /*top: 6px;*/
-  /*position: absolute;*/
-  /*}*/
-  /*.notify-close {*/
-  /*right: 10px;*/
-  /*top: 6px;*/
-  /*position: absolute;*/
-  /*}*/
-  /*.notify-link {*/
-  /*margin-left: 35px;*/
-  /*font-size: 14px;*/
 }
 .cloudBox {
   position: absolute;
@@ -656,7 +630,7 @@ export default {
 }
 .cloud1 {
   margin: auto auto;
-  margin-right: -180;
+  margin-right: -180px;
   margin-bottom: 180px;
   width: 180px;
   height: 90px;

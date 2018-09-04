@@ -19,8 +19,8 @@
             </div>
             <p v-if="mail!=''" style="cursor:pointer;">{{mail}}{{mailVerifiedText}}</p>
             <p v-else style="cursor:pointer;">未绑定</p>
-            <p class="safeBtn" @click="showSetting(2)" style="cursor:pointer;">{{mailBtnText}}</p>
-            <p class="safeBtn" v-if="codeInterval==null" style="padding-left=5px;padding-right:0px;text-align:center;width:10px">/</p>
+            <p class="safeBtn" v-show="!mailVerified" @click="showSetting(2)" style="cursor:pointer;">{{mailBtnText}}</p>
+            <p class="safeBtn" v-show="!mailVerified" v-if="codeInterval==null" style="padding-left:5px;padding-right:0px;text-align:center;width:10px">/</p>
             <p class="safeBtn" v-if="codeInterval==null" @click="forceChangeMail(2)" style="cursor:pointer;">更换邮箱</p>
         </div>
         <div v-if="safeMode==1" class="setBox1">
@@ -64,7 +64,6 @@ export default {
       oldPsw: "",
       newPsw: "",
       renewPsw: "",
-      mail: "",
       newMail: "",
       mailVerified: false,
       mailVerifiedText: "(未验证)",
@@ -162,6 +161,7 @@ export default {
       }
     },
     showSetting(index) {
+      this.cpwdDialog = true;
       if (index == 2 && !this.mailVerified) {
         this.verifyEmail();
       } else this.safeMode = this.safeMode == index ? 0 : index;

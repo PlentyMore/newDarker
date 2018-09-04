@@ -30,6 +30,7 @@
       </div>
     </div>
     <!--vue class三目-->
+    <keep-alive>
     <div :class="[hasInfo? '':'noMvInfo']">
       <el-upload id="uploadBox" class="videoBox" drag :multiple="false" :auto-upload="false" :on-change="handleChange"
                  action="/" :show-file-list="false">
@@ -89,7 +90,7 @@
           <div class="onlineNumBox">
             <p>在线人数 {{online}}</p>
           </div>
-          <div title="选择弹幕颜色" class="dm-color-wrapper">
+          <div @click="clickPickColor" title="选择弹幕颜色" class="dm-color-wrapper">
             <el-color-picker :predefine="predefineColors" size="mini" v-model="tmpDanmaku.color"></el-color-picker>
           </div>
           <el-popover
@@ -168,6 +169,7 @@
         </div>
       </el-upload>
     </div>
+    </keep-alive>
     <div class="commentList" v-if="hasInfo" id="comment">
       <real-comment
         :oid="videoInfo?videoInfo.episodeId:''"
@@ -238,6 +240,7 @@ export default {
       noSearchMvResult: false,
       searchResultChoose: {},
       searchResultEpisodeNum: 0,
+      wsSendIntervalId: "",
       //弹幕bug，第一次放视频没有弹幕出现
       bugTmp: 0,
       tmpDanmaku: {
@@ -294,6 +297,18 @@ export default {
       let danmaku=document.getElementsByClassName('dplayer-danmaku');
       console.log(this.fontSize.toString()+'px');
       danmaku[0].setAttribute('style','font-size: ' + this.fontSize.toString() + 'px !important');
+    },
+    showDanPos(val){
+      if(val){
+        console.log("shoDanPos,close other");
+        this.showFontSet = false;
+      }
+    },
+    showFontSet(val){
+      if(val){
+        console.log("shoFontSet,close other");
+        this.showDanPos = false;
+      }
     },
     hideBottomDan(){
       if(this.hideBottomDan){
@@ -373,9 +388,6 @@ export default {
       if (this.dp) {
         if (this.tmpDanmaku.text === "") return;
         this.manualSetDisabled = true;
-        // this.$nextTick(()=>{
-        //   this.$refs['dipt'].blur();
-        // });
         setTimeout(()=>{
           this.manualSetDisabled = false;
           this.$nextTick(()=>{
@@ -398,8 +410,18 @@ export default {
       }
     },
     initWebsocket(epid) {
-      this.ws = new WebSocket("ws://test.echisan.cn:8888/watch/" + epid);
+      this.ws = new WebSocket(this.GLOBAL.wsURL+"/watch/" + epid);
       this.ws.onmessage = this.getMessage;
+      this.wsSendIntervalId = setInterval(()=>{
+        console.log("send ws interval.....");
+        if(this.ws){
+          console.log("ws state:",this.ws.readyState);
+          if(this.ws.readyState === this.ws.OPEN){
+            console.log("send ws!!!!");
+            this.ws.send(this.online?this.online:1);
+          }
+        }
+      },90000);
     },
     runws(epid) {
       if (this.ws.readyState === this.ws.OPEN) {
@@ -517,7 +539,7 @@ export default {
           //存在多个结果
           if (videosInfos.length > 1) {
             //等用户选择后才有将hasInfo设为true
-            // this.hasInfo = false;
+            this.hasInfo = false;
             //用户选择番剧信息列表显示
             this.videoListShow = true;
             //番剧信息列表数据
@@ -726,6 +748,11 @@ export default {
           rd.data.thumb === "" ? "../../../static/img/1.jpg" : rd.data.thumb;
       }
       console.log("end initEpisodeInfo");
+    },
+    clickPickColor(){
+      console.log("click pick color.");
+      this.showDanPos = false;
+      this.showFontSet = false;
     }
   },
   computed: {
@@ -764,6 +791,10 @@ export default {
     if (this.ws) this.ws.close();
     clearInterval(this.webSocketInterval);
     this.webSocketInterval = null;
+    if(this.wsSendIntervalId){
+      clearInterval(this.wsSendIntervalId);
+      this.wsSendIntervalId = "";
+    }
   }
 };
 </script>
@@ -883,6 +914,7 @@ export default {
 .searchMvKeyBox {
   margin: auto auto;
   width: 170px;
+  position: relative;
 }
 
 .matchInfoBox input {
@@ -898,7 +930,7 @@ export default {
 .searchMvResultBox {
   margin: auto auto;
   background: rgba(255, 255, 255, 0.767);
-  position: fixed;
+  position: absolute;
   width: 168px;
   border-radius: 5px;
   z-index: 200;
@@ -1137,7 +1169,7 @@ export default {
 }
 
 .chooseMvBox {
-  background: rgb(0, 0, 51);
+  background: rgba(105, 105, 105, 0.8);
   position: absolute;
   z-index: 300;
   height: 200px;
@@ -1150,7 +1182,7 @@ export default {
 }
 
 .choosMvTitle {
-  background: rgb(0, 69, 97);
+  /*background: rgb(0, 69, 97);*/
   margin-top: 0px;
   line-height: 40px;
   height: 40px;
@@ -1163,11 +1195,14 @@ export default {
 
 .chooseMv {
   outline: none;
-  height: 30px;
+  height: 35px;
+  width: 280px;
   border-radius: 5px;
+  font-size: 17px;
   /*select文字居中*/
   text-align: center;
   text-align-last: center;
+  background: rgba(195, 190, 190, 0.8);
 }
 
 .chooseMvBtnBox {
@@ -1185,21 +1220,21 @@ export default {
   border-radius: 5px;
   color: white;
   font-weight: bold;
-  border: 1px solid rgb(203, 203, 255);
+  /*border: 1px solid rgb(203, 203, 255);*/
   transition: all 0.2s;
 }
 
 .confrimMvBtn {
-  background: green;
+  background: rgb(209, 128, 155);
 }
 
 .confrimMvBtn:hover {
-  background: rgb(0, 146, 0);
+  background: rgb(209, 94, 132);
   border: 1px solid rgb(154, 154, 253);
 }
 
 .confrimMvBtn:active {
-  background: green;
+  background: rgb(209,80,132);
   border: 1px solid rgb(203, 203, 255);
 }
 

@@ -50,7 +50,7 @@
                 @nextPage="nextPage"
                 class="scroll">
                 <div v-for="(item,index) in postBangumiList" class="movieItem" :key="item.id">
-                    <img :src="item.thumb?item.thumb:'../../../static/img/1.jpg'" class="mvImg">
+                    <img :src="item.thumb?item.thumb:'../../../static/img/default-no-pic.png'" class="mvImg">
                     <div class="mvInfoBox">
                         <p class="mvTitle">{{item.bn}} | 共{{item.et}}集</p>
                         <p class="mvMsg" v-if="item.msg!=''">修改提示: {{item.msg}}</p>
@@ -214,6 +214,12 @@ export default {
         bn: this.searchMvKey
       };
       this.initMvList();
+    },
+    updateBangumiCoverShow(val){
+      if(!val){
+        console.log("清空pb")
+        this.pb = "";
+      }
     }
   },
   methods: {
@@ -461,7 +467,7 @@ export default {
   display: flex;
   flex-direction: row;
   width: 50%;
-  margin-left: 20%;
+  margin-left: 16%;
 }
 .sortSelect {
   margin: auto;
@@ -470,9 +476,10 @@ export default {
   background: #2c2a2f;
 }
 .searchMvBox {
-  width: 40%;
+  width: 30%;
   height: 30px;
-  margin: auto 30px;
+  margin: auto auto;
+  margin-right: 0;
 }
 .searchMv {
   width: 100%;
@@ -482,8 +489,8 @@ export default {
   flex-direction: column;
 }
 .searchMvBox input {
-  height: 22px;
-  width: 60%;
+  height: 25px;
+  width: 100%;
   border-radius: 4px;
   border: 1px solid gray;
   padding-left: 10px;
@@ -685,7 +692,8 @@ export default {
 </style>
 <style>
   .scroll {
-    margin: auto 18px;
+    margin: auto 30px;
+    margin-right: 0;
   }
   .action-btn-group button {
     border: none;

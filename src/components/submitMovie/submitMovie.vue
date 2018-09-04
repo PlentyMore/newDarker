@@ -204,6 +204,7 @@ export default {
   border-radius: 5px;
 }
 .submitMvTitleBox {
+  position: relative;
   background: #424450;
   margin-top: 0;
   height: 40px;
@@ -227,7 +228,8 @@ export default {
 .closeBtn {
   position: absolute;
   color: white;
-  margin: 0 470px;
+  /*margin: 0 470px;*/
+  left: 470px;
   width: 30px;
   height: 40px;
   cursor: pointer;

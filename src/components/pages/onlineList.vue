@@ -5,7 +5,7 @@
       <div class="searchResultBgBox1"><img :src="bgUrl" class='searchResultBgImg1'></div>
     </div>
     <div class="searchResultBox1" :style="resultStyle">
-      <h1 style="color: #1b84ec" v-show="bangumis === ''">暂时没有人在观看视频</h1>
+      <h1 style="color: rgb(93, 108, 123);" v-show="bangumis === ''">暂时没有人在观看视频Σ( ￣□￣||)</h1>
       <div v-for="(item,i) in bangumis" v-if="index>i" :class="['searchResultItem1',{'run-animation21':item.bangumiId==showId[i]}]" @mouseover="changeBgUrl(item.thumb)" @click="goBangumiDetail(item)" :key="item.bangumiId">
         <img :src="item.thumb?item.thumb:'../../../static/img/1.jpg'">
         <div class="bangumiName1" v-if="item.title.length<='ElderDriverBroken♂Man1'.length"><p>{{item.title}}</p></div>

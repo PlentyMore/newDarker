@@ -75,20 +75,20 @@ axios.interceptors.response.use(
 
 //本地开发请设置为"/api"
 // const baseURL = "http://207.148.103.82:8080";
-const baseURL = "https://darker.online";
+const baseURL = "https://api.darker.online";
+// const baseURL2 = "https://api.darker.me";
+// const baseURL2 = "http://10.0.46.20:8080";
 const baseURL2 = "http://test.echisan.cn:8888";
-// const baseURL = "http://10.0.46.20:8080";
-
 //首页相关
 const getWelcome= ()=>{
   return axios.get(`${baseURL2}/index/is`);
-}
+};
 const getIndex=()=>{
   return axios.get(`${baseURL2}/index`);
-}
+};
 const getOnlineList=()=>{
   return axios.get(`${baseURL2}/index/online`);
-}
+};
 
 //  登录相关
 const login = data => {

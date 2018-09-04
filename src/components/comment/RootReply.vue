@@ -346,6 +346,10 @@ export default {
       }
     },
     async upvote() {
+      if(!this.uid){
+        this.showLoginBox = true;
+        return;
+      }
       let upvoteRes;
       if (this.rootReply.like_status === 0) {
         upvoteRes = await api.upvoteReply(this.rootReply.rpid);

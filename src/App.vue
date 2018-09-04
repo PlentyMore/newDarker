@@ -15,13 +15,13 @@
       </div>
     </div>
     -->
-    <div class="searchCom" :style="searchBoxMove" @mouseover="showInputKey=true" @mouseout="showInputKey=!searchText==''" v-show="showSearch">
+    <div class="searchCom" :style="searchBoxMove" @mouseover="showInputKey=true" @mouseout="onMouseLeaveSearchBox" v-show="showSearch">
       <!--<div class="searchComBg" v-show="!showInputKey"></div>-->
-      <div class="searchIconLeft"></div>
+      <div :class="showInputKey?'searchIconLeftOnS':'searchIconLeft'"></div>
       <transition name="searchInputTran" v-show="showInputKey">
-        <input placeholder=" 请输入关键词" class="searchKeyInput" v-if="showInputKey" v-model="searchText">
+        <input @keyup.esc="backToIndex" :placeholder="getSearchPlaceholderText" class="searchKeyInput" v-if="showInputKey" v-model="searchText">
       </transition>
-      <div class="searchIconRight"></div>
+      <div :class="showInputKey?'searchIconRightOnS':'searchIconRight'"></div>
     </div>
     <transition name="routerTran" v-show="showInputKey">
       <router-view :key="activeDate" v-bind="routerInfo" style="margin-bottom:30px;" @toIndex="toIndex"></router-view>
@@ -59,13 +59,15 @@ export default {
   computed: {
     //当url不为首页和搜索结果页面时，不显示搜索框
     showSearch: function() {
-      if (this.$route.path == "/searchResult" || this.$route.path == "/")
-        return true;
-      else return false;
+      return this.$route.path === "/searchResult" || this.$route.path === "/";
+    },
+    getSearchPlaceholderText(){
+      if(this.$route.path === "/searchResult")
+        return " 按ESC返回";
+      else return " 请输入关键词"
     },
     showFooter() {
-      if (this.$route.path == "/") return false;
-      else return true;
+      return this.$route.path !== "/";
     }
   },
   watch: {
@@ -74,32 +76,39 @@ export default {
     },
     searchText: async function(newText) {
       this.searchText = newText;
-      if (newText == "") {
-        this.showInputKey = false;
-        this.searchBoxMove = {
-          transform: "translate(-50%,0%) rotateZ(0deg)"
-        };
-        if(this.toIndexFlag){
-          this.$router.push({ name: "index" });
+      this.routerInfo = {
+        searchText: this.searchText  //传searText到searchResult
+      };
+      if(newText){
+        console.log("newText not empty: ",newText);
+        if(this.$route.path !== "/searchResult"){
+          //如果当前页面是首页则跳转到searchResult
+          console.log("go to searchResult page...");
+          //螺旋升天的动画
+          this.searchBoxMove = {
+            transform: "translate(-50%,-150%) rotateZ(-360deg)"
+          };
+          this.$router.push({ name: "searchResult" });
         }
-        else this.toIndexFlag=true;
-      } else {
-        this.routerInfo = {
-          searchText: this.searchText
-        };
-        this.searchBoxMove = {
-          transform: "translate(-50%,-150%) rotateZ(-360deg)"
-        };
-        this.$router.push({ name: "searchResult" });
       }
     }
   },
   methods: {
     toIndex(){
       console.log('跳转到了首页');
-      if(this.$route.path !== "/") this.toIndexFlag=false;
-      this.searchText='';
-      //setTimeout(()=>{this.toIndexFlag=true;},1);
+      if(this.$route.path === "/"){
+        //跳转到首页时看看searchText是否不为空，如果是则让搜索框回到初始状态
+        if(this.searchText){
+          this.searchText = "";
+          this.showInputKey = false;
+          this.searchBoxMove = {
+            transform: "translate(-50%,0%) rotateZ(0deg)"
+          };
+        }
+        else {
+          this.showInputKey = false;
+        }
+      }
     },
     //组件中无法使用this.$router对象，只能在App.vue将跳转函数传递给组件
     jmpIndex: function() {
@@ -140,6 +149,25 @@ export default {
         return false;
       } else {
         return true;
+      }
+    },
+    backToIndex(){
+      console.log("esc keyup");
+      if(this.$route.path === "/searchResult"){
+        this.searchText = "";
+        this.showInputKey = false;
+        this.searchBoxMove = {
+          transform: "translate(-50%,0%) rotateZ(0deg)"
+        };
+        this.$router.push({name:'index'});
+        console.log("backToIndex!!!");
+      }
+    },
+    onMouseLeaveSearchBox(){
+      if(this.$route.path === "/"){
+        if(this.searchText === ""){
+          this.showInputKey = false;
+        }
       }
     }
   }
@@ -196,6 +224,18 @@ export default {
   border-bottom: 2px solid black;
   border-left: 2px solid black;
 }
+  .searchIconLeftOnS {
+    background-image: url("../static/img/searchLeft.png");
+    background-size: cover;
+    height: 50px;
+    width: 25px;
+    border-top-left-radius: 30px;
+    border-bottom-left-radius: 30px;
+    opacity: 0.8;
+    border-top: 2px solid black;
+    border-bottom: 2px solid black;
+    border-left: 2px solid black;
+  }
 .searchIconRight {
   background-image: url("../static/img/searchRight.png");
   background-size: cover;
@@ -208,6 +248,18 @@ export default {
   border-bottom: 2px solid black;
   border-right: 2px solid black;
 }
+  .searchIconRightOnS {
+    background-image: url("../static/img/searchRight.png");
+    background-size: cover;
+    height: 50px;
+    width: 25px;
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
+    opacity: 0.8;
+    border-top: 2px solid black;
+    border-bottom: 2px solid black;
+    border-right: 2px solid black;
+  }
 .searchKeyInput {
   height: 50px;
   width: 200px;
@@ -218,6 +270,8 @@ export default {
   padding-left: 5px;
   padding-right: 5px;
   font-weight: bold;
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
 }
 .searchInputTran-leave-active,
 .searchInputTran-enter-active {

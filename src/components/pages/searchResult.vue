@@ -2,7 +2,9 @@
   <div class="searchResultPage">
     <div class="searchResultBg">
       <div class="searchResultBgInBox"></div>
-      <div class="searchResultBgBox"><img :src="bgUrl" class='searchResultBgImg'></div>
+      <div class="searchResultBgBox">
+        <img :style="bangumis?'':'background-color: #141422'" :src="bgUrl" class='searchResultBgImg'>
+      </div>
     </div>
     <transition name="submitMvBoxTran">
       <div class="submitMovieBox" v-if="showSubmitBox">
@@ -15,7 +17,7 @@
       </div>
     </transition>
     <div class="searchResultBox" :style="resultStyle">
-      <h1 style="color: #1b84ec" v-show="bangumis === ''">什么都没有找到</h1>
+      <h1 class="noResultTitle" style="color: rgb(158, 164, 171);margin-top: 100px;" v-show="bangumis === ''">什么都没有找到Σ(ﾟдﾟ;)</h1>
       <a @click="showSubmitBox = true" class="sr-submit-link" v-show="bangumis === ''">点此提交番剧信息</a>
       <div v-for="(item,i) in bangumis" v-if="index>i" :class="['searchResultItem',{'run-animation2':item.bangumiId==showId[i]}]" @mouseover="changeBgUrl(item.thumb)" @click="goBangumiDetail(item)" :key="item.bangumiId">
            <img :src="item.thumb?item.thumb:'../../../static/img/1.jpg'">
@@ -24,7 +26,7 @@
           <p class="bangumiEpInfo">集数：{{item.episodeTotal}}</p>
       </div>
     </div>
-    <div v-if="bangumis" class="page-container">
+    <div v-if="bangumis && page" class="page-container">
       <el-pagination v-show="page.totalSize>10" @size-change="handleSizeChange" @current-change="handleCurrentChange"
         :current-page.sync="page.pageNumber"
         :page-sizes="[10,20,30,40,50]" :page-size="page.pageSize"
@@ -55,7 +57,9 @@ export default {
       resultStyle:{
         'min-height':'900px'
       },
-      showSubmitBox: false
+      showSubmitBox: false,
+      lastSearchTimeStamp: "",
+      lastSearchIntervalId: ""
     };
   },
   methods: {
@@ -76,8 +80,9 @@ export default {
       this.showTimer=null;
       this.index=0;
       if(!this.searchText){
+        return ;
         console.log('给我跳转！！！！');
-        this.$router.push({name:'index'});
+        // this.$router.push({name:'index'});
       }
       let res = await api.getsearchBangumisIdResult(text);
       let rd = res.data;
@@ -101,7 +106,8 @@ export default {
         }, 150);
       } else {
         this.bangumis = "";
-        this.page.totalSize = 0;
+        this.page = "";
+        this.bgUrl = "";
         console.log("no bangumi search result");
       }
     },
@@ -143,27 +149,39 @@ export default {
     },
     showIndex(index) {
       return index;
-    },
-    test() {
-      //alert(this.$route.params.searchText);
-      console.log(this.searchText);
     }
   },
   watch: {
     searchText(newInfo) {
+      let curSearchTimeStamp = new Date();
       clearInterval(this.showTimer);
       this.showTimer=null;
       this.index=0;
-      console.log(newInfo);
-      this.searchBangumis(newInfo);
+      console.log("newSearchText:",newInfo);
+      if(curSearchTimeStamp - this.lastSearchTimeStamp < 600){
+        console.log("time < 600, try to stop last setTimeOut task: ",this.lastSearchIntervalId);
+        if(this.lastSearchIntervalId || this.lastSearchIntervalId === 0){
+          clearInterval(this.lastSearchIntervalId);
+        }
+      }
+      if(newInfo === ""){
+        this.bangumis = "";
+        this.page = "";
+        this.bgUrl = "";
+        console.log("搜索框为空，清除搜索数据");
+      }
+      else {
+        this.lastSearchIntervalId = setTimeout(()=>{
+          this.searchBangumis(newInfo);
+        },600);
+        this.lastSearchTimeStamp = curSearchTimeStamp;
+      }
     }
   },
   created() {
     console.log(this.searchText);
     this.searchBangumis(this.searchText);
-  },
-  beforeDestroy(){
-    this.$emit('toIndex');
+    this.lastSearchTimeStamp = new Date();
   }
 };
 </script>
@@ -184,6 +202,9 @@ export default {
     margin: 30px 10px;
     opacity: 1;
   }
+}
+.noResultTitle {
+  text-shadow: rgb(0, 0, 0) 1px 0px 1px;
 }
 .page-container {
   display: flex !important;

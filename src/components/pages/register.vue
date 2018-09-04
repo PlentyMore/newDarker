@@ -10,7 +10,7 @@
                 <p class="wrongTips" v-if="correctMail">请输入正确的邮箱</p>
                 <input type="password" name="psw1" min="6" max="20" placeholder="请输入一个6-20位密码" @blur="checkPsw" v-model="psw1" :data-correct="correctPsw1"/>
                 <p class="wrongTips" v-if="correctPsw1">密码不符合格式或为空</p>
-                <input type="password" name="psw2" min="6" max="20" placeholder="确认密码" @blur="checkPsw2" v-model="psw2" :data-correct="correctPsw2"/>
+                <input type="password" @keyup.enter="register" name="psw2" min="6" max="20" placeholder="确认密码" @blur="checkPsw2" v-model="psw2" :data-correct="correctPsw2"/>
                 <p @keyup.enter="register" class="wrongTips" v-if="correctPsw2">两次输入密码不相同或为空，请重新输入</p>
                 <a type="submit" @click="register">注册</a>
                 <div class="pswToolBox"><a href="#/login" class="pswToolBtn">已有账号？马上登录</a></div>
