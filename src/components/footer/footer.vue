@@ -2,6 +2,7 @@
       <div class="indexFooter1">
         <div class="inderFooter21">
           <div class="footerAbout1">
+            <a target="_blank" class="footerItem1" href="#/user/1">bug反馈</a>
             <a target="_blank" class="footerItem1" href="#/aboutUs">关于我们</a>
             <a target="_blank" class="footerItem1" href="#/contactUs" @mouseover="infoText='联系我们'" @mouseout="infoText='用爱发电'">{{infoText}}</a>
             <a target="_blank" class="footerItem1" href="https://t.me/joinchat/D6RlYg6geGuiS3WP_ag5zg"><img style="width:20px;height:15px;" src="../../../static/img/logo.png"><p>加入我们</p></a>
