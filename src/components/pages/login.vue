@@ -52,7 +52,7 @@ export default {
       //登陆错误
       if (data.code === 2002 || data.data == null) {
         this.$message({
-          message: "账号或密码错误，请重试！",
+          message: data.msg,
           type: "error"
         });
         return false;

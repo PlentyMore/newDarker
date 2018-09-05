@@ -20,7 +20,7 @@
         </div>
         <div class="carouselBox">
             <!--<img :src="bgImgUrl[bgImgIndex].imageUrl" class="carousel run-animation" id='carousel'>-->
-          <div :style="{'background': 'url('+bgImgUrl[bgImgIndex].imageUrl+') top/cover fixed'}" id='carousel' class="carousel run-animation"></div>
+          <div :style="{'background': bgImgUrl.length === 0?'#141422 top/cover fixed':'url('+bgImgUrl[bgImgIndex].imageUrl+') top/cover fixed'}" id='carousel' class="carousel run-animation"></div>
         </div>
         <div class="base6"></div>
         <div class="welcome">
@@ -28,7 +28,7 @@
                 <h1 :data-start="start" :data-startB="startB" style="font-weight: bold;" class="text" :data-text="welcome">{{welcome}}</h1>
             </div>
             <div class="sysMsgBox" style="cursor:pointer">
-                <marquee class="sysMsg" @click="jmpAnnounce">{{announceInfo.title}}</marquee>
+                <marquee class="sysMsg" @click="jmpAnnounce">{{announceInfo?announceInfo.title:'暂无公告'}}</marquee>
                 <p @click="jmpOnlineList">在线观看人数: {{online?online:0}}<el-badge value="hot" class="onlineBadge"></el-badge></p>
             </div>
             <div class="barrageBox" v-if="false">
@@ -85,7 +85,7 @@ export default {
       bgImgUrl: [{imageUrl:'../../../static/img/1.jpg'}],
       bgImgIndex: 0,
       hotImgNowLoc: "0px",
-      announceInfo:{},
+      announceInfo: "",
       imgWidth:'',
       widthNum:0,
       infoText:'用爱发电',
@@ -127,10 +127,14 @@ export default {
       window.location.assign(item.linkUrl);
     },
     jmpNowBangumi(){
-      window.location.assign(this.bgImgUrl[this.bgImgIndex].linkUrl);
+      if(this.bgImgUrl[this.bgImgIndex]){
+        window.location.assign(this.bgImgUrl[this.bgImgIndex].linkUrl);
+      }
     },
     jmpAnnounce() {
-      this.$router.push({ name: "announce" ,params:{id:this.announceInfo.id} });
+      if(this.announceInfo){
+        this.$router.push({ name: "announce" ,params:{id:this.announceInfo.id} });
+      }
     },
     jmpOnlineList(){
       this.$router.push({ name: "onlineList"});
@@ -142,21 +146,6 @@ export default {
         console.log('公告信息',this.announceInfo);
       }
     },
-    async initCommend(){
-      let resData=(await api.getMostViewBangumis()).data;
-      console.log('推荐番剧',resData);
-      if(resData.code===0){
-        this.bgImgUrl=resData.data.bangumi;
-        this.imgWidth=(100/this.bgImgUrl.length).toString()+'%';
-        this.widthNum=100/this.bgImgUrl.length;
-      }
-    },
-    async initWelcome(){
-      let res=(await api.getWelcome()).data;
-      console.log('欢迎标语',res);
-      if(res.code==0||res.data=="") return res.data;
-      else return 'Welcome to darker!!';
-    },
     async initIndexInfo(){
       let res=(await api.getIndex()).data;
       console.log('初始化首页新接口',res);
@@ -164,8 +153,14 @@ export default {
         this.online=res.data.online_watch_count;
         (res.data.index_sentence!=''||!res.data.index_sentence)?this.welcome=res.data.index_sentence:this.welcome;
         this.bgImgUrl=res.data.index_recommend;
-        this.imgWidth=(100/this.bgImgUrl.length).toString()+'%';
-        this.widthNum=100/this.bgImgUrl.length;
+        if(this.bgImgUrl.length === 0){
+          this.imgWidth = "100%";
+          this.widthNum = 0;
+        }
+        else {
+          this.imgWidth=(100/this.bgImgUrl.length).toString()+'%';
+          this.widthNum=100/this.bgImgUrl.length;
+        }
       }
     }
   },
@@ -492,7 +487,7 @@ export default {
   margin: auto auto;
 }
 .hotImgBox {
-  background: #00a7e0;
+  background: transparent;
   border-top: 3px solid #7a7676;
   border-radius: 0px;
   position: absolute;

@@ -7,9 +7,10 @@ const uploadHEADERS = {
 };
 const DOInviteLink = "https://m.do.co/c/d613f7268902";
 const danmakuURL = "http://test.echisan.cn:8888/dplayer3/";
+const wsURL = "ws://test.echisan.cn:8888";
 // const danmakuURL = "https://api.darker.me/dplayer3/";
 // const wsURL = "wss://api.darker.me";
-const wsURL = "ws://test.echisan.cn:8888";
+
 export default {
   uploadURL,
   imgURL,
